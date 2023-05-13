@@ -142,8 +142,7 @@ const CheckoutView = () => {
   return (
     <>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        <GoBackHeader />
-        <DefaultHeader name="Оформление заказа" />
+        <GoBackHeader title="Оформление заказа" />
         <View style={styles.deliveryContainer}>
           <Text style={styles.headerTxt}>{STRINGS.ru.deliveryChoose}</Text>
           {delivery?.map((item, index) => {

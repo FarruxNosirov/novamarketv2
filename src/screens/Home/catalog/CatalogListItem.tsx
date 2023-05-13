@@ -21,9 +21,9 @@ const CatalogListItem = ({
   let navigation: any = useNavigation();
   return (
     <TouchableWithoutFeedback
-      onPress={() => navigation.navigate(ROUTES.CATALOG_DETAILS, {id, name})}>
+      onPress={() => navigation.navigate(ROUTES.SUBCATEGORY, {id, name})}>
       <View style={styles.container}>
-        <Image style={styles.image} source={{uri: appendUrl + photo}} />
+        <Image style={styles.image} source={{uri: appendUrl(photo as never)}} />
         <Text style={styles.text}>{name ? name : ''}</Text>
       </View>
     </TouchableWithoutFeedback>

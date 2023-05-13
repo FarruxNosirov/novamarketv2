@@ -1,4 +1,6 @@
 import AuthStack from '@auth/index';
+import CameraScreen from '@components/uikit/Camera/Camera';
+import Delivery from '@components/uikit/Delivery/ViewIndex';
 import MakeRefund from '@components/uikit/MakeRefund';
 import Search from '@components/uikit/search';
 import {COLORS} from '@constants/colors';
@@ -30,15 +32,15 @@ import ProfileScreen from '@home/profile/ProfileScreen';
 import Setting from '@home/profile/Setting/Setting';
 import TechnicalSupport from '@home/profile/Technical_Support/TechnicalSupport';
 import Transactions from '@home/profile/Transactions/Transactions';
+import Contacts from '@home/profile/contacts/Contacts';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import NavigationService from './NavigationService';
-import Camera from '@components/uikit/Camera/Camera';
-import CameraScreen from '@components/uikit/Camera/Camera';
-import Delivery from '@components/uikit/Delivery/ViewIndex';
+
+import OrderScrenn from '@home/profile/orders/view';
 // import Chat from '@home/profile/Notification/components/chat';
 
 let Stack = createNativeStackNavigator();
@@ -109,6 +111,8 @@ export default function AppRouter() {
           <Stack.Screen name={ROUTES.AUTH} component={AuthStack} />
           <Stack.Screen name={ROUTES.Camera} component={CameraScreen} />
           <Stack.Screen name={ROUTES.DELIVERY} component={Delivery} />
+          <Stack.Screen name={ROUTES.Contacts} component={Contacts} />
+          <Stack.Screen name={ROUTES.OrderScrenn} component={OrderScrenn} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>

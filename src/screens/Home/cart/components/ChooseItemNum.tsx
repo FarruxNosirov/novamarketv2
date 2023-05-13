@@ -349,7 +349,7 @@ const styles = StyleSheet.create({
   blueTxt: {
     fontSize: 15,
     fontWeight: '700',
-    color: COLORS.black,
+    color: COLORS.blue,
   },
 
   lineThrough: {

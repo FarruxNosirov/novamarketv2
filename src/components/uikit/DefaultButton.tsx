@@ -88,7 +88,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 1,
     justifyContent: 'center',
-    marginTop: 10,
     borderRadius: 8,
     shadowColor: '#000',
     shadowOffset: {
@@ -100,6 +99,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     backgroundColor: COLORS.darkBlue4,
     width: '100%',
+    marginBottom: 10,
   },
   text: {
     color: COLORS.white,

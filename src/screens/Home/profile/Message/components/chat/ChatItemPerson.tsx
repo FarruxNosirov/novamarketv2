@@ -2,16 +2,15 @@ import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {COLORS} from '@constants/colors';
 
-const ChatItemPerson = () => {
+const ChatItemPerson = ({item}: any) => {
+  let time = item.date.split(' ')[1].slice(0, 5);
   return (
     <View style={styles.container}>
-      <Text style={styles.personNime}>You</Text>
+      <Text style={styles.personNime}>{item.sender?.name}</Text>
       <View style={styles.messege}>
-        <Text style={styles.messege_text}>
-          Здравствуйте. Подскажите сколько будет длиться акция на эту люстру?
-        </Text>
+        <Text style={styles.messege_text}>{item.message}</Text>
       </View>
-      <Text style={styles.date_text}>17:00</Text>
+      <Text style={styles.date_text}>{time}</Text>
     </View>
   );
 };

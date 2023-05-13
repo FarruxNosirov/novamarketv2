@@ -56,8 +56,8 @@ const CatalogProductsScreen = () => {
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
         <View style={{marginBottom: 10}}>
-          <GoBackHeader />
-          <AllProductTitle title={name} />
+          <GoBackHeader title={name} />
+
           <SortAndFilter
             setModalVisible={setModalVisible}
             setModalFilter={setModalFilter}

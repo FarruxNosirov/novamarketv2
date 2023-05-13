@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
 
 type AllTitleType = {
@@ -10,10 +10,14 @@ type AllTitleType = {
 
 export default function AllProductTitle(props: AllTitleType) {
   return (
-    <View style={[styles.title_container, { marginBottom: props.marginBottom, marginTop: props.marginTop }]}>
+    <View
+      style={[
+        styles.title_container,
+        {marginBottom: props.marginBottom, marginTop: props.marginTop},
+      ]}>
       {props ? (
         <Text
-          style={[styles.title, { color: props.color ? '#3F3535' : '#FF9500' }]}>
+          style={[styles.title, {color: props.color ? '#3F3535' : '#FF9500'}]}>
           {props.title}
         </Text>
       ) : (

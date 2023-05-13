@@ -76,16 +76,6 @@ const PersonalData = () => {
       }
     });
   };
-  // const detailAccount = async () => {
-  //   try {
-  //     setAnimate2(true);
-  //     let {data} = await requests.profile.removAcount();
-  //     dispatch(userLoggedOut());
-
-  //     setAnimate(false);
-  //     console.log(data);
-  //   } catch (error) {}
-  // };
 
   return (
     <View style={{marginBottom: 100, backgroundColor: COLORS.white}}>
@@ -107,7 +97,7 @@ const PersonalData = () => {
             {params?.type === 'yur' ? (
               <DefaultInput
                 label="Наименование учреждения"
-                backgroundColor={COLORS.noActiveButtonBgColor2}
+                backgroundColor={COLORS.white}
               />
             ) : null}
             {params?.type === 'yur' ? (
@@ -115,7 +105,7 @@ const PersonalData = () => {
                 value={state.inn}
                 onChangeText={onStateChange('inn')}
                 label="ИНН"
-                backgroundColor={COLORS.noActiveButtonBgColor2}
+                backgroundColor={COLORS.white}
                 // placeholder={params.inn}
               />
             ) : null}
@@ -124,7 +114,7 @@ const PersonalData = () => {
                 value={state.certificateStateRegistration}
                 onChangeText={onStateChange('certificateStateRegistration')}
                 label="Свидетельство гос.регистрации"
-                backgroundColor={COLORS.noActiveButtonBgColor2}
+                backgroundColor={COLORS.white}
               />
             ) : null}
             {params?.type === 'yur' ? (
@@ -132,7 +122,7 @@ const PersonalData = () => {
                 value={state.last_address}
                 onChangeText={onStateChange('last_address')}
                 label="Свидетельство НДС"
-                backgroundColor={COLORS.noActiveButtonBgColor2}
+                backgroundColor={COLORS.white}
               />
             ) : null}
             {params?.type === 'yur' ? (
@@ -140,13 +130,13 @@ const PersonalData = () => {
                 value={state.requisites}
                 onChangeText={onStateChange('requisites')}
                 label="Реквизиты"
-                backgroundColor={COLORS.noActiveButtonBgColor2}
+                backgroundColor={COLORS.white}
               />
             ) : null}
 
             <DefaultInput
               label="Номер телефона"
-              backgroundColor={COLORS.noActiveButtonBgColor2}
+              backgroundColor={COLORS.white}
               // placeholder={params?.phone}
               onChangeText={onStateChange('phone')}
               value={state.phone}
@@ -156,19 +146,19 @@ const PersonalData = () => {
 
             <DefaultInput
               label="Имя"
-              backgroundColor={COLORS.noActiveButtonBgColor2}
+              backgroundColor={COLORS.white}
               // placeholder={params?.name}
               onChangeText={onStateChange('name')}
               value={state.name}
             />
             {/* <DefaultInput
             label="Фамилия"
-            backgroundColor={COLORS.noActiveButtonBgColor2}
+            backgroundColor={COLORS.white}
             placeholder={params?.lastName}
           /> */}
             {/* <DefaultInput
             label="Отчество"
-            backgroundColor={COLORS.noActiveButtonBgColor2}
+            backgroundColor={COLORS.white}
             // placeholder={params?.middleName}
             onChangeText={onStateChange('middleName')}
             value={state.middleName}
@@ -177,7 +167,7 @@ const PersonalData = () => {
             <DefaultInput
               label="Дата рождения"
               isDate
-              backgroundColor={COLORS.noActiveButtonBgColor2}
+              backgroundColor={COLORS.white}
               // placeholder={params?.birthday}
               onChangeText={onStateChange('birthday')}
               value={state.birthday}
@@ -186,12 +176,12 @@ const PersonalData = () => {
             />
             {/* <DefaultInput
             label="Страна"
-            backgroundColor={COLORS.noActiveButtonBgColor2}
+            backgroundColor={COLORS.white}
             placeholder={params?.country}
           /> */}
             <DefaultInput
               label="Город"
-              backgroundColor={COLORS.noActiveButtonBgColor2}
+              backgroundColor={COLORS.white}
               // placeholder={params?.last_address}
               // onChangeText={onStateChange('last_address')}
               // value={state.last_address}
@@ -199,12 +189,12 @@ const PersonalData = () => {
             <Text>Адрес</Text>
             <DefaultInput
               label="Улица"
-              backgroundColor={COLORS.noActiveButtonBgColor2}
+              backgroundColor={COLORS.white}
               // placeholder={params?.addresses}
             />
             <DefaultInput
               label="Дом"
-              backgroundColor={COLORS.noActiveButtonBgColor2}
+              backgroundColor={COLORS.white}
               // placeholder={params?.house}
             />
             <View>

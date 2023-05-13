@@ -16,6 +16,8 @@ import {STRINGS} from '@locales/strings';
 import {LeftArrowIcon} from '@icons/icons';
 import {ROUTES} from '@constants/routes';
 import {COLORS} from '@constants/colors';
+import DefaultButton from '@components/uikit/DefaultButton';
+import ProductsTitle from '@components/uikit/ProductsTitle';
 
 const BrandsList = () => {
   let navigation: any = useNavigation();
@@ -38,9 +40,7 @@ const BrandsList = () => {
   return (
     <View style={styles.container}>
       <View style={styles.allButtonsView}>
-        <TouchableOpacity>
-          <Text style={styles.text}>{STRINGS.ru.brands}</Text>
-        </TouchableOpacity>
+        <ProductsTitle title={STRINGS.ru.brands} showButton={false} />
 
         <Modal
           isVisible={allModalVisible}
@@ -91,7 +91,6 @@ const BrandsList = () => {
             </View>
           </View>
         </Modal>
-        {/* <AllButton onPress={toggleAllModalVisible} /> */}
       </View>
       <FlatList
         horizontal
@@ -173,6 +172,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     fontWeight: '700',
-    color: COLORS.TextActiveColor,
+    color: COLORS.defaultBlack,
   },
 });

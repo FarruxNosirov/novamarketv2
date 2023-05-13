@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
     marginVertical: 10,
     borderWidth: 1,
     borderRadius: 8,
-    borderColor: '#84A9C0',
+    borderColor: COLORS.blue,
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 12,
@@ -66,7 +66,7 @@ export const styles = StyleSheet.create({
 
   activeBorder: {
     borderWidth: 1,
-    borderColor: '#84A9C0',
+    borderColor: COLORS.blue,
     width: 26,
     height: 26,
     borderRadius: 20,
@@ -85,7 +85,7 @@ export const styles = StyleSheet.create({
     width: 19,
     height: 19,
     borderRadius: 10,
-    backgroundColor: '#84A9C0',
+    backgroundColor: COLORS.blue,
   },
 
   textBox: {
@@ -226,7 +226,7 @@ export const styles = StyleSheet.create({
 
   underline: {
     marginTop: 10,
-    color: '#84A9C0',
+    color: COLORS.blue,
     marginBottom: 10,
   },
 

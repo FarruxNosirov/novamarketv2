@@ -53,7 +53,7 @@ export default function SearchNatlifHeader({autoFocus, onChange}: SearchProps) {
         />
         <TouchableOpacity
           onPress={() => navigation.navigate(ROUTES.Camera as never)}>
-          <SearchIcon fill={'#84A9C0'} style={{marginRight: 10}} />
+          <SearchIcon fill={'#0052FF'} style={{marginRight: 10}} />
         </TouchableOpacity>
       </View>
       <View style={styles.NotificationBox}>

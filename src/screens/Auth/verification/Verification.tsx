@@ -1,7 +1,6 @@
 import {View, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
-import SingUpTemplate from '../../../components/template/SingUpTemplate';
-import SectionTitle from '../../../components/uikit/SectionTitle';
+
 import DefaultInput from '../../../components/uikit/TextInput';
 import DefaultButton from '../../../components/uikit/DefaultButton';
 import {COLORS} from '../../../constants/colors';
@@ -56,18 +55,11 @@ export default function Verification(props: any) {
           title="Переотправить"
           disabled={timeLeft !== 0}
           onPress={resendCode}
-
-          // TextStyle={{color: timeLeft !== 0 ? COLORS.labelText : COLORS.white}}
         />
         <DefaultButton
           title="Подтвердить"
           loading={loading}
           onPress={onVerificate}
-          // ButtonStyle={{
-          //   backgroundColor: COLORS.activeButtonBgColor,
-          //   width: '100%',
-          // }}
-          // TextStyle={{color: COLORS.white}}
         />
         <TouchableOpacity onPress={onChangePhoneNumber}>
           <Text style={{color: '#0052FF', marginTop: 10}}>

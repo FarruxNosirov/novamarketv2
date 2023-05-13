@@ -1,13 +1,11 @@
 import requests, {assetUrl} from '@api/requests';
+import {STRINGS} from '@locales/strings';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useAppSelector} from '@store/hooks';
 import {toggleLoading} from '@store/slices/appSettings';
-import {
-  cartArraySelector,
-  cartSelector,
-  loadCart,
-} from '@store/slices/cartSlice';
+import {cartSelector, loadCart} from '@store/slices/cartSlice';
 import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
+import {selectUser} from '@store/slices/userSlice';
 import React, {useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
@@ -22,7 +20,6 @@ import {
 } from 'react-native';
 import {Rating} from 'react-native-ratings';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
-import {LinearGradient, Rect, Stop, Svg} from 'react-native-svg';
 import {useDispatch} from 'react-redux';
 import {
   BasketIcon,
@@ -34,17 +31,17 @@ import {
   PlusCounterIcon,
   RightBlackIcon,
 } from '../../../../assets/icons/icons';
-import DefaultButton from '../../../../components/uikit/DefaultButton';
 import FilterModal from '../../../../components/uikit/Filter/FilterModal';
-import {COLORS} from '../../../../constants/colors';
+import {COLORS, GRADIENT_COLORS} from '../../../../constants/colors';
 import {ROUTES} from '../../../../constants/routes';
 import AllProductItemCard from '../../home/allProducts/AllProductItemCard';
 import Characteristics from '../components/Characteristics';
 import Description from '../components/Description';
 import ProductDetailsButton from '../components/productDetailsButton';
 import {styles} from './style';
-import {STRINGS} from '@locales/strings';
-import {selectUser} from '@store/slices/userSlice';
+
+import DefaultButton from '@components/uikit/DefaultButton';
+import Svg, {LinearGradient, Rect, Stop} from 'react-native-svg';
 
 const PdoductDetails = () => {
   const [active, setActive] = useState({
@@ -209,7 +206,7 @@ const PdoductDetails = () => {
         </Svg>
         <View style={styles.goBack}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <LeftArrowIcon />
+            <LeftArrowIcon stroke={'#0052FF'} />
           </TouchableOpacity>
           {detailIdValue?.shop && userToken.token ? (
             <TouchableOpacity
@@ -224,12 +221,16 @@ const PdoductDetails = () => {
               <ChatProductIcon />
             </TouchableOpacity>
           ) : null}
-
-          <TouchableOpacity onPress={onAddFavorite} style={[styles.icons]}>
-            {isFav ? <HeartIconActive /> : <HeartIconNotActive />}
+          <TouchableOpacity onPress={onAddFavorite}>
+            {isFav ? (
+              <HeartIconActive fill={COLORS.red} />
+            ) : (
+              <HeartIconNotActive fill={'#0052FF'} />
+            )}
           </TouchableOpacity>
         </View>
       </View>
+
       <ScrollView style={{zIndex: 0}}>
         <View style={{width: '100%', position: 'relative', minHeight: 346}}>
           <Carousel
@@ -264,42 +265,21 @@ const PdoductDetails = () => {
         </View>
 
         <View style={styles.container}>
-          <View style={styles.box1}>
-            <Text style={styles.box1_title}>{detailIdValue?.id}</Text>
-            {detailIdValue?.status === 0 ? (
-              <ProductDetailsButton
-                title={'Нет в наличии'}
-                ButtonStyle={{width: 146, backgroundColor: 'red'}}
-                TextStyle={{color: 'white', fontSize: 15}}
-              />
-            ) : null}
-            {detailIdValue?.status === 1 ? (
-              <ProductDetailsButton
-                title={'В наличии'}
-                ButtonStyle={{width: 146, backgroundColor: '#35A42B'}}
-                TextStyle={{color: 'white', fontSize: 15}}
-              />
-            ) : null}
-            {detailIdValue?.status === 2 ? (
-              <ProductDetailsButton
-                title={'Под заказ'}
-                ButtonStyle={{width: 146, backgroundColor: '#729EDB'}}
-                TextStyle={{color: 'white', fontSize: 15}}
-              />
-            ) : null}
-          </View>
+          <View style={styles.box1}></View>
           <View style={styles.box2}>
             <Text style={styles.title}>
-              {detailIdValue?.name?.length > 10
-                ? detailIdValue?.name.slice(0, 10) + '...'
+              {detailIdValue?.name?.length > 20
+                ? detailIdValue?.name.slice(0, 20) + '...'
                 : detailIdValue?.name}
             </Text>
+          </View>
+          <View style={styles.border}></View>
+          <View style={styles.box2}>
             <Text style={styles.box2_title_now}>
               {detailIdValue?.price} UZS
             </Text>
           </View>
 
-          <View style={styles.border}></View>
           <View style={styles.counter}>
             <View style={styles.add_remov}>
               <TouchableOpacity onPress={() => adHandler('remov')}>
@@ -322,54 +302,41 @@ const PdoductDetails = () => {
                 </View>
               </TouchableOpacity>
             </View>
+
             <View
               style={{
-                width: '50%',
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
+                height: '100%',
+                width: '40%',
               }}>
-              <TouchableOpacity
-                style={[
-                  styles.button,
-                  {backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF'},
-                ]}
+              <DefaultButton
+                containerStyle={styles.button}
+                secondary={isInCart}
                 onPress={onCartPress}>
                 {animate ? (
                   <ActivityIndicator
                     size="small"
-                    color={isInCart ? '#fff' : '#84A9C0'}
+                    color={COLORS.red}
                     animating={animate}
                   />
                 ) : (
                   <View style={styles.buttonContainer}>
                     <Text
                       style={[
-                        isInCart ? styles.cartText : styles.inactiveCartText,
+                        isInCart ? styles.inactiveCartText : styles.cartText,
                       ]}>
                       {isInCart
                         ? `${STRINGS.ru.addToCart}е`
                         : `${STRINGS.ru.addToCart}у`}
                     </Text>
-                    <BasketIcon fill={isInCart ? COLORS.white : '#84A9C0'} />
+                    <BasketIcon
+                      fill={isInCart ? COLORS.cartColor3 : COLORS.white}
+                    />
                   </View>
                 )}
-              </TouchableOpacity>
+              </DefaultButton>
             </View>
           </View>
-          <View style={styles.border}></View>
-          <View style={styles.box3}>
-            <Text style={styles.box3_title}>Магазин</Text>
-            {detailIdValue?.shop?.name ? (
-              <ProductDetailsButton
-                title={detailIdValue?.shop?.name}
-                ButtonStyle={{
-                  backgroundColor: '#E6E8E9',
-                  paddingHorizontal: 10,
-                }}
-                TextStyle={{color: 'black', fontSize: 15}}
-              />
-            ) : null}
-          </View>
+
           {detailIdValue?.productColors?.length > 0 ? (
             <>
               <View style={styles.border}></View>
@@ -389,7 +356,7 @@ const PdoductDetails = () => {
                           styles.active,
                           {
                             backgroundColor:
-                              colorActive === item.id ? '#84A9C0' : '#FFFFFF',
+                              colorActive === item.id ? COLORS.blue : '#FFFFFF',
                           },
                         ]}>
                         <Text
@@ -397,7 +364,9 @@ const PdoductDetails = () => {
                             styles.active_title,
                             {
                               color:
-                                colorActive === item.id ? '#ffffff' : '#84A9C0',
+                                colorActive === item.id
+                                  ? '#ffffff'
+                                  : COLORS.blue,
                             },
                           ]}>
                           {item.name}
@@ -507,7 +476,7 @@ const PdoductDetails = () => {
               C этим товаром ищут
             </Text>
             <FlatList
-              style={{marginTop: 20}}
+              style={{marginTop: 20, marginBottom: 20}}
               showsVerticalScrollIndicator={false}
               data={related}
               renderItem={({item}) => <AllProductItemCard {...item} />}

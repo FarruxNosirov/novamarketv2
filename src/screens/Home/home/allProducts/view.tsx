@@ -90,7 +90,7 @@ const AllProducts = () => {
       <View style={styles.container}>
         <View style={{marginBottom: 10}}>
           <GoBackHeader />
-          <AllProductTitle title={defaultTitle} />
+          <AllProductTitle title={defaultTitle} color={true} />
           {params.props.filter ? (
             <SortAndFilter
               setModalVisible={setModalVisible}

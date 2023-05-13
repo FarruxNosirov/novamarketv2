@@ -29,12 +29,12 @@ export default function SortAndFilter(props: PropsSnadAndFilter) {
         <Text style={styles.title}>
           {props.setModalSort ? props.setModalSort : 'Популярные'}
         </Text>
-        <BottomArrow fill={COLORS.textColorBlue} />
+        <BottomArrow fill={COLORS.blue} />
       </TouchableOpacity>
       {props.isFilter ? (
         <TouchableOpacity style={styles.filter} onPress={FilterHandler}>
           <Text style={styles.title}>Фильтры</Text>
-          <FilterIcon fill={COLORS.textColorBlue} />
+          <FilterIcon fill={COLORS.blue} />
         </TouchableOpacity>
       ) : null}
     </View>
@@ -44,9 +44,12 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 17,
     width: '100%',
-    paddingHorizontal: 15,
+    paddingHorizontal: 16,
+    borderWidth: 1,
+    paddingVertical: 13,
+    borderColor: 'rgba(113, 113, 113, 0.3)',
+    marginBottom: 10,
   },
   populer: {
     flexDirection: 'row',
@@ -59,7 +62,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 17,
     fontWeight: '500',
-    color: COLORS.textColorBlue,
+    color: COLORS.blue,
     marginRight: 5,
   },
 });

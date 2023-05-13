@@ -227,7 +227,8 @@ let requests = {
   order: {
     sendOrder: (credentials: OrderSend) =>
       axios.post(`${url}/order/send`, credentials),
-    getOrders: () => axios.get<BaseResponse<OrderItemResponse>>(`${url}/order`),
+    getOrders: (params?: any) =>
+      axios.get<BaseResponse<OrderItemResponse>>(`${url}/order`, {params}),
     DetailedSeee: (id: number) => axios.get(`${url}/order/detail?id=${id}`),
     octoSendOrder: (order_id: number) => axios.post(`${url}/octo`, {order_id}),
   },
@@ -249,10 +250,10 @@ let requests = {
       }),
     sendShopMessege: (sendingMsg: any, file: any, id: any) =>
       axios.post(`${url}/chat/send`, {
-        getter_id: id,
+        getter_id: 114,
         message: sendingMsg,
         file: file,
-        product_id: '',
+        product_id: id,
         type_user: 'shop',
       }),
     getTovarId: (id: number) => axios.get(`${url}/chat/messages?id=${id}`),

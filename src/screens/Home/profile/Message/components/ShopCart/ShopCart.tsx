@@ -2,7 +2,7 @@ import requests, {assetUrl} from '@api/requests';
 import {COLORS} from '@constants/colors';
 import {ROUTES} from '@constants/routes';
 import {useNavigation} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   Image,
   StyleSheet,
@@ -13,10 +13,10 @@ import {
 
 const ShopCart = ({item}: any) => {
   const navigation = useNavigation();
-
   return (
     <TouchableWithoutFeedback
       onPress={() =>
+        //@ts-ignore
         navigation.navigate(ROUTES.CHAT as never, {id: item.id} as never)
       }>
       <View style={styles.messageCard}>

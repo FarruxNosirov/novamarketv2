@@ -17,19 +17,9 @@ const Message = () => {
       console.log(error);
     }
   };
-  const [shopProductMessesge, setshopProductMessesge] = useState<any>();
-  const getShopDetail = async () => {
-    try {
-      let res = await requests.chat.shopGetProduct();
-      setshopProductMessesge(res.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   useEffect(() => {
     shopsAll();
-    getShopDetail();
   }, []);
 
   return (
@@ -45,7 +35,7 @@ const Message = () => {
         }}>
         <FlatList
           showsHorizontalScrollIndicator={false}
-          data={shopProductMessesge}
+          data={state}
           renderItem={({item}) => <ShopCart item={item} />}
           style={styles.container}
           contentContainerStyle={styles.contentContainerStyle}

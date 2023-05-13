@@ -19,12 +19,7 @@ const OrderDetails = ({total}: {total: {total: number; count: number}}) => {
           </Text>
           <Text style={styles.price}>{total.total.toFixed(2)} сум</Text>
         </View>
-        {/* <View style={styles.row}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text style={{color: '#757575'}}>{STRINGS.ru.Delivery}</Text>
-          </View>
-          <Text style={{color: COLORS.defaultBlack}}>-50 сум</Text>
-        </View> */}
+
         <View style={styles.rowFooter}>
           <Text style={styles.footerTxt}>{STRINGS.ru.totalPrice}</Text>
           <Text style={styles.total}> {total?.total.toFixed(2)} сум </Text>
@@ -98,6 +93,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     letterSpacing: 0.5,
-    color: COLORS.defaultBlack,
+    color: COLORS.blue,
   },
 });

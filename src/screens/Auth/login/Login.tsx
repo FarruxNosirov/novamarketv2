@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
   forgotPassword: {
     width: '100%',
     alignItems: 'flex-end',
+    marginTop: 10,
   },
   error: {
     color: COLORS.red,

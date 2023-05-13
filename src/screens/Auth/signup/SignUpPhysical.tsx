@@ -79,7 +79,6 @@ export default function SignUpPhysical() {
           onPress={() => onRegister('fiz')}
           title="Далее"
           loading={loading}
-          disabled={diseblet}
         />
         {/* <IconCart icon={<HomeIcon />} /> */}
       </ScrollView>

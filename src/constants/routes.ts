@@ -32,7 +32,7 @@ export const ROUTES = {
   CHATS: 'chats',
   LOCATION: 'location',
   SEARCH: 'search',
-
+  Contacts: 'Contacts',
   SEND_REVIEW: 'send_review',
   USER_EDITING: 'user_editing',
   LANGUAGE: 'language',
@@ -71,4 +71,5 @@ export const ROUTES = {
   WebView: 'WebView',
   Camera: 'Camera',
   DELIVERY: 'DELIVERY',
+  OrderScrenn: 'OrderScrenn',
 };

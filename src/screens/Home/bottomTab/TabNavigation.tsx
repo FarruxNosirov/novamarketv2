@@ -32,6 +32,9 @@ import FavoriteView from '@home/favorites/view';
 import {COLORS} from '@constants/colors';
 import {SvgProps} from 'react-native-svg';
 import {STRINGS} from '@locales/strings';
+import {useAppSelector} from '@store/hooks';
+import {selectUser} from '@store/slices/userSlice';
+import AuthStack from '@auth/index';
 
 const Tab = createBottomTabNavigator();
 
@@ -45,6 +48,7 @@ export default function TabNavigation() {
       return <Component fill={color} width={size} height={size} />;
     };
   }, []);
+  const user = useAppSelector(selectUser);
   return (
     <Tab.Navigator
       screenOptions={{
@@ -97,9 +101,10 @@ export default function TabNavigation() {
           tabBarBadgeStyle: {backgroundColor: COLORS.blue},
         }}
       />
+
       <Tab.Screen
         name={ROUTES.SETTINGSSTACK}
-        component={ProfileScreen}
+        component={user.token ? ProfileScreen : AuthStack}
         options={{
           tabBarIcon: renderTabIcon(PersonIcon),
           tabBarLabel: STRINGS.ru.login,

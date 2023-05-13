@@ -38,11 +38,6 @@ export default function CatalogScreen() {
                 marginBottom: 20,
               }}>
               <SearchNatlifHeader />
-
-              <Image
-                source={require('../../../assets/images/image26.png')}
-                style={{width: '100%'}}
-              />
             </View>
           }
           stickyHeaderIndices={[0]}

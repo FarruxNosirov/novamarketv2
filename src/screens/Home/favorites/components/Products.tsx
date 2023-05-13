@@ -1,9 +1,16 @@
 import requests, {appendUrl} from '@api/requests';
 import {ProductItemResponse} from '@api/types';
+import DefaultButton from '@components/uikit/DefaultButton';
 
 import {COLORS} from '@constants/colors';
 import {ROUTES} from '@constants/routes';
-import {BasketIcon, CloseIcon} from '@icons/icons';
+import {
+  BasketIcon,
+  CloseIcon,
+  HeartIconBorder,
+  HeartIconRed,
+} from '@icons/icons';
+import {STRINGS} from '@locales/strings';
 import {useNavigation} from '@react-navigation/native';
 import {useAppSelector} from '@store/hooks';
 import {toggleLoading} from '@store/slices/appSettings';
@@ -98,54 +105,60 @@ const Products = ({item}: {item: ProductItemResponse}) => {
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        navigation.navigate(ROUTES.PRODUCTDETAILS, {props: item});
+        navigation.navigate(ROUTES.PRODUCTDETAILS, {item, id});
       }}>
       <View style={styles.container}>
         <Image source={{uri: appendUrl(photo)}} style={styles.image} />
         <View style={styles.itemsContainer}>
           <View style={styles.nameContainer}>
-            <Text
-              style={{
-                fontWeight: '400',
-                fontSize: 13,
-                color: ' #C8C8C8',
-              }}>
-              {category?.name ? category.name : ''}
-            </Text>
-            <Text style={styles.itemName}>{name ? name : ''}</Text>
+            <View style={{width: '85%'}}>
+              <Text style={styles.itemName}>{name ? name : ''}</Text>
+            </View>
             {discount ? (
-              <Text style={styles.oldPrice}>
-                {discount ? price : discountPrice} сум
-              </Text>
+              <View style={styles.discount}>
+                <Text style={styles.dscountText}>
+                  -{discount ? discount : '0'}%
+                </Text>
+              </View>
             ) : null}
-            <Text style={styles.price}>
-              {discount ? discountPrice : price} сум
-            </Text>
           </View>
-          <View style={styles.priceContainer}>
-            <TouchableOpacity
-              onPress={onAddFavorite}
-              hitSlop={{bottom: 10, top: 10, right: 10, left: 10}}>
-              <CloseIcon />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.button,
-                {backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF'},
-              ]}
+
+          <View style={styles.nameContainer}>
+            <View style={styles.priceContainer}>
+              {discount ? (
+                <Text style={styles.oldPrice}>
+                  {discount ? price : discountPrice} сум
+                </Text>
+              ) : null}
+              <Text style={styles.price}>{price} сум</Text>
+            </View>
+
+            <DefaultButton
+              containerStyle={styles.button}
+              secondary={isInCart}
               onPress={onCartPress}>
               {animate ? (
                 <ActivityIndicator
                   size="small"
-                  color={isInCart ? '#FFFFFF' : '#84A9C0'}
+                  color={COLORS.red}
                   animating={animate}
                 />
               ) : (
                 <View style={styles.buttonContainer}>
-                  <BasketIcon fill={isInCart ? COLORS.white : '#84A9C0'} />
+                  <Text
+                    style={[
+                      isInCart ? styles.inactiveCartText : styles.cartText,
+                    ]}>
+                    {isInCart
+                      ? `${STRINGS.ru.addToCart}е`
+                      : `${STRINGS.ru.addToCart}у`}
+                  </Text>
+                  <BasketIcon
+                    fill={isInCart ? COLORS.cartColor3 : COLORS.white}
+                  />
                 </View>
               )}
-            </TouchableOpacity>
+            </DefaultButton>
           </View>
         </View>
       </View>
@@ -159,67 +172,64 @@ const styles = StyleSheet.create({
   container: {
     padding: 10,
     flexDirection: 'row',
-    marginVertical: 20,
-    backgroundColor: '#FFFFFF',
-    shadowOpacity: 0.05,
-    shadowRadius: 5,
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    borderRadius: 10,
-    alignItems: 'center',
-    elevation: 5,
+    borderTopWidth: 1,
+    borderColor: 'rgba(113, 113, 113, 0.3)',
+    // borderColor: "red",
   },
 
   image: {
-    width: 91,
-    height: 92,
+    width: 65,
+    height: 72,
     borderRadius: 10,
-    marginRight: 10,
+    marginHorizontal: 10,
   },
 
   itemsContainer: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-between',
-    marginVertical: 10,
-
     // paddingHorizontal: 5,
   },
   priceContainer: {
     flexDirection: 'column',
     justifyContent: 'space-between',
-    alignItems: 'flex-end',
+    alignItems: 'flex-start',
     marginTop: 10,
   },
 
   nameContainer: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    width: '80%',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
   },
 
   itemName: {
     color: COLORS.defaultBlack,
-    fontSize: 21,
-    fontWeight: '600',
+    fontSize: 16,
   },
 
   dscountText: {
     fontSize: 12,
-    color: COLORS.red,
+    color: COLORS.blue,
   },
 
   discount: {
     borderRadius: 8,
     padding: 4,
     backgroundColor: COLORS.white,
+    shadowColor: COLORS.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 5,
   },
 
   price: {
     fontSize: 16,
-    color: COLORS.red,
+    color: COLORS.blue,
   },
 
   oldPrice: {
@@ -244,13 +254,8 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    borderRadius: 5,
-    backgroundColor: COLORS.white,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    borderWidth: 2,
-    borderColor: COLORS.textColorBlue,
-    padding: 6,
+    width: 120,
+    height: 40,
+    margin: 0,
   },
 });

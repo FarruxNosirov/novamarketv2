@@ -48,7 +48,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 15,
     backgroundColor: '#fff',
-    borderRadius: 5,
     shadowColor: '#E1E1E1',
     shadowOffset: {
       width: 0,
@@ -57,8 +56,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 17,
     elevation: 1,
-    marginBottom: 15,
-    marginHorizontal: 15,
+    borderBottomWidth: 1,
+    borderColor: 'rgba(113, 113, 113, 0.3)',
   },
 
   text: {

@@ -180,13 +180,13 @@ const ProductsItem = (props: ProductItemCardProps) => {
           <TouchableOpacity
             style={[
               styles.button,
-              {backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF'},
+              {backgroundColor: isInCart ? '#729EDB' : '#FFFFFF'},
             ]}
             onPress={onCartPress}>
             {animate ? (
               <ActivityIndicator
                 size="small"
-                color={isInCart ? '#fff' : '#84A9C0'}
+                color={isInCart ? '#fff' : '#729EDB'}
                 animating={animate}
               />
             ) : (
@@ -199,7 +199,7 @@ const ProductsItem = (props: ProductItemCardProps) => {
                     ? `${STRINGS.ru.addToCart}е`
                     : `${STRINGS.ru.addToCart}у`}
                 </Text>
-                <BasketIcon fill={isInCart ? COLORS.white : '#84A9C0'} />
+                <BasketIcon fill={isInCart ? COLORS.white : '#729EDB'} />
               </View>
             )}
           </TouchableOpacity>
@@ -216,17 +216,17 @@ const styles = StyleSheet.create({
     height: 330,
     width: Dimensions.get('screen').width / 2 - 20,
     backgroundColor: '#fff',
-    borderRadius: 15,
+    borderRadius: 8,
     marginBottom: 20,
     flexDirection: 'column',
     marginRight: 20,
-    shadowColor: '#d0d0d0',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
     },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowRadius: 2,
     elevation: 5,
   },
   buttonContainer: {
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   inactiveCartText: {
-    color: '#84A9C0',
+    color: '#729EDB',
     marginRight: 8,
 
     fontWeight: '700',
@@ -248,8 +248,8 @@ const styles = StyleSheet.create({
   image: {
     width: Dimensions.get('screen').width / 2 - 20,
     height: 156,
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
   },
   cartItemInfo: {
     paddingHorizontal: 10,
@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
   typeText: {
     fontSize: 13,
     fontWeight: '400',
-    color: '#84A9C0',
+    color: '#729EDB',
   },
   nameText: {
     fontSize: 21,

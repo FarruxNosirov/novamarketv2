@@ -1,13 +1,14 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import React from 'react';
 
-import { useNavigation } from '@react-navigation/native';
-import { COLORS } from '../../../constants/colors';
-import { LeftArrow } from '../../../assets/icons/icons';
+import {useNavigation} from '@react-navigation/native';
+import {COLORS} from '../../../constants/colors';
+import {LeftArrow} from '../../../assets/icons/icons';
 
 type Props = {
   title?: string;
   onPress?: () => void;
+  color?: boolean;
 };
 
 export default function GoBackHeader(props: Props) {
@@ -17,14 +18,14 @@ export default function GoBackHeader(props: Props) {
       style={{
         backgroundColor: 'transparent',
         paddingHorizontal: 15,
-        paddingVertical: 10
+        paddingVertical: 10,
       }}>
       <TouchableOpacity
         onPress={() => navigation.goBack()}
-        hitSlop={{ bottom: 20, top: 20, left: 20, right: 20 }}
+        hitSlop={{bottom: 20, top: 20, left: 20, right: 20}}
         style={styles.row}>
         <LeftArrow />
-        {props.title && <Text>{props.title}</Text>}
+        {props.title && <Text style={[styles.title]}>{props.title}</Text>}
       </TouchableOpacity>
     </View>
   );
@@ -45,5 +46,12 @@ const styles = StyleSheet.create({
   },
   icon: {
     color: '#71717184',
+  },
+  title: {
+    fontSize: 25,
+    fontWeight: '700',
+    lineHeight: 40,
+    marginLeft: 10,
+    color: '#023047',
   },
 });

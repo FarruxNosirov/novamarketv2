@@ -41,8 +41,7 @@ const Subcategory = () => {
         <FlatList
           ListHeaderComponent={
             <>
-              <GoBackHeader />
-              <AllProductTitle title={title} />
+              <GoBackHeader title={title} />
             </>
           }
           data={details}
@@ -50,7 +49,7 @@ const Subcategory = () => {
             <SubCatalogListItem props={props} id={route.params?.id} />
           )}
           keyExtractor={(item: any) => item.id}
-          numColumns={3}
+          numColumns={2}
           columnWrapperStyle={styles.columnWrapperStyle}
           showsVerticalScrollIndicator={false}
           stickyHeaderIndices={[0]}

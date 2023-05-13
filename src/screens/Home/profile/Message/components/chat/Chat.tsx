@@ -12,6 +12,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Text,
 } from 'react-native';
 import ChatItemMe from './ChatItemMe';
 import ChatItemPerson from './ChatItemPerson';
@@ -20,32 +21,31 @@ const Chat = () => {
   const route = useRoute<any>();
   let id = route.params.id;
   const [sendingMsg, setSendingMsg] = useState('');
-  const [messages, setGetMessages] = useState();
-  const file = '';
+  const [messages, setGetMessages] = useState([]);
+  const file = null;
+  const [profileData, setProfileData] = useState<any>([]);
 
   const sendMessage = async () => {
     try {
-      if (!!sendingMsg) {
-        let res = await requests.chat.sendShopMessege(sendingMsg, file, id);
-        let data = await res.data.data;
-        setSendingMsg('');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const getMessage = async () => {
-    try {
-      let res = await requests.chat.getTovarId(id);
+      let res = await requests.chat.sendShopMessege(sendingMsg, file, id);
       let data = await res.data.data;
       setGetMessages(data);
+      setSendingMsg('');
     } catch (error) {
       console.log(error);
     }
   };
+
+  const getProfile = async () => {
+    try {
+      let res = await requests.profile.getProfile();
+      setProfileData(res?.data?.data);
+    } catch (error) {}
+  };
   useEffect(() => {
-    getMessage();
-  }, []);
+    getProfile();
+  }, [id]);
+
   return (
     <View style={styles.container}>
       <GoBackHeader />
@@ -56,10 +56,10 @@ const Chat = () => {
         inverted
         showsVerticalScrollIndicator={false}
         renderItem={({item, index}) =>
-          item.sender.name === 'Farruxjon' ? (
+          item?.sender.name === profileData?.name ? (
             <ChatItemMe key={index} item={item} />
           ) : (
-            <ChatItemPerson />
+            <ChatItemPerson key={index} item={item} />
           )
         }
       />
@@ -74,7 +74,12 @@ const Chat = () => {
             onChangeText={text => setSendingMsg(text)}
             value={sendingMsg}
           />
-          <TouchableOpacity onPress={sendMessage}>
+          <TouchableOpacity
+            onPress={sendMessage}
+            style={{
+              padding: 10,
+              borderRadius: 10,
+            }}>
             <RightArrowIcon style={styles.tgicon} fill={'#C8C8C8'} />
           </TouchableOpacity>
         </View>
@@ -97,13 +102,15 @@ const styles = StyleSheet.create({
   chat: {
     marginHorizontal: 15,
     position: 'relative',
+
+    marginBottom: 10,
   },
   send_cart: {
     position: 'absolute',
     height: 64,
     backgroundColor: COLORS.white,
     width: '100%',
-    bottom: 10,
+    bottom: 20,
     paddingHorizontal: 20,
   },
   send_cart_item: {
