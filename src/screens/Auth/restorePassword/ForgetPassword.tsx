@@ -1,17 +1,16 @@
 import requests from '@api/requests';
 import {RegisterResponseErrors} from '@api/types';
+import WelcomeScreen from '@components/template/WelcomeScreen';
 import {ROUTES} from '@constants/routes';
 import {validatePhoneNumber} from '@constants/validation';
 import {useNavigation} from '@react-navigation/native';
 import axios, {AxiosError} from 'axios';
 import React from 'react';
 import {Alert, View} from 'react-native';
-import SingUpTemplate from '../../../components/template/SingUpTemplate';
 import DefaultButton from '../../../components/uikit/DefaultButton';
 import SectionTitle from '../../../components/uikit/SectionTitle';
 import DefaultInput from '../../../components/uikit/TextInput';
 import {COLORS} from '../../../constants/colors';
-import WelcomeScreen from '@components/template/WelcomeScreen';
 
 export default function ForgetPassword() {
   let navigation = useNavigation();
@@ -30,7 +29,10 @@ export default function ForgetPassword() {
       try {
         setLoading(true);
         let res = await requests.auth.forgetPassword(state);
+        console.log('sasasa', JSON.stringify(res.data.data, null, 2));
+
         navigation.navigate(
+          //@ts-ignore
           ROUTES.VERIFICATION as never,
           {
             phone: state.phone,
@@ -59,7 +61,7 @@ export default function ForgetPassword() {
   };
 
   return (
-    <WelcomeScreen title="Novamarkt">
+    <WelcomeScreen title="Novamax">
       <View
         style={{
           paddingHorizontal: 20,

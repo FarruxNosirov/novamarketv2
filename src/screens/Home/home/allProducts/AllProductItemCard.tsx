@@ -184,13 +184,13 @@ const AllProductItemCard = (props: ProductItemCardProps) => {
           <TouchableOpacity
             style={[
               styles.button,
-              {backgroundColor: isInCart ? '#B9D5FD' : '#FFFFFF'},
+              {backgroundColor: isInCart ? '#0052FF' : '#FFFFFF'},
             ]}
             onPress={onCartPress}>
             {animate ? (
               <ActivityIndicator
                 size="small"
-                color={isInCart ? '#fff' : '#B9D5FD'}
+                color={isInCart ? '#fff' : '#0052FF'}
                 animating={animate}
               />
             ) : (

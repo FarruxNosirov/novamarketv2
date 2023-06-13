@@ -19,7 +19,7 @@ export default function Verification(props: any) {
   } = useVerificationHook();
 
   return (
-    <WelcomeScreen title="Novamarkt">
+    <WelcomeScreen title="Novamax">
       <View style={{paddingHorizontal: 20}}>
         <Text style={{marginBottom: 25, color: COLORS.labelText}}>
           Мы отправили код на{'  '}
@@ -32,7 +32,7 @@ export default function Verification(props: any) {
           <TouchableOpacity
             onPress={onChangePhoneNumber}
             style={{alignItems: 'flex-end'}}>
-            <Text style={{color: '#84A9C0', marginBottom: 25}}>
+            <Text style={{color: '#0052FF', marginBottom: 25}}>
               Изменить номер
             </Text>
           </TouchableOpacity>
@@ -47,7 +47,7 @@ export default function Verification(props: any) {
           value={state.code}
         />
         {timeLeft > 0 ? (
-          <Text style={{color: '#84A9C0', marginBottom: 25}}>
+          <Text style={{color: '#0052FF', marginBottom: 25}}>
             Отправить повторно через {'-'} {timeLeft}
           </Text>
         ) : null}
@@ -55,6 +55,7 @@ export default function Verification(props: any) {
           title="Переотправить"
           disabled={timeLeft !== 0}
           onPress={resendCode}
+          textStyle={{color: timeLeft !== 0 ? COLORS.labelText : COLORS.white}}
         />
         <DefaultButton
           title="Подтвердить"

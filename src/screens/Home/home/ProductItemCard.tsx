@@ -174,13 +174,13 @@ export default function ProductItemCard(props: ProductItemCardProps) {
           <TouchableOpacity
             style={[
               styles.button,
-              {backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF'},
+              {backgroundColor: isInCart ? '#0052FF' : '#FFFFFF'},
             ]}
             onPress={onCartPress}>
             {animate ? (
               <ActivityIndicator
                 size="small"
-                color={isInCart ? '#fff' : '#84A9C0'}
+                color={isInCart ? '#fff' : '#0052FF'}
                 animating={animate}
               />
             ) : (
@@ -193,7 +193,7 @@ export default function ProductItemCard(props: ProductItemCardProps) {
                     ? `${STRINGS.ru.addToCart}е`
                     : `${STRINGS.ru.addToCart}у`}
                 </Text>
-                <BasketIcon fill={isInCart ? COLORS.white : '#84A9C0'} />
+                <BasketIcon fill={isInCart ? COLORS.white : '#0052FF'} />
               </View>
             )}
           </TouchableOpacity>
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   inactiveCartText: {
-    color: '#84A9C0',
+    color: '#0052FF',
     marginRight: 8,
     fontWeight: '700',
     fontSize: 15,
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
   typeText: {
     fontSize: 13,
     fontWeight: '400',
-    color: '#84A9C0',
+    color: '#0052FF',
   },
   nameText: {
     fontSize: 21,
@@ -287,12 +287,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     borderWidth: 1,
-    borderColor: COLORS.textColorBlue,
+    borderColor: '#0052FF',
   },
   buttonText: {
     fontSize: 15,
     fontWeight: '700',
-    color: COLORS.textColorBlue,
+    color: '#0052FF',
     marginRight: 10,
   },
   sileBox: {
@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
     left: 10,
   },
   sileBoxBgColor: {
-    backgroundColor: COLORS.textColorBlue,
+    backgroundColor: '#0052FF',
   },
   sileText: {
     fontSize: 15,

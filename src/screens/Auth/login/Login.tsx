@@ -55,7 +55,7 @@ export default function Login(props: any) {
   };
 
   return (
-    <WelcomeScreen title="Novamarkt">
+    <WelcomeScreen title="Novamax">
       <View style={{paddingHorizontal: 20}}>
         <DefaultInput
           placeholder="Ваш номер"

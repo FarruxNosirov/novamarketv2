@@ -21,8 +21,8 @@ import {
 } from './types';
 import {RegisterState} from '@auth/signup/hooks';
 
-export let url = 'https://admin.becloud.uz/api';
-export let assetUrl = 'https://admin.becloud.uz';
+export let url = 'https://admin-nova.ru/api';
+export let assetUrl = 'https://admin-nova.ru';
 
 axios.interceptors.request.use(config => {
   let token = store.getState().user.token;

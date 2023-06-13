@@ -42,7 +42,7 @@ export default function SignUpPhysical() {
   const [diseblet, setDiseblet] = useState(true);
 
   return (
-    <WelcomeScreen title="Novamarkt">
+    <WelcomeScreen title="Novamax">
       <ScrollView
         style={{backgroundColor: COLORS.white, paddingHorizontal: 20}}>
         <DefaultInput

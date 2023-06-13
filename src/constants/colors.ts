@@ -61,3 +61,9 @@ export const GRADIENT_COLORS = [
   COLORS.lighBlue,
   COLORS.darkBlue,
 ];
+export const GRADIENT_COLORSNoActive = [
+  COLORS.white,
+  COLORS.white,
+  COLORS.white,
+  COLORS.darkBlue,
+];
