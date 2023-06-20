@@ -114,5 +114,6 @@ export const STRINGS = {
     cartIsEmpty: 'Корзина пустая',
     favoritesIsEmpty: 'Нет избранных товаров',
     COURSE: 'Курс',
+    money: '₽',
   },
 };

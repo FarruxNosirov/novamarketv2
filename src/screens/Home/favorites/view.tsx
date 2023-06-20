@@ -11,8 +11,7 @@ import {useFavoritesHook} from './hooks';
 import {styles} from './style';
 
 const FavoriteView = () => {
-  let {favorites, toggleModal, isModalVisible, modalText, getFavs} =
-    useFavoritesHook();
+  let {favorites, getFavs} = useFavoritesHook();
 
   useEffect(() => {
     getFavs();

@@ -52,7 +52,8 @@ const SortView = (props: PropsSort) => {
   };
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
-      <AllProductTitle title={title} />
+      <AllProductTitle title={title} color={true} />
+
       <View style={styles.content}>
         <FlatList
           data={data}
@@ -67,7 +68,7 @@ const SortView = (props: PropsSort) => {
                     styles.inside,
                     {
                       backgroundColor:
-                        active === item.name ? '#84A9C0' : '#FFFFFF',
+                        active === item.name ? COLORS.blue : '#FFFFFF',
                     },
                   ]}></View>
               </View>
@@ -82,12 +83,7 @@ const SortView = (props: PropsSort) => {
           position: 'absolute',
           width: '100%',
         }}>
-        <DefaultButton
-          title={'Применить'}
-          ButtonStyle={{backgroundColor: '#84A9C0'}}
-          TextStyle={{color: COLORS.white}}
-          onPress={sortAddHandler}
-        />
+        <DefaultButton title={'Применить'} onPress={sortAddHandler} />
       </View>
     </SafeAreaView>
   );
@@ -115,7 +111,7 @@ const styles = StyleSheet.create({
     width: 29,
     height: 29,
     borderWidth: 1,
-    borderColor: '#84A9C0',
+    borderColor: COLORS.blue,
     marginBottom: 7,
     borderRadius: 50,
     flexDirection: 'column',

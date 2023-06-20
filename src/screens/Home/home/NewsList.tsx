@@ -17,7 +17,7 @@ type ProductListProps = {
 export default function NewsList(props: ProductListProps) {
   const [products, setProducts] = useState<any>();
   const loading = useLoading();
-
+  const navigation = useNavigation();
   const getProducts = async () => {
     try {
       loading?.onRun();
@@ -33,8 +33,13 @@ export default function NewsList(props: ProductListProps) {
   useEffect(() => {
     getProducts();
   }, []);
-  const navigation = useNavigation();
+
+  if (products?.length <= 0) {
+    return <View></View>;
+  }
+
   const onPress = () => {
+    //@ts-ignore
     navigation.navigate(ROUTES.ALLNEWS as never, {products, props} as never);
   };
 

@@ -1,11 +1,11 @@
-import {View, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
-import DefaultButton from '../../../components/uikit/DefaultButton';
-import {COLORS} from '../../../constants/colors';
-import DefaultInput from '../../../components/uikit/TextInput';
-import CheckBox from '../../../components/uikit/CheckBox';
-import useRegisterHook from './hooks';
 import DefaultInputEye from '@components/uikit/DefaultInputEye';
+import React, {useState} from 'react';
+import {TouchableOpacity, View} from 'react-native';
+import CheckBox from '../../../components/uikit/CheckBox';
+import DefaultButton from '../../../components/uikit/DefaultButton';
+import DefaultInput from '../../../components/uikit/TextInput';
+import {COLORS} from '../../../constants/colors';
+import useRegisterHook from './hooks';
 
 export default function SignUpLegal() {
   let {
@@ -109,6 +109,11 @@ export default function SignUpLegal() {
         marginBottom={0}
         onChangeText={onStateChange('phone')}
         value={state.phone}
+        onFocus={() => {
+          if (state.phone === '') {
+            onStateChange('phone')('+7');
+          }
+        }}
       />
       <DefaultInputEye
         label="Введите пароль"

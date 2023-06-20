@@ -141,7 +141,7 @@ const AllProductItemCard = (props: ProductItemCardProps) => {
             <Text style={styles.sileText}>{discount} %</Text>
           </View>
         ) : null}
-        {showNewProduct ? (
+        {/* {showNewProduct ? (
           <View style={[styles.sileBox, styles.sileBoxBgColor]}>
             <Text style={[styles.sileText, styles.sileTextFS]}>Новый</Text>
           </View>
@@ -150,15 +150,23 @@ const AllProductItemCard = (props: ProductItemCardProps) => {
           <View style={[styles.sileBox, styles.sileBoxBgColor]}>
             <Text style={[styles.sileText, styles.sileTextFS]}>Под заказ</Text>
           </View>
-        ) : null}
+        ) : null} */}
         <TouchableOpacity onPress={onAddFavorite} style={styles.heartIconBox}>
-          {isFav ? <HeartIconActive /> : <HeartIconNotActive />}
+          {isFav ? (
+            <HeartIconActive fill={COLORS.red} />
+          ) : (
+            <HeartIconNotActive />
+          )}
         </TouchableOpacity>
 
         <View style={styles.cartItemInfo}>
           <View style={{height: 115}}>
             <View style={styles.title_box}>
-              <Text style={styles.typeText}>{category?.name || ''}</Text>
+              <Text style={styles.typeText}>
+                {category?.name?.length > 15
+                  ? category?.name?.slice(0, 15)
+                  : category?.name}
+              </Text>
             </View>
             <View
               style={{
@@ -167,17 +175,23 @@ const AllProductItemCard = (props: ProductItemCardProps) => {
                 height: 80,
               }}>
               <Text style={styles.nameText}>
-                {name?.length > 10 ? name?.slice(0, 10) + '...' : name}
+                {name?.length > 35 ? name?.slice(0, 35) + '...' : name}
               </Text>
-              <View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}>
+                <Text style={styles.priceText}>
+                  {discount ? discountPrice : price}
+                  {STRINGS.ru.money}
+                </Text>
                 {discount ? (
                   <Text style={styles.priceTextSile}>
-                    {discount ? price : discountPrice} UZS
+                    {discount ? price : discountPrice} {STRINGS.ru.money}
                   </Text>
                 ) : null}
-                <Text style={styles.priceText}>
-                  {discount ? discountPrice : price}UZS
-                </Text>
               </View>
             </View>
           </View>
@@ -264,12 +278,12 @@ const styles = StyleSheet.create({
     color: '#999999',
   },
   nameText: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#3F3535',
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#023047',
   },
   priceTextSile: {
-    fontSize: 15,
+    fontSize: 12,
     fontWeight: '400',
     color: COLORS.black,
     textDecorationLine: 'line-through',
@@ -277,9 +291,9 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   priceText: {
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: '400',
-    color: COLORS.black,
+    color: COLORS.blue,
   },
   button: {
     width: '100%',
@@ -299,20 +313,21 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   sileBox: {
-    width: 70,
-    height: 24,
-    backgroundColor: COLORS.TextActiveColor,
-    borderRadius: 15,
+    width: 40,
+    height: 25,
+    backgroundColor: COLORS.white,
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top: 10,
-    left: 10,
+    bottom: 174,
+    right: 10,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
   },
   sileText: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: COLORS.white,
+    fontSize: 13,
+    fontWeight: '500',
+    color: COLORS.black,
   },
   sileBoxBgColor: {
     backgroundColor: COLORS.textColorBlue,

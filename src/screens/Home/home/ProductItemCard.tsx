@@ -1,30 +1,30 @@
+import requests, {assetUrl} from '@api/requests';
+import {STRINGS} from '@locales/strings';
+import {useNavigation} from '@react-navigation/native';
+import {useAppSelector} from '@store/hooks';
+import {toggleLoading} from '@store/slices/appSettings';
+import {cartSelector, loadCart} from '@store/slices/cartSlice';
+import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
+import {selectUser} from '@store/slices/userSlice';
+import React, {useState} from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
   ActivityIndicator,
   Alert,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
 } from 'react-native';
-import React, {useState} from 'react';
+import {useDispatch} from 'react-redux';
 import {
   BasketIcon,
   HeartIconActive,
   HeartIconNotActive,
 } from '../../../assets/icons/icons';
 import {COLORS} from '../../../constants/colors';
-import {useNavigation} from '@react-navigation/native';
 import {ROUTES} from '../../../constants/routes';
-import requests, {assetUrl} from '@api/requests';
-import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
-import {toggleLoading} from '@store/slices/appSettings';
-import {useAppSelector} from '@store/hooks';
-import {cartSelector, loadCart} from '@store/slices/cartSlice';
-import {useDispatch} from 'react-redux';
-import {STRINGS} from '@locales/strings';
-import {selectUser} from '@store/slices/userSlice';
 
 export type ProductItemCardProps = {
   name?: string;
@@ -45,7 +45,7 @@ export type ProductItemCardProps = {
   getProducts?: () => void;
 };
 
-export default function ProductItemCard(props: ProductItemCardProps) {
+export default function ProductItemCard(props: any) {
   const navigation = useNavigation();
   const cart = useAppSelector(cartSelector);
   let isInCart = !!cart[props.id];
@@ -112,6 +112,7 @@ export default function ProductItemCard(props: ProductItemCardProps) {
       }
     }
   };
+  console.log(JSON.stringify(props, null, 2));
 
   return (
     <TouchableWithoutFeedback
@@ -123,11 +124,11 @@ export default function ProductItemCard(props: ProductItemCardProps) {
         <Image style={styles.image} source={{uri: assetUrl + props.photo}} />
         {props.discount ? (
           <View style={styles.sileBox}>
-            <Text style={styles.sileText}> {props.discount} %</Text>
+            <Text style={styles.sileText}> -{props.discount} %</Text>
           </View>
         ) : null}
 
-        {props.showNewProduct ? (
+        {/* {props.showNewProduct ? (
           <View style={[styles.sileBox, styles.sileBoxBgColor]}>
             <Text style={[styles.sileText, styles.sileTextFS]}>Новый</Text>
           </View>
@@ -136,14 +137,22 @@ export default function ProductItemCard(props: ProductItemCardProps) {
           <View style={[styles.sileBox, styles.sileBoxBgColor]}>
             <Text style={[styles.sileText, styles.sileTextFS]}>Под заказ</Text>
           </View>
-        ) : null}
+        ) : null} */}
 
         <TouchableOpacity onPress={onAddFavorite} style={styles.heartIconBox}>
-          {isFav ? <HeartIconActive /> : <HeartIconNotActive />}
+          {isFav ? (
+            <HeartIconActive fill={COLORS.red} />
+          ) : (
+            <HeartIconNotActive />
+          )}
         </TouchableOpacity>
 
         <View style={styles.cartItemInfo}>
-          <Text style={styles.typeText}>{props?.category?.name || ''}</Text>
+          <Text style={styles.typeText}>
+            {props?.category?.name.length > 20
+              ? props?.category?.name.slice(0, 20) + '...'
+              : props?.category?.name}
+          </Text>
           <View
             style={{
               flexDirection: 'column',
@@ -152,21 +161,28 @@ export default function ProductItemCard(props: ProductItemCardProps) {
               paddingBottom: 20,
             }}>
             <Text style={styles.nameText}>
-              {props?.name.length > 10
-                ? props?.name.slice(0, 10) + '...'
-                : props?.name}
+              {props?.name.length > 30
+                ? props.name.slice(0, 30) + '...'
+                : props.name}
             </Text>
-            <View>
-              {props?.discount > 0 ? (
-                <Text style={styles.discountPrice}>
-                  {props?.price}
-                  UZS
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
+              {discountPrice > 0 ? (
+                <Text style={styles.priceText}>
+                  {discountPrice}
+                  {STRINGS.ru.money}
                 </Text>
               ) : null}
-              <Text style={styles.priceText}>
-                {discountPrice}
-                UZS
-              </Text>
+
+              {props?.discount > 0 ? (
+                <Text style={styles.discountPrice}>
+                  {props?.price} {STRINGS.ru.money}
+                </Text>
+              ) : null}
             </View>
           </View>
         </View>
@@ -208,7 +224,6 @@ const styles = StyleSheet.create({
     width: 192,
     height: 330,
     backgroundColor: '#fff',
-    // borderRadius: 15,
     marginRight: 15,
     marginBottom: 20,
     flexDirection: 'column',
@@ -259,9 +274,9 @@ const styles = StyleSheet.create({
     color: '#0052FF',
   },
   nameText: {
-    fontSize: 21,
+    fontSize: 14,
     fontWeight: '600',
-    color: '#3F3535',
+    color: '#023047',
     marginBottom: 5,
   },
   priceTextSile: {
@@ -276,7 +291,7 @@ const styles = StyleSheet.create({
   priceText: {
     fontSize: 18,
     fontWeight: '400',
-    color: COLORS.black,
+    color: COLORS.blue,
   },
   button: {
     width: '100%',
@@ -296,23 +311,23 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   sileBox: {
-    width: 70,
-    height: 24,
-    backgroundColor: COLORS.TextActiveColor,
-    borderRadius: 15,
+    width: 45,
+    height: 25,
+    backgroundColor: COLORS.white,
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top: 10,
-    left: 10,
+    bottom: 180,
+    right: 10,
+    borderRadius: 8,
   },
   sileBoxBgColor: {
     backgroundColor: '#0052FF',
   },
   sileText: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: COLORS.white,
+    fontSize: 12,
+    fontWeight: '500',
+    color: COLORS.black,
   },
   sileTextFS: {
     fontSize: 13,

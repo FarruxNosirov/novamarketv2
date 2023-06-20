@@ -16,6 +16,9 @@ const ShopsList = () => {
   useEffect(() => {
     effect();
   }, []);
+  if (shops?.length <= 0) {
+    return <View></View>;
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.text}>{STRINGS.ru.yourShops}</Text>
