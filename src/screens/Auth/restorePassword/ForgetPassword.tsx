@@ -17,7 +17,7 @@ export default function ForgetPassword() {
   const [state, setState] = React.useState({
     phone: '',
   });
-  const [errTxt, setErrTxt] = React.useState('');
+
   const [loading, setLoading] = React.useState(false);
 
   const onStateChange = (key: string) => (value: string) => {
@@ -40,22 +40,11 @@ export default function ForgetPassword() {
         );
       } catch (error) {
         let err = error as AxiosError<RegisterResponseErrors>;
-        Alert.alert(JSON.stringify(err) as any);
-        if (axios.isAxiosError(err)) {
-          // Access to config, request, and response
-          // err.response?.data.errors[0].phone;
-          let errText = err.response?.data.errors.phone.join(', ');
-          Alert.alert(err.response?.data.errors.phone.join(', ') as string);
-          // console.log(errText);
-          setErrTxt(errText || '');
-        } else {
-          // Just a stock error
-        }
+        console.log(err);
       } finally {
         setLoading(false);
       }
     } else {
-      // TODO warn that data is incorrect
       console.log('INCORRECT PHONE NUMBER');
     }
   };
@@ -77,6 +66,11 @@ export default function ForgetPassword() {
           marginBottom={0}
           value={state.phone}
           onChangeText={onStateChange('phone')}
+          onFocus={() => {
+            if (state.phone === '') {
+              onStateChange('phone')('+7');
+            }
+          }}
         />
         <DefaultButton
           title="Запросить код"

@@ -19,6 +19,7 @@ export default function GoBackHeader(props: Props) {
         backgroundColor: 'transparent',
         paddingHorizontal: 15,
         paddingVertical: 10,
+        width: '95%',
       }}>
       <TouchableOpacity
         onPress={() => navigation.goBack()}
@@ -35,8 +36,6 @@ const styles = StyleSheet.create({
   text: {
     marginLeft: 10,
     fontSize: 20,
-    // color: COLORS.defaultBlack,
-    // fontFamily: 'Montserrat',
     fontWeight: '600',
   },
 
@@ -48,10 +47,9 @@ const styles = StyleSheet.create({
     color: '#71717184',
   },
   title: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: '700',
-    lineHeight: 40,
-    marginLeft: 10,
     color: '#023047',
+    marginLeft: 8,
   },
 });

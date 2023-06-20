@@ -53,6 +53,11 @@ export default function SignUpPhysical() {
           marginBottom={0}
           onChangeText={onStateChange('phone')}
           value={state.phone}
+          onFocus={() => {
+            if (state.phone === '') {
+              onStateChange('phone')('+7');
+            }
+          }}
         />
         <DefaultInput
           placeholder="Ваше имя"

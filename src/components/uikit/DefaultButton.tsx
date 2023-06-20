@@ -27,6 +27,7 @@ export interface DefaultButtonProps {
   loading?: boolean;
   active?: boolean;
   disabled?: boolean;
+  isInCart?: boolean;
 }
 
 const DefaultButton = ({
@@ -38,14 +39,19 @@ const DefaultButton = ({
   textStyle,
   loading,
   disabled,
+  isInCart,
 }: DefaultButtonProps) => {
   return (
     <TouchableWithoutFeedback onPress={onPress} disabled={disabled}>
       <LinearGradient
         start={{x: 0, y: 0}}
         end={{x: 3, y: 0}}
-        colors={disabled ? GRADIENT_COLORSNoActive : GRADIENT_COLORS}
-        style={[styles.container, containerStyle]}>
+        colors={isInCart ? GRADIENT_COLORSNoActive : GRADIENT_COLORS}
+        style={[
+          styles.container,
+          {borderColor: isInCart ? 'blue' : 'white'},
+          containerStyle,
+        ]}>
         <View style={[styles.content, secondary && styles.inactiveContainer]}>
           {loading ? (
             //TODO Check color
@@ -101,7 +107,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4.84,
     elevation: 5,
-
     width: '100%',
     marginBottom: 10,
   },

@@ -41,7 +41,6 @@ const BrandsList = () => {
     <View style={styles.container}>
       <View style={styles.allButtonsView}>
         <ProductsTitle title={STRINGS.ru.brands} showButton={false} />
-
         <Modal
           isVisible={allModalVisible}
           testID={'modal'}

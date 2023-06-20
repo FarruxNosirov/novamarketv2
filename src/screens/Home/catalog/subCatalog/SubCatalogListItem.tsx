@@ -20,23 +20,10 @@ const SubCatalogListItem = ({props, id}: any) => {
   let {item} = props;
 
   return (
-    // <TouchableOpacity
-    //   style={styles.cartItem}
-    //   onPress={() =>
-    //     navigation.navigate(
-    //       ROUTES.CATALOG_PRODUCTS as never,
-    //       {id: item.id, type: id, name: item.name} as never,
-    //     )
-    //   }>
-    //   <Image
-    //     style={styles.image}
-    //     source={{uri: appendUrl(item.photo as any)}}
-    //   />
-    //   <Text style={styles.text}>{item.name ? item.name : ''}</Text>
-    // </TouchableOpacity>
     <TouchableWithoutFeedback
       onPress={() =>
         navigation.navigate(
+          //@ts-ignore
           ROUTES.CATALOG_PRODUCTS as never,
           {id: item.id, type: id, name: item.name} as never,
         )

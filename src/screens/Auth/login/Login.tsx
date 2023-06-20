@@ -8,16 +8,16 @@ import {COLORS} from '@constants/colors';
 import {ROUTES} from '@constants/routes';
 import {validatePhoneNumber} from '@constants/validation';
 import NavigationService from '@routes/NavigationService';
-import {useAppDispatch, useAppSelector} from '@store/hooks';
-import {selectUser, userLoggedIn} from '@store/slices/userSlice';
+import {useAppDispatch} from '@store/hooks';
+import {userLoggedIn} from '@store/slices/userSlice';
 import React, {useState} from 'react';
 import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 export default function Login(props: any) {
   let dispatch = useAppDispatch();
   const [state, setState] = useState<LoginState>({
-    password: '', //381555
-    phone: '', //+998901951625
+    password: '366322', //366322
+    phone: '+79257813877', //+79257813877
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState(false);
@@ -61,6 +61,12 @@ export default function Login(props: any) {
           placeholder="Ваш номер"
           onChangeText={onStateChange('phone')}
           value={state.phone}
+          onFocus={() => {
+            if (state.phone === '') {
+              onStateChange('phone')('+7');
+            }
+          }}
+          typeOf="number-pad"
         />
 
         <DefaultInputEye

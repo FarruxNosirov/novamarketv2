@@ -128,10 +128,10 @@ const ProductsItem = (props: ProductItemCardProps) => {
         <Image style={styles.image} source={{uri: assetUrl + props.photo}} />
         {discount ? (
           <View style={styles.sileBox}>
-            <Text style={styles.sileText}>{discount} %</Text>
+            <Text style={styles.sileText}>-{discount}%</Text>
           </View>
         ) : null}
-        {showNewProduct ? (
+        {/* {showNewProduct ? (
           <View style={[styles.sileBox, styles.sileBoxBgColor]}>
             <Text style={[styles.sileText, styles.sileTextFS]}>Новый</Text>
           </View>
@@ -140,39 +140,46 @@ const ProductsItem = (props: ProductItemCardProps) => {
           <View style={[styles.sileBox, styles.sileBoxBgColor]}>
             <Text style={[styles.sileText, styles.sileTextFS]}>Под заказ</Text>
           </View>
-        ) : null}
+        ) : null} */}
         <TouchableOpacity onPress={onAddFavorite} style={styles.heartIconBox}>
           {isFav ? <HeartIconActive /> : <HeartIconNotActive />}
         </TouchableOpacity>
 
         <View style={styles.cartItemInfo}>
-          <View style={{height: 120}}>
-            <Text style={styles.typeText}>
-              {category?.name.length > 18
-                ? category?.name.slice(0, 18) + '...'
-                : category?.name}
-            </Text>
+          <View style={{height: 115}}>
+            <View style={styles.title_box}>
+              <Text style={styles.typeText}>
+                {props.category?.name?.length > 15
+                  ? props.category?.name?.slice(0, 15)
+                  : props.category?.name}
+              </Text>
+            </View>
             <View
               style={{
                 flexDirection: 'column',
-                height: 95,
                 justifyContent: 'space-between',
-                paddingBottom: 10,
+                height: 80,
               }}>
               <Text style={styles.nameText}>
-                {props?.name.length > 10
-                  ? props?.name.slice(0, 10) + '...'
-                  : props?.name}
+                {props.name?.length > 25
+                  ? props.name?.slice(0, 25) + '...'
+                  : props.name}
               </Text>
-              <View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}>
+                <Text style={styles.priceText}>
+                  {discount ? discountPrice : price}
+                  {STRINGS.ru.money}
+                </Text>
                 {discount ? (
                   <Text style={styles.priceTextSile}>
-                    {discount ? price : discountPrice} UZS
+                    {discount ? price : discountPrice} {STRINGS.ru.money}
                   </Text>
                 ) : null}
-                <Text style={styles.priceText}>
-                  {discount ? discountPrice : price}UZS
-                </Text>
               </View>
             </View>
           </View>
@@ -180,13 +187,13 @@ const ProductsItem = (props: ProductItemCardProps) => {
           <TouchableOpacity
             style={[
               styles.button,
-              {backgroundColor: isInCart ? '#729EDB' : '#FFFFFF'},
+              {backgroundColor: isInCart ? '#0052FF' : '#FFFFFF'},
             ]}
             onPress={onCartPress}>
             {animate ? (
               <ActivityIndicator
                 size="small"
-                color={isInCart ? '#fff' : '#729EDB'}
+                color={isInCart ? '#fff' : '#0052FF'}
                 animating={animate}
               />
             ) : (
@@ -199,7 +206,7 @@ const ProductsItem = (props: ProductItemCardProps) => {
                     ? `${STRINGS.ru.addToCart}е`
                     : `${STRINGS.ru.addToCart}у`}
                 </Text>
-                <BasketIcon fill={isInCart ? COLORS.white : '#729EDB'} />
+                <BasketIcon fill={isInCart ? COLORS.white : '#0052FF'} />
               </View>
             )}
           </TouchableOpacity>
@@ -239,7 +246,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   inactiveCartText: {
-    color: '#729EDB',
+    color: '#0052FF',
     marginRight: 8,
 
     fontWeight: '700',
@@ -257,15 +264,15 @@ const styles = StyleSheet.create({
   typeText: {
     fontSize: 13,
     fontWeight: '400',
-    color: '#729EDB',
+    color: COLORS.blue,
   },
   nameText: {
-    fontSize: 21,
+    fontSize: 14,
     fontWeight: '600',
-    color: '#3F3535',
+    color: '#023047',
   },
   priceTextSile: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '400',
     color: COLORS.black,
     textDecorationLine: 'line-through',
@@ -273,9 +280,9 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   priceText: {
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: '400',
-    color: COLORS.black,
+    color: COLORS.blue,
   },
   button: {
     width: '100%',
@@ -286,7 +293,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     borderWidth: 1,
-    borderColor: COLORS.textColorBlue,
+    borderColor: '#0052FF',
   },
   buttonText: {
     fontSize: 15,
@@ -295,20 +302,20 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   sileBox: {
-    width: 70,
-    height: 24,
-    backgroundColor: COLORS.TextActiveColor,
-    borderRadius: 15,
+    width: 40,
+    height: 25,
+    backgroundColor: COLORS.white,
+    borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top: 10,
-    left: 10,
+    bottom: 180,
+    right: 8,
   },
   sileText: {
-    fontSize: 15,
+    fontSize: 13,
     fontWeight: '700',
-    color: COLORS.white,
+    color: COLORS.black,
   },
   sileBoxBgColor: {
     backgroundColor: COLORS.textColorBlue,
@@ -320,5 +327,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     right: 10,
+  },
+  title_box: {
+    height: 20,
+    width: '100%',
   },
 });

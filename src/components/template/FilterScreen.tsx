@@ -1,23 +1,10 @@
 import requests from '@api/requests';
-import {NewTopArrowIcon2} from '@icons/icons';
-import Slider from '@react-native-community/slider';
+import DefaultInput from '@components/uikit/TextInput';
 import React, {useEffect, useState} from 'react';
-import {
-  FlatList,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import SelectDropdown from 'react-native-select-dropdown';
+import {FlatList, SafeAreaView, StyleSheet, View} from 'react-native';
 import {COLORS} from '../../constants/colors';
 import AllProductTitle from '../uikit/AllProductTitle';
 import DefaultButton from '../uikit/DefaultButton';
-import FilterModal from '../uikit/Filter/FilterModal';
-import DefaultInput from '@components/uikit/TextInput';
-import {TextInput} from 'react-native-paper';
 import FilterSwitch from './FilterSwitch';
 type PropsSort = {
   setModalVisible?: any;
@@ -96,7 +83,7 @@ const FilterScren = (props: PropsSort) => {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
-      <AllProductTitle title={'Фильтры'} />
+      <AllProductTitle title={'Фильтры'} color={true} />
       <View style={styles.container}>
         <DefaultInput
           backgroundColor="#f5f5f5"
@@ -132,8 +119,6 @@ const FilterScren = (props: PropsSort) => {
           <View style={{width: '100%'}}>
             <DefaultButton
               title="Фильтр"
-              ButtonStyle={{backgroundColor: '#ff9500'}}
-              TextStyle={{color: '#ffffff'}}
               onPress={submetAndClosed}
               disabled={btnDisebled}
             />

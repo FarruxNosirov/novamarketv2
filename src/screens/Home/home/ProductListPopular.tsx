@@ -32,6 +32,10 @@ export default function ProductList(props: Props) {
     getProducts();
   }, []);
 
+  if (products.length <= 0) {
+    return <View></View>;
+  }
+
   const onPress = () => {
     navigation.navigate(
       //@ts-ignore

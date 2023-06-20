@@ -89,8 +89,8 @@ const AllProducts = () => {
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
         <View style={{marginBottom: 10}}>
-          <GoBackHeader />
-          <AllProductTitle title={defaultTitle} color={true} />
+          <GoBackHeader title={defaultTitle} />
+
           {params.props.filter ? (
             <SortAndFilter
               setModalVisible={setModalVisible}

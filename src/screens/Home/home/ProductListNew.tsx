@@ -15,7 +15,7 @@ type ProductListProps = {
 };
 
 export default function ProductListNew(props: ProductListProps) {
-  const [products, setProducts] = useState();
+  const [products, setProducts] = useState<any>();
   const loading = useLoading();
   let effect = async () => {
     try {
@@ -31,6 +31,11 @@ export default function ProductListNew(props: ProductListProps) {
   useEffect(() => {
     effect();
   }, []);
+
+  if (products?.length <= 0) {
+    return <View></View>;
+  }
+
   const navigation = useNavigation();
   const onPress = () => {
     navigation.navigate(

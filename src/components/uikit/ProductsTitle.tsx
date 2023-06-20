@@ -49,11 +49,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: COLORS.textColorBlue,
+    borderColor: COLORS.blue,
   },
   textLink: {
     fontSize: 16,
     fontWeight: '400',
-    color: COLORS.textColorBlue,
+    color: COLORS.blue,
   },
 });

@@ -4,12 +4,7 @@ import DefaultButton from '@components/uikit/DefaultButton';
 
 import {COLORS} from '@constants/colors';
 import {ROUTES} from '@constants/routes';
-import {
-  BasketIcon,
-  CloseIcon,
-  HeartIconBorder,
-  HeartIconRed,
-} from '@icons/icons';
+import {BasketIcon} from '@icons/icons';
 import {STRINGS} from '@locales/strings';
 import {useNavigation} from '@react-navigation/native';
 import {useAppSelector} from '@store/hooks';
@@ -22,10 +17,9 @@ import {
   Image,
   LayoutAnimation,
   StyleSheet,
-  TouchableOpacity,
+  Text,
   TouchableWithoutFeedback,
   View,
-  Text,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 
@@ -35,9 +29,8 @@ const Products = ({item}: {item: ProductItemResponse}) => {
 
   const dispatch = useDispatch();
   const cart = useAppSelector(cartSelector);
-  const favorite = useAppSelector(favoriteSelector);
+
   let isInCart = !!cart[id];
-  let isInFavorite = !!favorite[id];
 
   const navigation: any = useNavigation();
   const [animate, setAnimate] = useState(false);
@@ -86,22 +79,6 @@ const Products = ({item}: {item: ProductItemResponse}) => {
     }
   };
 
-  const onAddFavorite = async () => {
-    try {
-      dispatch(toggleLoading(true));
-      let res = await requests.favorites.addFavorite({
-        product_id: id,
-      });
-      let r = await requests.favorites.getFavorites();
-      dispatch(loadFavorite(r.data.data));
-    } catch (error) {
-      console.log(error);
-    } finally {
-      dispatch(toggleLoading(false));
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
-    }
-  };
-
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -123,42 +100,45 @@ const Products = ({item}: {item: ProductItemResponse}) => {
             ) : null}
           </View>
 
-          <View style={styles.nameContainer}>
+          <View style={styles.nameContainer2}>
             <View style={styles.priceContainer}>
               {discount ? (
                 <Text style={styles.oldPrice}>
-                  {discount ? price : discountPrice} сум
+                  {discount ? price : discountPrice} {STRINGS.ru.money}
                 </Text>
               ) : null}
-              <Text style={styles.price}>{price} сум</Text>
+              <Text style={styles.price}>
+                {price} {STRINGS.ru.money}
+              </Text>
             </View>
-
-            <DefaultButton
-              containerStyle={styles.button}
-              secondary={isInCart}
-              onPress={onCartPress}>
-              {animate ? (
-                <ActivityIndicator
-                  size="small"
-                  color={COLORS.red}
-                  animating={animate}
-                />
-              ) : (
-                <View style={styles.buttonContainer}>
-                  <Text
-                    style={[
-                      isInCart ? styles.inactiveCartText : styles.cartText,
-                    ]}>
-                    {isInCart
-                      ? `${STRINGS.ru.addToCart}е`
-                      : `${STRINGS.ru.addToCart}у`}
-                  </Text>
-                  <BasketIcon
-                    fill={isInCart ? COLORS.cartColor3 : COLORS.white}
+            <View style={styles.button}>
+              <DefaultButton
+                secondary={isInCart}
+                onPress={onCartPress}
+                isInCart={isInCart}>
+                {animate ? (
+                  <ActivityIndicator
+                    size="small"
+                    color={COLORS.red}
+                    animating={animate}
                   />
-                </View>
-              )}
-            </DefaultButton>
+                ) : (
+                  <View style={styles.buttonContainer}>
+                    <Text
+                      style={[
+                        isInCart ? styles.inactiveCartText : styles.cartText,
+                      ]}>
+                      {isInCart
+                        ? `${STRINGS.ru.addToCart}е`
+                        : `${STRINGS.ru.addToCart}у`}
+                    </Text>
+                    <BasketIcon
+                      fill={isInCart ? COLORS.cartColor3 : COLORS.white}
+                    />
+                  </View>
+                )}
+              </DefaultButton>
+            </View>
           </View>
         </View>
       </View>
@@ -174,7 +154,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderTopWidth: 1,
     borderColor: 'rgba(113, 113, 113, 0.3)',
-    // borderColor: "red",
+    alignItems: 'center',
   },
 
   image: {
@@ -188,21 +168,22 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-between',
-    // paddingHorizontal: 5,
   },
   priceContainer: {
     flexDirection: 'column',
     justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginTop: 10,
   },
 
   nameContainer: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
     justifyContent: 'space-between',
   },
-
+  nameContainer2: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 15,
+  },
   itemName: {
     color: COLORS.defaultBlack,
     fontSize: 16,
@@ -240,7 +221,6 @@ const styles = StyleSheet.create({
 
   buttonContainer: {
     flexDirection: 'row',
-    margin: 0,
   },
 
   cartText: {
@@ -256,6 +236,5 @@ const styles = StyleSheet.create({
   button: {
     width: 120,
     height: 40,
-    margin: 0,
   },
 });

@@ -1,4 +1,5 @@
 import requests, {assetUrl} from '@api/requests';
+import {WINDOW_WIDTH} from '@constants/sizes';
 import {useRoute} from '@react-navigation/native';
 import React, {useEffect, useRef, useState} from 'react';
 import {Dimensions, Image, ScrollView, StyleSheet, View} from 'react-native';
@@ -10,26 +11,19 @@ import ProductCatalog from './ProductCatalog';
 import ProductListNew from './ProductListNew';
 import ProductListPopular from './ProductListPopular';
 import ProductListSale from './ProductListSale';
-import ShopListPopular from './ShopListPopular';
-import {WINDOW_WIDTH} from '@constants/sizes';
 import BrandsList from './brandsList/BrandsList';
 import ShopsList from './shopsList/ShopsList';
 
 export default function HomeScreen() {
   const width = Dimensions.get('window').width;
-  const item_width = Math.round(width * 1);
   const isCorusel = useRef(null);
-  const [index, setIndex] = useState(0);
   const [index2, setIndex2] = useState(0);
-  const route = useRoute();
   const [dataSliderAll, setDataSliderAll] = useState<any>([]);
-  const [dataSliderMobile, setDataSliderMobile] = useState<any>([]);
   const [bannerSlider, setBannerSlider] = useState<any>([]);
 
   const CaruselHandler = async () => {
     try {
       let res = await requests.slider.getSlidersMobile();
-      setDataSliderMobile(res.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -52,7 +46,6 @@ export default function HomeScreen() {
   };
 
   useEffect(() => {
-    CaruselHandler();
     CaruselSliderAll();
     CaruselBannerAll();
   }, []);
@@ -62,78 +55,88 @@ export default function HomeScreen() {
       style={{flex: 1, position: 'relative', backgroundColor: COLORS.white}}>
       <SearchNatlifHeader />
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-        <View>
-          <Carousel
-            ref={isCorusel}
-            data={bannerSlider}
-            renderItem={({item}: any) => {
-              return (
-                <View style={{width: '100%', height: 200}}>
-                  <Image
-                    style={{width: '100%', height: '100%', resizeMode: 'cover'}}
-                    source={{uri: assetUrl + item.photo}}
-                  />
-                </View>
-              );
-            }}
-            itemWidth={WINDOW_WIDTH}
-            windowSize={WINDOW_WIDTH}
-            sliderWidth={WINDOW_WIDTH}
-            itemHeight={200}
-            sliderHeight={200}
-            onSnapToItem={index => setIndex2(index)}
-            key={bannerSlider.id}
-          />
-          <Pagination
-            dotsLength={bannerSlider?.length}
-            activeDotIndex={index2}
-            dotStyle={{
-              width: 35,
-              height: 3,
-              backgroundColor: 'black',
-            }}
-          />
-        </View>
+        {bannerSlider.length <= 0 ? null : (
+          <>
+            <Carousel
+              ref={isCorusel}
+              data={bannerSlider}
+              renderItem={({item}: any) => {
+                return (
+                  <View style={{width: '100%', height: 200}}>
+                    <Image
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        resizeMode: 'cover',
+                      }}
+                      source={{uri: assetUrl + item.photo}}
+                    />
+                  </View>
+                );
+              }}
+              itemWidth={WINDOW_WIDTH}
+              windowSize={WINDOW_WIDTH}
+              sliderWidth={WINDOW_WIDTH}
+              itemHeight={200}
+              sliderHeight={200}
+              onSnapToItem={index => setIndex2(index)}
+              key={bannerSlider.id}
+            />
+            <Pagination
+              dotsLength={bannerSlider?.length}
+              activeDotIndex={index2}
+              dotStyle={{
+                width: 35,
+                height: 3,
+                backgroundColor: 'black',
+              }}
+            />
+          </>
+        )}
+
         <View style={styles.container}>
           <BrandsList />
           <ShopsList />
           <ProductListPopular title={'Популярные товары'} filter={true} />
           <ProductCatalog />
           <ProductListSale title={'Товары со скидкой'} filter={true} />
-          <Carousel
-            ref={isCorusel}
-            data={bannerSlider}
-            renderItem={({item}: any) => {
-              return (
-                <View style={{width: '100%', height: 116}}>
-                  <Image
-                    style={{width: '100%', height: '100%'}}
-                    source={{uri: assetUrl + item.photo}}
-                  />
-                </View>
-              );
-            }}
-            sliderWidth={width}
-            itemWidth={width}
-            onSnapToItem={index => setIndex2(index)}
-            key={bannerSlider.id}
-          />
-          <Pagination
-            dotsLength={dataSliderAll.length}
-            activeDotIndex={index2}
-            dotStyle={{
-              width: 35,
-              height: 3,
-              backgroundColor: 'black',
-            }}
-          />
+          {bannerSlider.length <= 0 ? null : (
+            <>
+              <Carousel
+                ref={isCorusel}
+                data={bannerSlider}
+                renderItem={({item}: any) => {
+                  return (
+                    <View style={{width: '100%', height: 116}}>
+                      <Image
+                        style={{width: '100%', height: '100%'}}
+                        source={{uri: assetUrl + item.photo}}
+                      />
+                    </View>
+                  );
+                }}
+                sliderWidth={width}
+                itemWidth={width}
+                onSnapToItem={index => setIndex2(index)}
+                key={bannerSlider.id}
+              />
+              <Pagination
+                dotsLength={dataSliderAll.length}
+                activeDotIndex={index2}
+                dotStyle={{
+                  width: 35,
+                  height: 3,
+                  backgroundColor: 'black',
+                }}
+              />
+            </>
+          )}
+
           <ProductListNew
             title={'Новые товары'}
             filter={true}
             showNewProduct={true}
           />
-          {/* <ProductListTopShop title="Товары под заказ" filter={true} /> */}
-          {/* <ShopListPopular title="магазины" filter={true} /> */}
           <NewsList title="Новости" filter={false} />
         </View>
       </ScrollView>
