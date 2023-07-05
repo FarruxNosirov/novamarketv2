@@ -35,8 +35,6 @@ const CameraScreen = () => {
     }
   };
 
-  // console.log(imageSource);
-
   if (!device) return <View />;
 
   return (

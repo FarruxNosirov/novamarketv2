@@ -94,7 +94,7 @@ const Products = ({item}: {item: ProductItemResponse}) => {
             {discount ? (
               <View style={styles.discount}>
                 <Text style={styles.dscountText}>
-                  -{discount ? discount : '0'}%
+                  {discount ? discount : '0'}%
                 </Text>
               </View>
             ) : null}

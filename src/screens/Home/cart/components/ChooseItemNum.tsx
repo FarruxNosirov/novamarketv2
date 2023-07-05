@@ -27,6 +27,7 @@ import {
 } from 'react-native';
 import {ActivityIndicator} from 'react-native-paper';
 import {useDispatch} from 'react-redux';
+import {STRINGS} from '@locales/strings';
 
 export let ProductsData = {
   name: 'Элегантный Костюм с брюками ZARA стиль',
@@ -134,9 +135,13 @@ export default function ChooseItemNum({data}: {data: any}) {
           <Text style={styles.headerTxt}>{data?.product?.name}</Text>
           <View style={styles.rowTxt}>
             {data?.product?.discount ? (
-              <Text style={styles.lineThrough}>{data.price} сум</Text>
+              <Text style={styles.lineThrough}>
+                {data.price} {STRINGS.ru.money}
+              </Text>
             ) : null}
-            <Text style={styles.blueTxt}>{discountPrice.toFixed(2)} сум</Text>
+            <Text style={styles.blueTxt}>
+              {discountPrice.toFixed(2)} {STRINGS.ru.money}
+            </Text>
           </View>
           <View style={styles.counter}>
             <TouchableOpacity onPress={onDecreaseItem} style={styles.minus}>
@@ -378,7 +383,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
-    backgroundColor: COLORS.cartColor2,
+    backgroundColor: COLORS.blue,
   },
 
   plus: {
@@ -386,7 +391,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     borderTopRightRadius: 5,
     borderBottomRightRadius: 5,
-    backgroundColor: COLORS.cartColor2,
+    backgroundColor: COLORS.blue,
   },
   topBottom: {
     height: '100%',

@@ -40,7 +40,7 @@ const PersonalData = () => {
   });
 
   console.log('start..........');
-  console.log(state);
+
   console.log('end..........');
 
   let onStateChange = (key: string) => (value: string) => {

@@ -28,7 +28,6 @@ const Mypayments = ({onPress}: BlueButtonProps) => {
   useEffect(() => {
     transaction();
   }, []);
-  console.log(JSON.stringify(state, null, 2));
 
   return (
     <View style={{backgroundColor: '#FFFF', flex: 1}}>

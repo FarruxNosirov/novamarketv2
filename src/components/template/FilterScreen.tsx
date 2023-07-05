@@ -55,7 +55,7 @@ const FilterScren = (props: PropsSort) => {
     setPriceMax(e);
     setFilter(newFilter);
   };
-  console.log('filter :', filter);
+
   let categoryId = props.category_id;
   const subMendHandler = async () => {
     try {

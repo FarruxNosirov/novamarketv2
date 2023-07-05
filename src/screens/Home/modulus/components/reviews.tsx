@@ -29,7 +29,7 @@ const Reviews = () => {
   useEffect(() => {
     getReviews();
   }, []);
-  // console.log('Reviews', JSON.stringify(reviewsList, null, 2));
+
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
       <GoBackHeader />

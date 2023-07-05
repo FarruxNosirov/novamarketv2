@@ -16,11 +16,8 @@ import {ROUTES} from '@constants/routes';
 
 const CartView = () => {
   let navigation: any = useNavigation();
-
   let cart = useSelector(cartArraySelector);
-
   let cartTotal = useSelector(cartTotalSelector);
-
   let {onClearCart, getCart} = useCartScreenHooks();
 
   useEffect(() => {
