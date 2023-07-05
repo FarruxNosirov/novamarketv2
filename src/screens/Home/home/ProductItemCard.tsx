@@ -112,7 +112,6 @@ export default function ProductItemCard(props: any) {
       }
     }
   };
-  console.log(JSON.stringify(props, null, 2));
 
   return (
     <TouchableWithoutFeedback
@@ -124,7 +123,7 @@ export default function ProductItemCard(props: any) {
         <Image style={styles.image} source={{uri: assetUrl + props.photo}} />
         {props.discount ? (
           <View style={styles.sileBox}>
-            <Text style={styles.sileText}> -{props.discount} %</Text>
+            <Text style={styles.sileText}> {props.discount} %</Text>
           </View>
         ) : null}
 

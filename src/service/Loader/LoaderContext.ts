@@ -1,9 +1,8 @@
-import { createContext } from "react";
+import {createContext} from 'react';
 
 type LoaderContextType = {
-    onRun: () => void;
-    onClose: () => void;
+  onRun: () => void;
+  onClose: () => void;
 };
 
-
-export const LoaderContext = createContext<LoaderContextType | null>(null)
+export const LoaderContext = createContext<LoaderContextType | null>(null);

@@ -55,7 +55,7 @@ const TechnicalSupport = () => {
       let res = await requests.chat.postSend(state);
       const data = res.data.data;
       !!data && Alert.alert('', `Спасибо, ваше письмо успешно отправлено`);
-      console.log(JSON.stringify(res.data.data, null, 2));
+
       setState({
         theme: '',
         message: '',

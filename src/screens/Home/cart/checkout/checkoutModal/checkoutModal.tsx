@@ -123,7 +123,7 @@ const CheckoutModal = (props: any) => {
     cartListHandler();
     // getLogistiCart();
   }, []);
-  console.log('Viloyatlar', JSON.stringify(id, null, 2));
+
   const region_name = subCategories?.find((obj: {id: number}) => {
     return obj.id === Number(filter?.region_id);
   });

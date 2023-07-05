@@ -128,7 +128,7 @@ const ProductsItem = (props: ProductItemCardProps) => {
         <Image style={styles.image} source={{uri: assetUrl + props.photo}} />
         {discount ? (
           <View style={styles.sileBox}>
-            <Text style={styles.sileText}>-{discount}%</Text>
+            <Text style={styles.sileText}>{discount}%</Text>
           </View>
         ) : null}
         {/* {showNewProduct ? (

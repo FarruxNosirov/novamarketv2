@@ -6,7 +6,6 @@ import {Rating} from 'react-native-ratings';
 import {COLORS} from '@constants/colors';
 
 const ReviewCart = ({item}: any) => {
-  // console.log('ReviewCart', JSON.stringify(item, null, 2));
   const {date, user, bought, review, rate, id} = item;
 
   return (

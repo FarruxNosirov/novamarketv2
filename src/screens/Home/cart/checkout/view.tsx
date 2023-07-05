@@ -9,7 +9,6 @@ import GoBackHeader from '@components/uikit/Header/GoBackHeader';
 
 import DefaultInput from '@components/uikit/TextInput';
 import {COLORS} from '@constants/colors';
-import DefaultHeader from '@home/favorites/components/DefaultHeader';
 import {STRINGS} from '@locales/strings';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import useLoading from '@store/Loader/useLoading';
@@ -44,10 +43,9 @@ const CheckoutView = () => {
   const [payment, setPayment] = useState<PaymentMethodResponse[]>();
   const [isEnabled, setIsEnabled] = useState(false);
   const [shouldShow, setShouldShow] = useState(true);
-  const [modalShow, setModalShow] = useState(false);
+
   const [visibleSnackbar, setVisibleSnackbar] = useState(false);
   const [openOrderModal, setOpenOrderModal] = useState(false);
-  const [orderValyu, setOrderValyu] = useState();
 
   const [profileData, setProfileData] = useState<any>();
   const [state, setState] = useState<any>({
@@ -122,11 +120,15 @@ const CheckoutView = () => {
     try {
       loading?.onRun();
       let res = await requests.order.sendOrder(state);
+      console.log('saasasas', JSON.stringify(res, null, 2));
+
       let cartGet = await requests.products.getCarts();
       dispatch(loadCart(cartGet.data.data));
       toggleSnackbar();
-      setOrderValyu(res.data.data);
-      setOpenOrderModal(prev => !prev);
+      // if (!!res) {
+      //   onClose();
+      //   onClearCart();
+      // }
     } catch (error) {
       console.log(error);
     } finally {
@@ -136,8 +138,16 @@ const CheckoutView = () => {
   const onClose = () => {
     navigation.goBack();
   };
-
-  // console.log(JSON.stringify(state, null, 2));
+  const onClearCart = async () => {
+    try {
+      let res = await requests.products.clearCart();
+      let cartGet = await requests.products.getCarts();
+      dispatch(loadCart(cartGet.data.data));
+    } catch (error) {
+      console.log(error);
+    } finally {
+    }
+  };
 
   return (
     <>
@@ -175,18 +185,6 @@ const CheckoutView = () => {
             );
           })}
         </View>
-        {/* {open ? (
-          <View style={styles.noActive}>
-            <TouchableOpacity
-              style={styles.boActive_box}
-              onPress={() => setModalShow(true)}>
-              <Text style={{color: COLORS.black, fontSize: 14}}>
-                Выберите логистическую компанию
-              </Text>
-              <NewTopArrowIcon2 />
-            </TouchableOpacity>
-          </View>
-        ) : null} */}
 
         <View style={styles.pickupContainer}>
           <View style={styles.pickupBox}>
@@ -329,16 +327,7 @@ const CheckoutView = () => {
             ) : null}
           </View>
 
-          <DefaultButton
-            title={STRINGS.ru.addOrder}
-            onPress={sendProduct}
-            ButtonStyle={{
-              backgroundColor: '#84A9C0',
-              marginTop: 20,
-              marginBotton: 30,
-            }}
-            TextStyle={{color: COLORS.white}}
-          />
+          <DefaultButton title={STRINGS.ru.addOrder} onPress={sendProduct} />
         </View>
         <Snackbar
           visible={visibleSnackbar}
@@ -363,11 +352,11 @@ const CheckoutView = () => {
             alignItems: 'center',
             paddingHorizontal: 10,
           }}>
-          <OrderModal
+          {/* <OrderModal
             orderValyu={orderValyu}
             setOpenOrderModal={setOpenOrderModal}
             onClose={onClose}
-          />
+          /> */}
         </TouchableOpacity>
       </Modal>
     </>

@@ -188,22 +188,6 @@ const PdoductDetails = () => {
           width: '100%',
           height: 100,
         }}>
-        <Svg
-          height="100"
-          width="100%"
-          viewBox={`0 0 ${width} 100`}
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            backgroundColor: 'transparent',
-          }}>
-          <LinearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="0%" stopColor="#000000" stopOpacity="0.84" />
-            <Stop offset="100%" stopColor="#000000" stopOpacity="0.00" />
-          </LinearGradient>
-          <Rect x="0" y="0" width="100%" height="100%" fill="url(#grad)" />
-        </Svg>
         <View style={styles.goBack}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <LeftArrowIcon stroke={'#0052FF'} />
@@ -251,6 +235,7 @@ const PdoductDetails = () => {
             onSnapToItem={index => setIndex(index)}
             keyExtractor={(_, index) => index.toString()}
           />
+
           <Pagination
             dotsLength={
               detailIdValue?.gallery ? detailIdValue?.gallery?.length : 1
@@ -261,6 +246,7 @@ const PdoductDetails = () => {
               height: 3,
               backgroundColor: 'black',
             }}
+            containerStyle={{paddingHorizontal: 20}}
           />
         </View>
 
@@ -268,15 +254,15 @@ const PdoductDetails = () => {
           <View style={styles.box1}></View>
           <View style={styles.box2}>
             <Text style={styles.title}>
-              {detailIdValue?.name?.length > 20
-                ? detailIdValue?.name.slice(0, 20) + '...'
+              {detailIdValue?.name?.length > 30
+                ? detailIdValue?.name.slice(0, 30) + '...'
                 : detailIdValue?.name}
             </Text>
           </View>
           <View style={styles.border}></View>
           <View style={styles.box2}>
             <Text style={styles.box2_title_now}>
-              {detailIdValue?.price} UZS
+              {detailIdValue?.price} {STRINGS.ru.money}
             </Text>
           </View>
 

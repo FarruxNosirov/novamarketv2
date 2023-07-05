@@ -7,8 +7,6 @@ import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 
 const OrderItem = ({item}: any) => {
-  // console.log(JSON.stringify(item, null, 2));
-
   return (
     <View style={styles.shadowBox}>
       <View>

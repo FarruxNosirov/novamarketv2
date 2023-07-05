@@ -13,7 +13,6 @@ const OrderModal = ({orderValyu, onClose}: any) => {
     try {
       let res = await requests.order.octoSendOrder(order_id);
       setOctoValyu(res.data);
-      console.log('res', res.data);
     } catch (error) {
       console.log('====================================');
       console.log(error);
