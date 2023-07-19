@@ -7,16 +7,34 @@ import DefaultInput from '@components/uikit/TextInput';
 import {COLORS} from '@constants/colors';
 import {ROUTES} from '@constants/routes';
 import {validatePhoneNumber} from '@constants/validation';
+import {useRoute} from '@react-navigation/native';
 import NavigationService from '@routes/NavigationService';
 import {useAppDispatch} from '@store/hooks';
 import {userLoggedIn} from '@store/slices/userSlice';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 export default function Login(props: any) {
+  const route: any = useRoute();
+  useEffect(() => {
+    if (route?.params?.password !== undefined) {
+      Alert.alert('Ваш новый пароль', String(route.params?.password), [
+        {
+          text: 'Cancel',
+          // onPress: () => console.log("Cancel Pressed"),
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+        },
+      ]);
+    } else {
+      return;
+    }
+  }, [route.params?.password]);
   let dispatch = useAppDispatch();
   const [state, setState] = useState<LoginState>({
-    password: '366322', //366322
+    password: '', //366322
     phone: '+79257813877', //+79257813877
   });
   const [loading, setLoading] = useState<boolean>(false);

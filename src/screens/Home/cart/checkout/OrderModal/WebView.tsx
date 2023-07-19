@@ -8,7 +8,11 @@ const WebViewComponets = () => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <WebView source={{uri: params}} />
+      <WebView
+        source={{
+          uri: 'https://novamarkt.server.paykeeper.ru/bill/20230528195258913/',
+        }}
+      />
     </SafeAreaView>
   );
 };

@@ -86,7 +86,7 @@ let requests = {
         headers: {Authorization: `Bearer ${token}`},
       }),
 
-    forgetPassword: (carcredentials: {phone: string}) =>
+    forgetPassword: (carcredentials: {phone: any}) =>
       axios.post(`${url}/user/recover-password`, carcredentials),
 
     acceptPassword: (credentials: {phone: string; code: string}) =>
@@ -231,6 +231,7 @@ let requests = {
       axios.get<BaseResponse<OrderItemResponse>>(`${url}/order`, {params}),
     DetailedSeee: (id: number) => axios.get(`${url}/order/detail?id=${id}`),
     octoSendOrder: (order_id: number) => axios.post(`${url}/octo`, {order_id}),
+    paymendId: (order_id: any) => axios.post(`${url}/payment/pay`, order_id),
   },
   chat: {
     postSend: (state: any) =>

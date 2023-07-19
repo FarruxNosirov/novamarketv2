@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   title: {
-    backgroundColor: '#84A9C0',
+    backgroundColor: COLORS.blue,
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
     flexDirection: 'row',

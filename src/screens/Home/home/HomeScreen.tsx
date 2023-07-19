@@ -1,6 +1,5 @@
 import requests, {assetUrl} from '@api/requests';
 import {WINDOW_WIDTH} from '@constants/sizes';
-import {useRoute} from '@react-navigation/native';
 import React, {useEffect, useRef, useState} from 'react';
 import {Dimensions, Image, ScrollView, StyleSheet, View} from 'react-native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
@@ -21,13 +20,6 @@ export default function HomeScreen() {
   const [dataSliderAll, setDataSliderAll] = useState<any>([]);
   const [bannerSlider, setBannerSlider] = useState<any>([]);
 
-  const CaruselHandler = async () => {
-    try {
-      let res = await requests.slider.getSlidersMobile();
-    } catch (error) {
-      console.log(error);
-    }
-  };
   const CaruselSliderAll = async () => {
     try {
       let res = await requests.slider.getSlidersAll();
@@ -49,6 +41,8 @@ export default function HomeScreen() {
     CaruselSliderAll();
     CaruselBannerAll();
   }, []);
+
+  console.log(JSON.stringify(bannerSlider, null, 2));
 
   return (
     <View

@@ -18,7 +18,6 @@ import {
   Alert,
   Image,
   LayoutAnimation,
-  Modal,
   ScrollView,
   Switch,
   Text,
@@ -27,11 +26,9 @@ import {
 } from 'react-native';
 import {Snackbar} from 'react-native-paper';
 import {useDispatch} from 'react-redux';
-import CourierDelivery from '../components/CourierDelivery';
 import PickupPoints from '../components/PickupPoints';
-
-import OrderModal from './OrderModal/OrderModal';
 import {styles} from './style';
+import {ROUTES} from '@constants/routes';
 type ProfileData = Partial<LoginResponse>;
 const CheckoutView = () => {
   const route = useRoute();
@@ -43,10 +40,7 @@ const CheckoutView = () => {
   const [payment, setPayment] = useState<PaymentMethodResponse[]>();
   const [isEnabled, setIsEnabled] = useState(false);
   const [shouldShow, setShouldShow] = useState(true);
-
   const [visibleSnackbar, setVisibleSnackbar] = useState(false);
-  const [openOrderModal, setOpenOrderModal] = useState(false);
-
   const [profileData, setProfileData] = useState<any>();
   const [state, setState] = useState<any>({
     address: '',
@@ -120,15 +114,19 @@ const CheckoutView = () => {
     try {
       loading?.onRun();
       let res = await requests.order.sendOrder(state);
-      console.log('saasasas', JSON.stringify(res, null, 2));
-
-      let cartGet = await requests.products.getCarts();
-      dispatch(loadCart(cartGet.data.data));
-      toggleSnackbar();
-      // if (!!res) {
-      //   onClose();
-      //   onClearCart();
-      // }
+      const paymendidNew = res?.data?.data?.id;
+      if (state.payment_id === 6) {
+        onClearCart();
+        onClose();
+        let paymentRes = await requests.order.paymendId(paymendidNew);
+        //@ts-ignore
+        navigation.navigate(ROUTES.WebView);
+        console.log('paymentRes', JSON.stringify(paymentRes, null, 2));
+      } else {
+        toggleSnackbar();
+        onClearCart();
+        onClose();
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -233,17 +231,11 @@ const CheckoutView = () => {
                 value={isEnabled}
               />
             </View>
-            {activeIndex == 0 ? (
-              <CourierDelivery
-                onStateChange={onStateChange}
-                typePayment={payment as any}
-              />
-            ) : (
-              <PickupPoints
-                onStateChange={onStateChange}
-                typePayment={payment as any}
-              />
-            )}
+
+            <PickupPoints
+              onStateChange={onStateChange}
+              typePayment={payment as any}
+            />
 
             <DefaultInput
               label="Comment"
@@ -336,29 +328,6 @@ const CheckoutView = () => {
           Заказ оформлен успешно!
         </Snackbar>
       </ScrollView>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={openOrderModal}
-        onRequestClose={() => {}}>
-        <TouchableOpacity
-          onPress={() => {
-            setOpenOrderModal(false), onClose();
-          }}
-          style={{
-            flex: 1,
-            backgroundColor: 'rgba(0,0,0,0.5)',
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingHorizontal: 10,
-          }}>
-          {/* <OrderModal
-            orderValyu={orderValyu}
-            setOpenOrderModal={setOpenOrderModal}
-            onClose={onClose}
-          /> */}
-        </TouchableOpacity>
-      </Modal>
     </>
   );
 };

@@ -17,7 +17,10 @@ const FilterModal = (props: Props) => {
       <TouchableOpacity onPress={props.onPress} style={styles.box_active}>
         <Text style={styles.active_title}>{props.title}</Text>
         <View style={styles.icon_box}>
-          <NewTopArrowIcon rotateValue={props.active ? '0deg' : '180deg'} />
+          <NewTopArrowIcon
+            rotateValue={props.active ? '0deg' : '180deg'}
+            color={COLORS.lighBlue}
+          />
         </View>
       </TouchableOpacity>
       <View>{props.children}</View>

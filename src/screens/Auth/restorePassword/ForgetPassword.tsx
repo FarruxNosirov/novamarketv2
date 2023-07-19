@@ -29,6 +29,7 @@ export default function ForgetPassword() {
       try {
         setLoading(true);
         let res = await requests.auth.forgetPassword(state);
+        console.log(JSON.stringify(res.data, null, 2));
 
         navigation.navigate(
           //@ts-ignore

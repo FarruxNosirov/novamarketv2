@@ -8,7 +8,7 @@ import {
 } from '@icons/icons';
 
 import {COLORS} from '@constants/colors';
-import {useNavigation} from '@react-navigation/native';
+import {STRINGS} from '@locales/strings';
 import {useAppSelector} from '@store/hooks';
 import {loadCart} from '@store/slices/cartSlice';
 import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
@@ -27,7 +27,6 @@ import {
 } from 'react-native';
 import {ActivityIndicator} from 'react-native-paper';
 import {useDispatch} from 'react-redux';
-import {STRINGS} from '@locales/strings';
 
 export let ProductsData = {
   name: 'Элегантный Костюм с брюками ZARA стиль',
@@ -42,13 +41,12 @@ export default function ChooseItemNum({data}: {data: any}) {
     loading: false,
   });
   const dispatch = useDispatch();
-
   let id = data.product.id;
 
   const fav = useAppSelector(favoriteSelector);
   let isFav = !!fav[id];
-  const discountPrice = (data?.price * (100 - data?.product?.discount)) / 100;
-  const navigation: any = useNavigation();
+  const notDiscountPrice =
+    (data?.price * 100) / (100 - data?.product?.discount);
 
   const onAddItem = async (addOne?: boolean) => {
     try {
@@ -134,13 +132,13 @@ export default function ChooseItemNum({data}: {data: any}) {
         <View style={styles.textBox}>
           <Text style={styles.headerTxt}>{data?.product?.name}</Text>
           <View style={styles.rowTxt}>
-            {data?.product?.discount ? (
+            {data?.price ? (
               <Text style={styles.lineThrough}>
-                {data.price} {STRINGS.ru.money}
+                {notDiscountPrice.toFixed(0)} {STRINGS.ru.money}
               </Text>
             ) : null}
             <Text style={styles.blueTxt}>
-              {discountPrice.toFixed(2)} {STRINGS.ru.money}
+              {data.price.toFixed(2)} {STRINGS.ru.money}
             </Text>
           </View>
           <View style={styles.counter}>

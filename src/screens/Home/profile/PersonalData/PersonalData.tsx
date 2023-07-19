@@ -18,6 +18,7 @@ import AllProductTitle from '../../../../components/uikit/AllProductTitle';
 import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
 import DefaultInput from '../../../../components/uikit/TextInput';
 import {COLORS} from '../../../../constants/colors';
+import ButtonGradient from '@components/ButtonGradient';
 type ProfileData = Partial<LoginResponse>;
 
 const PersonalData = () => {
@@ -198,7 +199,17 @@ const PersonalData = () => {
               // placeholder={params?.house}
             />
             <View>
-              <TouchableOpacity style={style.button} onPress={onUpdateProfile}>
+              <ButtonGradient
+                onPress={onUpdateProfile}
+                isInCart={true}
+                containerStyle={{
+                  width: '100%',
+                  height: 55,
+
+                  borderRadius: 45,
+
+                  marginBottom: 25,
+                }}>
                 {animate ? (
                   <ActivityIndicator
                     size="small"
@@ -208,7 +219,10 @@ const PersonalData = () => {
                 ) : (
                   <Text style={{color: COLORS.white}}> Изменить</Text>
                 )}
-              </TouchableOpacity>
+              </ButtonGradient>
+              {/* <TouchableOpacity style={style.button} >
+            
+              </TouchableOpacity> */}
             </View>
           </View>
         </ScrollView>
@@ -307,7 +321,7 @@ const style = StyleSheet.create({
   button: {
     width: '100%',
     height: 55,
-    backgroundColor: COLORS.activeButtonBgColor,
+    backgroundColor: COLORS.blue,
     borderRadius: 45,
     justifyContent: 'center',
     alignItems: 'center',

@@ -1,8 +1,11 @@
 import requests, {assetUrl} from '@api/requests';
+import {ROUTES} from '@constants/routes';
 import {STRINGS} from '@locales/strings';
+import {useNavigation} from '@react-navigation/native';
 import {useAppSelector} from '@store/hooks';
 import {cartSelector, loadCart} from '@store/slices/cartSlice';
 import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
+import {selectUser} from '@store/slices/userSlice';
 import React, {useState} from 'react';
 import {
   ActivityIndicator,
@@ -22,9 +25,7 @@ import {
   HeartIconNotActive,
 } from '../../../../assets/icons/icons';
 import {COLORS} from '../../../../constants/colors';
-import {useNavigation} from '@react-navigation/native';
-import {ROUTES} from '@constants/routes';
-import {selectUser} from '@store/slices/userSlice';
+import ButtonGradient from '@components/ButtonGradient';
 
 type ProductItemCardProps = {
   showNewProduct?: boolean;
@@ -69,7 +70,7 @@ const AllProductItemCard = (props: ProductItemCardProps) => {
   const dispatch = useDispatch();
   const fav = useAppSelector(favoriteSelector);
   let isFav = !!fav[id];
-  const discountPrice = (price * (100 - discount)) / 100;
+  const discountPrice = (price * 100) / (100 - discount);
   const navigation = useNavigation();
   const user = useAppSelector(selectUser);
 
@@ -184,18 +185,18 @@ const AllProductItemCard = (props: ProductItemCardProps) => {
                   justifyContent: 'space-between',
                 }}>
                 <Text style={styles.priceText}>
-                  {discount ? discountPrice : price}
+                  {price}
                   {STRINGS.ru.money}
                 </Text>
                 {discount ? (
                   <Text style={styles.priceTextSile}>
-                    {discount ? price : discountPrice} {STRINGS.ru.money}
+                    {discountPrice.toFixed(0)} {STRINGS.ru.money}
                   </Text>
                 ) : null}
               </View>
             </View>
           </View>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={[
               styles.button,
               {backgroundColor: isInCart ? '#0052FF' : '#FFFFFF'},
@@ -220,7 +221,37 @@ const AllProductItemCard = (props: ProductItemCardProps) => {
                 <BasketIcon fill={isInCart ? COLORS.white : '#274784'} />
               </View>
             )}
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+          <View style={styles.button}>
+            <ButtonGradient
+              onPress={onCartPress}
+              isInCart={isInCart}
+              containerStyle={{
+                borderRadius: 40,
+                borderWidth: 1,
+                borderColor: COLORS.blue,
+              }}>
+              {animate ? (
+                <ActivityIndicator
+                  size="small"
+                  color={isInCart ? '#fff' : COLORS.blue}
+                  animating={animate}
+                />
+              ) : (
+                <View style={styles.buttonContainer}>
+                  <Text
+                    style={[
+                      isInCart ? styles.cartText : styles.inactiveCartText,
+                    ]}>
+                    {isInCart
+                      ? `${STRINGS.ru.addToCart}е`
+                      : `${STRINGS.ru.addToCart}у`}
+                  </Text>
+                  <BasketIcon fill={isInCart ? COLORS.white : COLORS.blue} />
+                </View>
+              )}
+            </ButtonGradient>
+          </View>
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -295,17 +326,15 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: COLORS.blue,
   },
+
   button: {
     width: '100%',
     height: 42,
-    borderRadius: 45,
     backgroundColor: COLORS.white,
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'row',
-    borderWidth: 1,
-    borderColor: '#274784',
   },
+
   buttonText: {
     fontSize: 15,
     fontWeight: '700',

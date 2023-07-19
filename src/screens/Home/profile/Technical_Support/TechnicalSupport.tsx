@@ -131,16 +131,7 @@ const TechnicalSupport = () => {
           value={state.message}
         />
         <View style={{paddingHorizontal: 23}}>
-          <DefaultButton
-            title="Отправить"
-            ButtonStyle={{
-              backgroundColor: '#84A9C0',
-              marginTop: 44,
-              marginBotton: 44,
-            }}
-            TextStyle={{color: COLORS.white, fontSize: 17}}
-            onPress={MessegeSende}
-          />
+          <DefaultButton title="Отправить" onPress={MessegeSende} />
         </View>
         <Text
           style={{
@@ -196,13 +187,14 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   input: {
-    backgroundColor: '#FAFAFA',
-    minHeight: 80,
+    backgroundColor: '#D4D4D4',
+    minHeight: 100,
     borderRadius: 20,
     color: COLORS.defaultBlack,
     padding: 20,
     paddingTop: 15,
     fontSize: 16,
+    marginBottom: 20,
   },
   dropdown2BtnStyle: {
     width: '100%',

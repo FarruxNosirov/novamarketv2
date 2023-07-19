@@ -8,14 +8,11 @@ import {BasketIcon} from '@icons/icons';
 import {STRINGS} from '@locales/strings';
 import {useNavigation} from '@react-navigation/native';
 import {useAppSelector} from '@store/hooks';
-import {toggleLoading} from '@store/slices/appSettings';
 import {cartSelector, loadCart} from '@store/slices/cartSlice';
-import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
 import React, {useState} from 'react';
 import {
   ActivityIndicator,
   Image,
-  LayoutAnimation,
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
@@ -34,7 +31,7 @@ const Products = ({item}: {item: ProductItemResponse}) => {
 
   const navigation: any = useNavigation();
   const [animate, setAnimate] = useState(false);
-  const discountPrice = (price * (100 - discount)) / 100;
+  const discountPrice = (price * (100 + discount)) / 100;
 
   const onCartPress = async () => {
     try {
@@ -104,7 +101,7 @@ const Products = ({item}: {item: ProductItemResponse}) => {
             <View style={styles.priceContainer}>
               {discount ? (
                 <Text style={styles.oldPrice}>
-                  {discount ? price : discountPrice} {STRINGS.ru.money}
+                  {discountPrice} {STRINGS.ru.money}
                 </Text>
               ) : null}
               <Text style={styles.price}>
