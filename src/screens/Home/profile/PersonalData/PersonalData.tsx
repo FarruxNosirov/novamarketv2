@@ -1,5 +1,5 @@
 import requests, {assetUrl} from '@api/requests';
-import {LoginResponse} from '@api/types';
+import {LoginResponse, ProfileDate} from '@api/types';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {
@@ -19,7 +19,7 @@ import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
 import DefaultInput from '../../../../components/uikit/TextInput';
 import {COLORS} from '../../../../constants/colors';
 import ButtonGradient from '@components/ButtonGradient';
-type ProfileData = Partial<LoginResponse>;
+type ProfileData = Partial<ProfileDate>;
 
 const PersonalData = () => {
   const {params}: any = useRoute();
@@ -27,22 +27,18 @@ const PersonalData = () => {
   const [animate, setAnimate] = useState(false);
   const navigation = useNavigation();
 
-  const [state, setState] = useState<any>({
+  const [state, setState] = useState<ProfileData>({
     gender: params?.gender ?? '',
     name: params?.name ?? '',
     phone: params?.phone ?? '',
+    email: params?.email ?? '',
     birthday: params?.birthday ?? '',
+    lastname: params?.lastname ?? '',
+    photo: params?.photo ?? '',
     last_address: params?.last_address ?? '',
     inn: params?.inn ?? '',
-    // middleName: params?.middleName ?? '',
-    requisites: params?.requisites ?? '',
-    certificateStateRegistration: params?.certificateStateRegistration ?? '',
-    adres_0: params?.adres_0 ?? '',
   });
-
-  console.log('start..........');
-
-  console.log('end..........');
+  console.log(JSON.stringify(params, null, 2));
 
   let onStateChange = (key: string) => (value: string) => {
     setState({...state, [key]: value});
@@ -95,109 +91,98 @@ const PersonalData = () => {
             </TouchableOpacity>
           </View>
           <View style={{paddingHorizontal: 15}}>
-            {params?.type === 'yur' ? (
-              <DefaultInput
-                label="Наименование учреждения"
-                backgroundColor={COLORS.white}
-              />
-            ) : null}
-            {params?.type === 'yur' ? (
-              <DefaultInput
-                value={state.inn}
-                onChangeText={onStateChange('inn')}
-                label="ИНН"
-                backgroundColor={COLORS.white}
-                // placeholder={params.inn}
-              />
-            ) : null}
-            {params?.type === 'yur' ? (
-              <DefaultInput
-                value={state.certificateStateRegistration}
-                onChangeText={onStateChange('certificateStateRegistration')}
-                label="Свидетельство гос.регистрации"
-                backgroundColor={COLORS.white}
-              />
-            ) : null}
-            {params?.type === 'yur' ? (
-              <DefaultInput
-                value={state.last_address}
-                onChangeText={onStateChange('last_address')}
-                label="Свидетельство НДС"
-                backgroundColor={COLORS.white}
-              />
-            ) : null}
-            {params?.type === 'yur' ? (
-              <DefaultInput
-                value={state.requisites}
-                onChangeText={onStateChange('requisites')}
-                label="Реквизиты"
-                backgroundColor={COLORS.white}
-              />
-            ) : null}
-
+            <DefaultInput
+              label="Имя"
+              backgroundColor={COLORS.white}
+              onChangeText={onStateChange('name')}
+              value={state.name}
+            />
+            <DefaultInput
+              label="Фамилия"
+              backgroundColor={COLORS.white}
+              value={params?.lastname}
+              onChangeText={onStateChange('lastname')}
+            />
+            <DefaultInput
+              label="E-mail"
+              backgroundColor={COLORS.white}
+              value={params?.email}
+              onChangeText={onStateChange('email')}
+            />
             <DefaultInput
               label="Номер телефона"
               backgroundColor={COLORS.white}
-              // placeholder={params?.phone}
               onChangeText={onStateChange('phone')}
               value={state.phone}
               defaultValue={state.phone}
               typeOf="phone-pad"
             />
-
-            <DefaultInput
-              label="Имя"
-              backgroundColor={COLORS.white}
-              // placeholder={params?.name}
-              onChangeText={onStateChange('name')}
-              value={state.name}
-            />
-            {/* <DefaultInput
-            label="Фамилия"
-            backgroundColor={COLORS.white}
-            placeholder={params?.lastName}
-          /> */}
-            {/* <DefaultInput
-            label="Отчество"
-            backgroundColor={COLORS.white}
-            // placeholder={params?.middleName}
-            onChangeText={onStateChange('middleName')}
-            value={state.middleName}
-          /> */}
+            <View style={style.inputBox}>
+              <Text style={style.inputLabel}>Пол</Text>
+              <View style={style.gender}>
+                <TouchableOpacity
+                  style={style.genderItem}
+                  onPress={() => setState({...state, gender: 1})}>
+                  <View
+                    style={[
+                      style.checkOutside,
+                      {
+                        borderColor:
+                          state.gender === 1 ? COLORS.blue : '#999999',
+                      },
+                    ]}>
+                    <View
+                      style={[
+                        style.checkInside,
+                        {
+                          backgroundColor:
+                            state.gender === 1 ? COLORS.blue : '#999999',
+                        },
+                      ]}></View>
+                  </View>
+                  <Text style={style.genderTitle}>Муж.</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={style.genderItem}
+                  onPress={() => setState({...state, gender: 2})}>
+                  <View
+                    style={[
+                      style.checkOutside,
+                      {
+                        borderColor:
+                          state.gender === 2 ? COLORS.blue : '#999999',
+                      },
+                    ]}>
+                    <View
+                      style={[
+                        style.checkInside,
+                        {
+                          backgroundColor:
+                            state.gender === 2 ? COLORS.blue : '#999999',
+                        },
+                      ]}></View>
+                  </View>
+                  <Text>Жен.</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
 
             <DefaultInput
               label="Дата рождения"
               isDate
               backgroundColor={COLORS.white}
-              // placeholder={params?.birthday}
               onChangeText={onStateChange('birthday')}
               value={state.birthday}
               typeOf="number-pad"
               defaultValue={state.birthday}
             />
-            {/* <DefaultInput
-            label="Страна"
-            backgroundColor={COLORS.white}
-            placeholder={params?.country}
-          /> */}
             <DefaultInput
-              label="Город"
+              label="Адрес"
               backgroundColor={COLORS.white}
-              // placeholder={params?.last_address}
-              // onChangeText={onStateChange('last_address')}
-              // value={state.last_address}
+              onChangeText={onStateChange('last_address')}
+              value={state.last_address}
             />
-            <Text>Адрес</Text>
-            <DefaultInput
-              label="Улица"
-              backgroundColor={COLORS.white}
-              // placeholder={params?.addresses}
-            />
-            <DefaultInput
-              label="Дом"
-              backgroundColor={COLORS.white}
-              // placeholder={params?.house}
-            />
+
             <View>
               <ButtonGradient
                 onPress={onUpdateProfile}
@@ -326,5 +311,50 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 25,
+  },
+  gender: {
+    width: '100%',
+    height: 55,
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    fontSize: 16,
+    // borderWidth: 1,
+    // borderColor: COLORS.blue,
+    flexDirection: 'row',
+    alignItems: 'center',
+    // paddingHorizontal: 15,
+  },
+  inputLabel: {
+    fontSize: 16,
+    color: COLORS.labelText,
+    marginBottom: 15,
+  },
+  inputBox: {
+    width: '100%',
+    marginBottom: 20,
+  },
+  genderItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 15,
+  },
+  checkOutside: {
+    width: 17,
+    height: 17,
+    borderWidth: 1,
+
+    borderRadius: 50,
+    marginRight: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  checkInside: {
+    width: 10,
+    height: 10,
+    borderRadius: 50,
+  },
+  genderTitle: {
+    color: '#2C2C2C',
+    fontSize: 15,
   },
 });

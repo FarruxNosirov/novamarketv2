@@ -38,7 +38,7 @@ const FavoriteView = () => {
           ))}
         </View>
 
-        <Text style={styles.text}>{STRINGS.ru.advertBlock}</Text>
+        <Text style={styles.text}>{STRINGS.ru.popularProducts}</Text>
         <ProductsListFav />
       </ScrollView>
     </SafeAreaView>

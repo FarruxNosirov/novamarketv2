@@ -259,3 +259,27 @@ export interface OrderSend {
   phone: string;
   phone2: string;
 }
+export interface ProfileDate {
+  isLoading: boolean;
+  isLoadingOfBtn: boolean;
+  id: number;
+  device_id: any;
+  token: string;
+  name: string;
+  lastname: string;
+  phone: any;
+  email: string;
+  gender: number;
+  birthday: string;
+  photo: string;
+  type: any;
+  inn: string;
+  account: any;
+  bank: any;
+  oked: any;
+  okohx: any;
+  mfo: any;
+  addresses: any[];
+  date: string;
+  last_address: string;
+}

@@ -4,6 +4,8 @@ import {StyleSheet, View, Text} from 'react-native';
 import {Rating} from 'react-native-ratings';
 
 const ReviewBox = ({percent, separate, rating}: any) => {
+  console.log(JSON.stringify(separate, null, 2));
+
   return (
     <View style={styles.container}>
       <View style={styles.box1}>
@@ -15,9 +17,9 @@ const ReviewBox = ({percent, separate, rating}: any) => {
           ratingCount={5}
           imageSize={18}
           ratingColor={COLORS.lighBlue}
-          ratingBackgroundColor={COLORS.blue}
+          ratingBackgroundColor={COLORS.whiteGray}
           readonly={true}
-          startingValue={0}
+          startingValue={percent}
           style={{backgroundColor: COLORS.lightGray}}
           showRating={false}
           tintColor={COLORS.lightGray}
@@ -25,7 +27,7 @@ const ReviewBox = ({percent, separate, rating}: any) => {
       </View>
       <View>
         <View style={styles.diagram}>
-          <Text>0</Text>
+          <Text>{separate?.rate_1}</Text>
           <View style={styles.diagramRow}>
             <View style={styles.blue}></View>
             <View style={styles.gray}></View>
@@ -33,7 +35,7 @@ const ReviewBox = ({percent, separate, rating}: any) => {
           <Text>0%</Text>
         </View>
         <View style={styles.diagram}>
-          <Text>0</Text>
+          <Text>{separate?.rate_2}</Text>
           <View style={styles.diagramRow}>
             <View style={styles.blue}></View>
             <View style={styles.gray}></View>
@@ -41,7 +43,7 @@ const ReviewBox = ({percent, separate, rating}: any) => {
           <Text>0%</Text>
         </View>
         <View style={styles.diagram}>
-          <Text>0</Text>
+          <Text>{separate?.rate_3}</Text>
           <View style={styles.diagramRow}>
             <View style={styles.blue}></View>
             <View style={styles.gray}></View>
@@ -49,7 +51,7 @@ const ReviewBox = ({percent, separate, rating}: any) => {
           <Text>0%</Text>
         </View>
         <View style={styles.diagram}>
-          <Text>0</Text>
+          <Text>{separate?.rate_4}</Text>
           <View style={styles.diagramRow}>
             <View style={styles.blue}></View>
             <View style={styles.gray}></View>
@@ -57,7 +59,7 @@ const ReviewBox = ({percent, separate, rating}: any) => {
           <Text>0%</Text>
         </View>
         <View style={styles.diagram}>
-          <Text>0</Text>
+          <Text>{separate?.rate_5}</Text>
           <View style={styles.diagramRow}>
             <View style={styles.blue}></View>
             <View style={styles.gray}></View>

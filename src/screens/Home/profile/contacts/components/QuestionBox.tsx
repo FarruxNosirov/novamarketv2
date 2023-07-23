@@ -62,6 +62,8 @@ const QuestionBox = ({title, button}: QuestionBoxProps) => {
           textStyle={styles.text}
           containerStyle={styles.button}
           onPress={onSubmit}
+          title={button}
+          isInCart={false}
         />
       </View>
     </View>

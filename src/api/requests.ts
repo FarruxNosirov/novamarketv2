@@ -1,4 +1,4 @@
-import {LoginState} from './types';
+import {LoginState, ProfileDate} from './types';
 import {store} from '@store/configureStore';
 import {userLoggedOut} from '@store/slices/userSlice';
 import axios, {AxiosResponse} from 'axios';
@@ -94,7 +94,7 @@ let requests = {
   },
   profile: {
     getProfile: () => axios.get<{data: LoginResponse}>(`${url}/user/profile`),
-    editProfile: (data: Partial<LoginResponse>) =>
+    editProfile: (data: Partial<ProfileDate>) =>
       axios.post<any, any, FormData>(`${url}/user/update`, formData(data)),
     addCard: (creds: AddCardRequest) =>
       axios.post(`${url}/user/card-add`, creds),

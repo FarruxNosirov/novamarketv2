@@ -133,16 +133,7 @@ const ProductsItem = (props: ProductItemCardProps) => {
             <Text style={styles.sileText}>{discount}%</Text>
           </View>
         ) : null}
-        {/* {showNewProduct ? (
-          <View style={[styles.sileBox, styles.sileBoxBgColor]}>
-            <Text style={[styles.sileText, styles.sileTextFS]}>Новый</Text>
-          </View>
-        ) : null}
-        {showDiscountAdd ? (
-          <View style={[styles.sileBox, styles.sileBoxBgColor]}>
-            <Text style={[styles.sileText, styles.sileTextFS]}>Под заказ</Text>
-          </View>
-        ) : null} */}
+
         <TouchableOpacity onPress={onAddFavorite} style={styles.heartIconBox}>
           {isFav ? <HeartIconActive /> : <HeartIconNotActive />}
         </TouchableOpacity>

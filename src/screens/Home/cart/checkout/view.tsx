@@ -35,7 +35,6 @@ const CheckoutView = () => {
   const item: any = route.params;
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [activeIndex, setIsActive] = useState(0);
   const [delivery, setDelivery] = useState<DeliveryMethodResponse[]>();
   const [payment, setPayment] = useState<PaymentMethodResponse[]>();
   const [isEnabled, setIsEnabled] = useState(false);
@@ -44,15 +43,12 @@ const CheckoutView = () => {
   const [profileData, setProfileData] = useState<any>();
   const [state, setState] = useState<any>({
     address: '',
-    comment: '',
-    delivery_id: 1,
+    delivery_id: 5,
     email: '',
     lastName: '',
     name: '',
     payment_id: 0,
     phone: '',
-    receiver: 0,
-    phone2: '',
   });
   const loading = useLoading();
   const fetchData = async () => {
@@ -65,8 +61,6 @@ const CheckoutView = () => {
       console.log('====================================');
     }
   };
-
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   const toggleSnackbar = () => setVisibleSnackbar(!visibleSnackbar);
 
@@ -83,15 +77,12 @@ const CheckoutView = () => {
   useEffect(() => {
     setState({
       address: profileData?.last_address ?? '',
-      comment: '',
-      delivery_id: 1,
-      email: '',
-      lastName: '',
+      delivery_id: 5,
+      email: profileData?.email ?? '',
+      lastName: profileData?.lastname ?? '',
       name: profileData?.name ?? '',
       payment_id: 0,
       phone: profileData?.phone ?? '',
-      receiver: 0,
-      phone2: '',
     });
   }, [profileData]);
 
@@ -99,6 +90,7 @@ const CheckoutView = () => {
     effect();
     fetchData();
   }, []);
+
   let onStateChange = (key: string) => (value: string) => {
     setState({...state, [key]: value});
   };
@@ -146,49 +138,53 @@ const CheckoutView = () => {
     } finally {
     }
   };
+  const toggleSwitch = () => {
+    setIsEnabled(previousState => !previousState);
+    if (isEnabled === false) {
+      setState({
+        address: '',
+        delivery_id: '',
+        email: '',
+        lastName: '',
+        name: '',
+        payment_id: '',
+        phone: '',
+      });
+    } else {
+      setState({
+        address: profileData?.last_address ?? '',
+        delivery_id: 5,
+        email: profileData?.email ?? '',
+        lastName: profileData?.lastname ?? '',
+        name: profileData?.name ?? '',
+        payment_id: 0,
+        phone: profileData?.phone ?? '',
+      });
+    }
+  };
 
   return (
-    <>
+    <View style={{backgroundColor: COLORS.white, flex: 1}}>
+      <GoBackHeader title="Оформление заказа" />
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        <GoBackHeader title="Оформление заказа" />
         <View style={styles.deliveryContainer}>
           <Text style={styles.headerTxt}>{STRINGS.ru.deliveryChoose}</Text>
-          {delivery?.map((item, index) => {
-            return (
-              <TouchableOpacity
-                style={activeIndex === item.id ? styles.activeBox : styles.box}
-                onPress={() => {
-                  setIsActive(item.id),
-                    setState({...state, delivery_id: item.id});
-                }}
-                key={index}>
-                <View
-                  style={
-                    activeIndex === item.id
-                      ? styles.activeBorder
-                      : styles.border
-                  }>
-                  <View
-                    style={
-                      activeIndex === item.id ? styles.activeDot : styles.dot
-                    }></View>
-                </View>
-                <View style={styles.textBox}>
-                  <Text style={styles.text}>{item?.name}</Text>
-                  {item?.description ? (
-                    <Text style={styles.comment}>{item?.description}</Text>
-                  ) : null}
-                </View>
-              </TouchableOpacity>
-            );
-          })}
+          <Text style={{color: '#023047', fontWeight: '500', marginBottom: 10}}>
+            Россия, {state.address}
+          </Text>
+          <DefaultInput
+            label=""
+            backgroundColor={'#FAFAFA'}
+            placeholderColor={COLORS.labelText}
+            marginBottom={0}
+            onChangeText={onStateChange('address')}
+            placeholder="Напишите адрес"
+            // value={state.address}
+          />
         </View>
 
         <View style={styles.pickupContainer}>
           <View style={styles.pickupBox}>
-            <Text style={styles.boxTxt}>
-              Срок доставки будет расчитан после
-            </Text>
             <ScrollView
               horizontal={true}
               style={{
@@ -223,7 +219,7 @@ const CheckoutView = () => {
                 hitSlop={{top: 10, left: 10, right: 10, bottom: 10}}
                 trackColor={{
                   false: COLORS.noActiveButtonBgColor2,
-                  true: COLORS.activeButtonBgColor,
+                  true: COLORS.blue,
                 }}
                 thumbColor={COLORS.white}
                 ios_backgroundColor="#3e3e3e"
@@ -237,86 +233,40 @@ const CheckoutView = () => {
               typePayment={payment as any}
             />
 
-            <DefaultInput
-              label="Comment"
-              backgroundColor={'#FAFAFA'}
-              placeholderColor={COLORS.labelText}
-              marginBottom={0}
-              onChangeText={onStateChange('comment')}
-              value={state.comment}
-            />
-            {isEnabled ? (
-              <View>
-                <DefaultInput
-                  label="Бонусами"
-                  backgroundColor={'#FAFAFA'}
-                  placeholderColor={COLORS.labelText}
-                  marginBottom={0}
-                  onChangeText={onStateChange('receiver')}
-                />
-                <DefaultInput
-                  label="Наименование учреждения"
-                  backgroundColor={'#FAFAFA'}
-                  placeholderColor={COLORS.labelText}
-                  marginBottom={0}
-                  onChangeText={onStateChange('address')}
-                  value={state.address}
-                />
-                <DefaultInput
-                  label="Имя"
-                  backgroundColor={'#FAFAFA'}
-                  placeholderColor={COLORS.labelText}
-                  marginBottom={0}
-                  onChangeText={onStateChange('name')}
-                  value={state.name}
-                />
-                <DefaultInput
-                  label="Фамилия"
-                  backgroundColor={'#FAFAFA'}
-                  placeholderColor={COLORS.labelText}
-                  marginBottom={0}
-                  onChangeText={onStateChange('lastName')}
-                  value={state.lastName}
-                />
-                <DefaultInput
-                  label="Email"
-                  backgroundColor={'#FAFAFA'}
-                  placeholderColor={COLORS.labelText}
-                  marginBottom={0}
-                  onChangeText={onStateChange('email')}
-                  value={state.email}
-                />
-                <DefaultInput
-                  label="Номер телефона"
-                  backgroundColor={'#FAFAFA'}
-                  placeholderColor={COLORS.labelText}
-                  marginBottom={0}
-                  onChangeText={onStateChange('phone')}
-                  value={state.phone}
-                />
-                <TouchableOpacity
-                  onPress={() => {
-                    LayoutAnimation.configureNext(
-                      LayoutAnimation.Presets.easeInEaseOut,
-                    );
-                    setShouldShow(!shouldShow);
-                  }}>
-                  <Text style={styles.underline}>
-                    + Дополнительный номер телефона
-                  </Text>
-                </TouchableOpacity>
-                {!shouldShow ? (
-                  <DefaultInput
-                    label="Дополнительный номер телефона"
-                    backgroundColor={'#FAFAFA'}
-                    placeholderColor={COLORS.labelText}
-                    marginBottom={0}
-                    onChangeText={onStateChange('phone2')}
-                    value={state.phone2}
-                  />
-                ) : null}
-              </View>
-            ) : null}
+            <View>
+              <DefaultInput
+                label="Имя"
+                backgroundColor={'#FAFAFA'}
+                placeholderColor={COLORS.labelText}
+                marginBottom={0}
+                onChangeText={onStateChange('name')}
+                value={state.name}
+              />
+              <DefaultInput
+                label="Фамилия"
+                backgroundColor={'#FAFAFA'}
+                placeholderColor={COLORS.labelText}
+                marginBottom={0}
+                onChangeText={onStateChange('lastName')}
+                value={state.lastName}
+              />
+              <DefaultInput
+                label="Email"
+                backgroundColor={'#FAFAFA'}
+                placeholderColor={COLORS.labelText}
+                marginBottom={0}
+                onChangeText={onStateChange('email')}
+                value={state.email}
+              />
+              <DefaultInput
+                label="Номер телефона"
+                backgroundColor={'#FAFAFA'}
+                placeholderColor={COLORS.labelText}
+                marginBottom={0}
+                onChangeText={onStateChange('phone')}
+                value={state.phone}
+              />
+            </View>
           </View>
 
           <DefaultButton title={STRINGS.ru.addOrder} onPress={sendProduct} />
@@ -328,7 +278,7 @@ const CheckoutView = () => {
           Заказ оформлен успешно!
         </Snackbar>
       </ScrollView>
-    </>
+    </View>
   );
 };
 
