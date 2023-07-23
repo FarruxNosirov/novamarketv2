@@ -7,8 +7,6 @@ import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 
 const OrderItem = ({item, payment, delivery, user}: any) => {
-  console.log(JSON.stringify(user, null, 2));
-
   return (
     <View style={styles.shadowBox}>
       <View style={styles.imageBox}>
@@ -17,7 +15,13 @@ const OrderItem = ({item, payment, delivery, user}: any) => {
           style={styles.img}
         />
         <Text style={styles.price}>
-          {item?.price} {STRINGS.ru.money}
+          {item?.price
+            .toLocaleString(undefined, {
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            })
+            .replace(/,/gi, ' ')}{' '}
+          {STRINGS.ru.money}
         </Text>
       </View>
       <View style={styles.contentBox}>

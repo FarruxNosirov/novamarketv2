@@ -65,7 +65,6 @@ const useVerificationHook = () => {
       try {
         setLoading(true);
         let res = await requests.auth.acceptPassword(state);
-        console.log('New Pasword', JSON.stringify(res.data, null, 2));
 
         dispatch(userLoggedIn(res.data.data));
         if (res) {

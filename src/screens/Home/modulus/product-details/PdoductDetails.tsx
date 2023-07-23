@@ -62,7 +62,7 @@ const PdoductDetails = () => {
   let id = route?.params?.props?.id;
   const [colorActive, setColorActive] = useState(id);
   let newId = colorActive === id ? id : colorActive;
-
+  console.log('newId', newId);
   const cart = useAppSelector(cartSelector);
   let isInCart = !!cart[newId];
   const dispatch = useDispatch();
@@ -121,6 +121,11 @@ const PdoductDetails = () => {
   };
 
   const onCartPress = async () => {
+    const newDate = {
+      amount: adValue,
+      product_id: newId,
+      'filterID[0]': sizeActive,
+    };
     if (isInCart) {
       try {
         setAnimate(true);
@@ -137,10 +142,7 @@ const PdoductDetails = () => {
     } else {
       try {
         setAnimate(true);
-        let res = await requests.products.addToCart({
-          amount: adValue,
-          product_id: newId,
-        });
+        let res = await requests.products.addToCart(newDate);
         if (!userToken.token) {
           return Alert.alert(`Oшибка `, 'вы не зарегистрированы', [
             {
@@ -179,9 +181,7 @@ const PdoductDetails = () => {
     }
   };
 
-  console.log(JSON.stringify(reviewsList, null, 2));
-
-  let per = detailIdValue.reviews_count;
+  let per = detailIdValue?.reviews_count;
   reviewsList.map(() => {
     const sum = reviewsList.reduce((a: any, b: any) => {
       return b.rate + a;
@@ -190,13 +190,12 @@ const PdoductDetails = () => {
     let percent = sum / reviewsList.length;
     per = percent.toString().substring(0, 3);
   });
-  // console.log(JSON.stringify(detailIdValue, null, 2));
 
   useEffect(() => {
     getReviews();
     relatedProducts();
   }, []);
-  let percent = detailIdValue?.reviews_count;
+
   let separate = detailIdValue?.review_separate;
 
   return (
@@ -286,7 +285,13 @@ const PdoductDetails = () => {
           <View style={styles.border}></View>
           <View style={styles.box2}>
             <Text style={styles.box2_title_now}>
-              {detailIdValue?.price} {STRINGS.ru.money}
+              {detailIdValue?.price
+                ?.toLocaleString(undefined, {
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
+                })
+                .replace(/,/gi, ' ')}{' '}
+              {STRINGS.ru.money}
             </Text>
           </View>
 
@@ -509,7 +514,7 @@ const PdoductDetails = () => {
               />
             </View>
           </TouchableOpacity>
-          <ReviewBox percent={percent} separate={separate} />
+          <ReviewBox percent={per} separate={separate} />
           {!shouldShow ? (
             <View style={{marginVertical: 10}}>
               {reviewsList?.map((item: any) => (

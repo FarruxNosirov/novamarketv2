@@ -1,22 +1,11 @@
-import {
-  Alert,
-  FlatList,
-  Modal,
-  SafeAreaView,
-  StyleSheet,
-  View,
-} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import AllShopItemCard from './AllNewsCard';
-import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
-import AllProductTitle from '../../../../components/uikit/AllProductTitle';
-import SortAndFilter from '../../../../components/uikit/SortAndFilter';
-import {COLORS} from '../../../../constants/colors';
-import {useRoute} from '@react-navigation/native';
 import requests from '@api/requests';
 import {ProductItemResponse} from '@api/types';
-import SortView from '@components/uikit/Sort/SortView';
-import FilterScren from '@components/template/FilterScreen';
+import {useRoute} from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
+import {FlatList, SafeAreaView, StyleSheet, View} from 'react-native';
+import AllProductTitle from '../../../../components/uikit/AllProductTitle';
+import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
+import {COLORS} from '../../../../constants/colors';
 import AllNewsCart from './AllNewsCard';
 
 const AllNews = () => {

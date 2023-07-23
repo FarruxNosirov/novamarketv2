@@ -2,17 +2,23 @@ import {View, StyleSheet} from 'react-native';
 import React from 'react';
 
 import Spinner from 'react-native-loading-spinner-overlay';
+import {COLORS} from '@constants/colors';
+import {red100} from 'react-native-paper/lib/typescript/styles/colors';
 
 const LoadingModal = () => {
   return (
     <View style={styles.animation}>
-      <Spinner visible={true} />
+      <Spinner
+        visible={true}
+        color={COLORS.white}
+        animation="fade"
+        overlayColor={'rgba(52, 52, 52, 0.8)'}
+      />
     </View>
   );
 };
 
 export default LoadingModal;
-
 const styles = StyleSheet.create({
   animation: {
     position: 'absolute',

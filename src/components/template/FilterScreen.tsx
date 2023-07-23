@@ -1,7 +1,13 @@
 import requests from '@api/requests';
 import DefaultInput from '@components/uikit/TextInput';
 import React, {useEffect, useState} from 'react';
-import {FlatList, SafeAreaView, StyleSheet, View} from 'react-native';
+import {
+  FlatList,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import {COLORS} from '../../constants/colors';
 import AllProductTitle from '../uikit/AllProductTitle';
 import DefaultButton from '../uikit/DefaultButton';
@@ -26,18 +32,18 @@ const FilterScren = (props: PropsSort) => {
   useEffect(() => {
     getFilterId();
   }, []);
+
   const [filter, setFilter] = useState<any>();
   const [priceMin, setPriceMin] = useState(0);
   const [priceMax, setPriceMax] = useState(priceMin);
 
   const handleFilter = (id?: any, value?: any, type?: any) => {
-    setFilter(({prevState}: any) => {
-      return {
-        ...prevState,
-        [`filter[${id}]`]: id,
-      };
+    setFilter({
+      ...filter,
+      [`filter[${id}]`]: id,
     });
   };
+  console.log('filter', JSON.stringify(filter, null, 2));
 
   const OnChangeHandlerMine = (e: any) => {
     let newFilter = {
@@ -56,15 +62,17 @@ const FilterScren = (props: PropsSort) => {
     setFilter(newFilter);
   };
 
-  let categoryId = props.category_id;
+  let categoryId = props.filter;
+
   const subMendHandler = async () => {
     try {
       let res = await requests.filter.productFilter(
-        filter,
         priceMin,
         priceMax,
         categoryId,
+        filter,
       );
+
       props.setNewValyu(res.data.data);
     } catch (error) {
       console.log(error);
@@ -91,7 +99,7 @@ const FilterScren = (props: PropsSort) => {
         color={true}
         onPress={() => closeHandler()}
       />
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <DefaultInput
           backgroundColor="#f5f5f5"
           label="От"
@@ -109,9 +117,9 @@ const FilterScren = (props: PropsSort) => {
           renderItem={({item}) => (
             <FilterSwitch
               input={item}
-              handleFilter={handleFilter}
               priceMin={priceMin}
               priceMax={priceMax}
+              handleFilter={handleFilter}
             />
           )}
           style={{marginBottom: 30}}
@@ -131,7 +139,7 @@ const FilterScren = (props: PropsSort) => {
             />
           </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

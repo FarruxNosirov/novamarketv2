@@ -17,7 +17,6 @@ import {
   View,
 } from 'react-native';
 import ProductsItem from './ProductsItem';
-import AllProductTitle from '@components/uikit/AllProductTitle';
 
 const CatalogProductsScreen = () => {
   const [products, setProducts] = useState<ProductItemResponse[]>();
@@ -42,6 +41,64 @@ const CatalogProductsScreen = () => {
       setLoading(false);
     }
   };
+  let getRecently = async () => {
+    try {
+      let res = await requests.sort.getRecently();
+      setProducts(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  let getNewAdded = async () => {
+    try {
+      let res = await requests.sort.getNewAdded();
+      setProducts(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  let getExpensive = async () => {
+    try {
+      let res = await requests.sort.getExpensive();
+      setProducts(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  let getCheap = async () => {
+    try {
+      let res = await requests.sort.getCheap();
+      setProducts(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  let getPopular = async () => {
+    try {
+      let res = await requests.sort.getPopular();
+      setProducts(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (modalSort === 'Новинка') {
+      getNewAdded();
+    }
+    if (modalSort === 'Самые дорогие') {
+      getExpensive();
+    }
+    if (modalSort === 'Популярные') {
+      getPopular();
+    }
+    if (modalSort === 'Самые дешевые') {
+      getCheap();
+    }
+    if (modalSort === 'Недавно добавленные') {
+      getRecently();
+    }
+  }, [modalSort]);
 
   useEffect(() => {
     effect();
@@ -54,7 +111,7 @@ const CatalogProductsScreen = () => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
-        <View style={{marginBottom: 10}}>
+        <View style={{marginBottom: 5}}>
           <GoBackHeader title={name} />
 
           <SortAndFilter
@@ -106,7 +163,7 @@ const CatalogProductsScreen = () => {
         ) : (
           <FilterScren
             setModalVisible={setModalVisible}
-            filter={type}
+            filter={id}
             setNewValyu={setNewValyu}
           />
         )}
@@ -130,5 +187,9 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexDirection: 'row',
   },
-  contentContainerStyle: {paddingHorizontal: 10, flexDirection: 'column'},
+  contentContainerStyle: {
+    paddingHorizontal: 10,
+    flexDirection: 'column',
+    paddingTop: 10,
+  },
 });

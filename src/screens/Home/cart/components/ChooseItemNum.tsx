@@ -8,7 +8,9 @@ import {
 } from '@icons/icons';
 
 import {COLORS} from '@constants/colors';
+import {ROUTES} from '@constants/routes';
 import {STRINGS} from '@locales/strings';
+import {useNavigation} from '@react-navigation/native';
 import {useAppSelector} from '@store/hooks';
 import {loadCart} from '@store/slices/cartSlice';
 import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
@@ -118,25 +120,34 @@ export default function ChooseItemNum({data}: {data: any}) {
   useEffect(() => {
     onChangeText(data.amount.toString());
   }, [data.amount]);
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
       <View style={styles.imageBox}>
-        <Image
-          style={styles.leftImage}
-          source={{uri: appendUrl(data.product.photo)}}
-        />
+        <TouchableOpacity
+          onPress={() => {
+            //@ts-ignore
+            navigation.navigate(ROUTES.PRODUCTDETAILS, {props: data?.product});
+          }}>
+          <Image
+            style={styles.leftImage}
+            source={{uri: appendUrl(data.product.photo)}}
+          />
+        </TouchableOpacity>
       </View>
       <View style={styles.textBox}>
         <Text style={styles.headerTxt}>{data?.product?.name}</Text>
         <View style={styles.rowTxt}>
           {defaultPrice?.price ? (
             <Text style={styles.lineThrough}>
-              {notDiscountPrice.toFixed(0)} {STRINGS.ru.money}
+              {notDiscountPrice.toLocaleString().replace(/,/gi, ' ')}{' '}
+              {STRINGS.ru.money}
             </Text>
           ) : null}
           <Text style={styles.blueTxt}>
-            {defaultPrice.price.toFixed(2)} {STRINGS.ru.money}
+            {defaultPrice.price.toLocaleString().replace(/,/gi, ' ')}{' '}
+            {STRINGS.ru.money}
           </Text>
         </View>
         <View style={styles.counter}>
@@ -289,7 +300,6 @@ const styles = StyleSheet.create({
   container: {
     marginVertical: 10,
     flexDirection: 'row',
-
     backgroundColor: COLORS.white,
     shadowOpacity: 0.05,
     shadowRadius: 5,
@@ -301,6 +311,7 @@ const styles = StyleSheet.create({
     paddingVertical: 11,
     paddingHorizontal: 11,
     elevation: 2,
+    maxHeight: 140,
   },
   input: {
     color: '#717171B2',
@@ -312,8 +323,9 @@ const styles = StyleSheet.create({
   },
   imageBox: {
     width: 101,
-    height: 102,
+    height: '100%',
     borderRadius: 8,
+    padding: 5,
   },
   leftImage: {
     width: '100%',
@@ -325,8 +337,7 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     flexDirection: 'column',
     justifyContent: 'space-between',
-
-    paddingHorizontal: 10,
+    paddingLeft: 10,
     width: '60%',
   },
 

@@ -113,7 +113,6 @@ const CheckoutView = () => {
         let paymentRes = await requests.order.paymendId(paymendidNew);
         //@ts-ignore
         navigation.navigate(ROUTES.WebView);
-        console.log('paymentRes', JSON.stringify(paymentRes, null, 2));
       } else {
         toggleSnackbar();
         onClearCart();

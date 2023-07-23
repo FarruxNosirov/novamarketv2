@@ -12,10 +12,12 @@ const OrderDetails = ({total}: {total: {total: number; count: number}}) => {
         <View style={styles.rowFooter}>
           <Text style={styles.footerTxt}>{STRINGS.ru.totalPrice}</Text>
           <Text style={styles.total}>
-            {total.total.toLocaleString(undefined, {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
+            {total.total
+              .toLocaleString(undefined, {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              })
+              .replace(/,/gi, ' ')}
             {STRINGS.ru.money}
           </Text>
         </View>

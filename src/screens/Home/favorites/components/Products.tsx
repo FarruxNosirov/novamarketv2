@@ -79,7 +79,7 @@ const Products = ({item}: {item: ProductItemResponse}) => {
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        navigation.navigate(ROUTES.PRODUCTDETAILS, {item, id});
+        navigation.navigate(ROUTES.PRODUCTDETAILS, {props: item});
       }}>
       <View style={styles.container}>
         <View style={styles.imageBox}>
