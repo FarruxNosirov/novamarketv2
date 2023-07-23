@@ -68,7 +68,8 @@ const ProductsItem = (props: ProductItemCardProps) => {
   const dispatch = useDispatch();
   const fav = useAppSelector(favoriteSelector);
   let isFav = !!fav[id];
-  const discountPrice = (price * (100 - discount)) / 100;
+  const notDiscountPrice = (price * 100) / (100 - discount);
+
   const navigation = useNavigation();
 
   const onAddFavorite = async () => {
@@ -82,6 +83,7 @@ const ProductsItem = (props: ProductItemCardProps) => {
       console.log(error);
     }
   };
+  console.log('props', JSON.stringify(props, null, 2));
 
   const onCartPress = async () => {
     if (isInCart) {
@@ -131,16 +133,7 @@ const ProductsItem = (props: ProductItemCardProps) => {
             <Text style={styles.sileText}>{discount}%</Text>
           </View>
         ) : null}
-        {/* {showNewProduct ? (
-          <View style={[styles.sileBox, styles.sileBoxBgColor]}>
-            <Text style={[styles.sileText, styles.sileTextFS]}>Новый</Text>
-          </View>
-        ) : null}
-        {showDiscountAdd ? (
-          <View style={[styles.sileBox, styles.sileBoxBgColor]}>
-            <Text style={[styles.sileText, styles.sileTextFS]}>Под заказ</Text>
-          </View>
-        ) : null} */}
+
         <TouchableOpacity onPress={onAddFavorite} style={styles.heartIconBox}>
           {isFav ? <HeartIconActive /> : <HeartIconNotActive />}
         </TouchableOpacity>
@@ -172,12 +165,13 @@ const ProductsItem = (props: ProductItemCardProps) => {
                   justifyContent: 'space-between',
                 }}>
                 <Text style={styles.priceText}>
-                  {discount ? discountPrice : price}
+                  {price}
                   {STRINGS.ru.money}
                 </Text>
                 {discount ? (
                   <Text style={styles.priceTextSile}>
-                    {discount ? price : discountPrice} {STRINGS.ru.money}
+                    {notDiscountPrice.toFixed(0)}
+                    {STRINGS.ru.money}
                   </Text>
                 ) : null}
               </View>

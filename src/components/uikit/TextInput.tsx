@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 15,
     borderWidth: 1,
-    borderColor: '#0F3E44',
+    borderColor: COLORS.blue,
   },
   inputBox: {
     width: '100%',

@@ -97,20 +97,12 @@ export const styles = StyleSheet.create({
   active: {
     width: 92,
     height: 33,
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: '#84A9C0',
-    borderStyle: 'solid',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 5,
   },
   active_title: {
     fontSize: 15,
     fontWeight: '400',
     lineHeight: 20,
-    color: '#84A9C0',
+    color: '#000',
   },
   box_noactive: {
     width: '100%',
@@ -169,6 +161,19 @@ export const styles = StyleSheet.create({
 
     borderColor: COLORS.textColorBlue,
   },
+  buttonSize: {
+    width: 92,
+    height: 33,
+    backgroundColor: COLORS.white,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    borderColor: COLORS.textColorBlue,
+    padding: 0,
+    borderRadius: 15,
+    borderWidth: 1,
+    marginRight: 5,
+  },
   goBack: {
     width: '100%',
     flexDirection: 'row',
@@ -207,29 +212,24 @@ export const styles = StyleSheet.create({
   },
   add_remov: {
     flexDirection: 'row',
-    borderRadius: 8,
     width: '30%',
   },
   minus: {
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    backgroundColor: '#0052FF',
-    borderTopLeftRadius: 5,
-    borderBottomLeftRadius: 5,
+    width: 28.43,
+    height: 32,
   },
-
   plus: {
-    padding: 10,
-    backgroundColor: '#0052FF',
-    borderTopRightRadius: 5,
-    borderBottomRightRadius: 5,
+    width: 28.43,
+    height: 32,
   },
   topBottom: {
-    paddingHorizontal: 15,
-    borderColor: COLORS.whiteGray,
+    height: 32,
+    width: 32,
+    borderColor: COLORS.blue,
     borderTopWidth: 1,
     borderBottomWidth: 1,
     justifyContent: 'center',
+    alignItems: 'center',
   },
 
   buttonContainer: {
@@ -243,9 +243,70 @@ export const styles = StyleSheet.create({
     fontSize: 15,
   },
   inactiveCartText: {
-    color: '#84A9C0',
+    color: COLORS.blue,
     marginRight: 8,
     fontWeight: '700',
     fontSize: 15,
+  },
+
+  composTwo: {
+    marginVertical: 20,
+    marginLeft: 15,
+    marginRight: 30,
+
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  composition: {
+    color: COLORS.defaultBlack,
+    fontSize: 15,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+  },
+  containerComment: {
+    backgroundColor: COLORS.white,
+  },
+  boxes: {
+    marginHorizontal: 20,
+    marginVertical: 10,
+    elevation: 5,
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    backgroundColor: COLORS.white,
+    borderRadius: 8,
+    padding: 15,
+  },
+
+  nameRow: {
+    flexDirection: 'row',
+  },
+
+  name: {
+    color: COLORS.defaultBlack,
+    fontSize: 16,
+  },
+
+  stars: {
+    marginLeft: 30,
+    alignSelf: 'center',
+    flexDirection: 'row',
+  },
+  comment: {
+    maxWidth: 200,
+    marginVertical: 10,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+
+  icon: {
+    marginRight: 5,
   },
 });

@@ -72,6 +72,9 @@ const FilterScren = (props: PropsSort) => {
   };
   const submetAndClosed = async () => {
     await subMendHandler();
+    closeHandler();
+  };
+  const closeHandler = () => {
     props.setModalVisible((a: any) => {
       return !a;
     });
@@ -83,7 +86,11 @@ const FilterScren = (props: PropsSort) => {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
-      <AllProductTitle title={'Фильтры'} color={true} />
+      <AllProductTitle
+        title={'Фильтры'}
+        color={true}
+        onPress={() => closeHandler()}
+      />
       <View style={styles.container}>
         <DefaultInput
           backgroundColor="#f5f5f5"

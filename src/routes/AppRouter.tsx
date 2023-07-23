@@ -21,10 +21,7 @@ import BonusProgram from '@home/profile/BonusProgram/BonusProgram';
 import Message from '@home/profile/Message/Message';
 import ChatProducts from '@home/profile/Message/components/ChatProduct/ChatProduct';
 import Chat from '@home/profile/Message/components/chat/Chat';
-import MyProduct from '@home/profile/MyOrders/MyOrders';
-import ActiveList from '@home/profile/MyOrders/components/ActiveList/ActiveList';
-import StoryList from '@home/profile/MyOrders/components/StoreList/StoryList';
-import OrderView from '@home/profile/MyOrders/components/order/OrderView';
+
 import Notification from '@home/profile/Notification/Notification';
 import PersonalDataChange from '@home/profile/PersonDataChange/PersonDataChange';
 import PersonalData from '@home/profile/PersonalData/PersonalData';
@@ -81,13 +78,12 @@ export default function AppRouter() {
           <Stack.Screen name={ROUTES.NEWDETAILS} component={NewDetails} />
           <Stack.Screen name={ROUTES.CHECKOUT} component={CheckoutScreen} />
           <Stack.Screen name={ROUTES.PROFILE} component={ProfileScreen} />
-          <Stack.Screen name={ROUTES.MY_PRODUCTS} component={MyProduct} />
+
           <Stack.Screen name={ROUTES.MESSAGE} component={Message} />
           <Stack.Screen name={ROUTES.PROFILE_SETTING} component={Setting} />
 
           <Stack.Screen name={ROUTES.TRANSACTIONS} component={Transactions} />
-          <Stack.Screen name={ROUTES.ACTIVEVELIST} component={ActiveList} />
-          <Stack.Screen name={ROUTES.STORYLIST} component={StoryList} />
+
           <Stack.Screen
             name={ROUTES.TECHNICALSUPPORT}
             component={TechnicalSupport}
@@ -103,7 +99,7 @@ export default function AppRouter() {
             component={PersonalDataChange}
           />
           <Stack.Screen name={ROUTES.SEARCH} component={Search} />
-          <Stack.Screen name={ROUTES.ORDERVIEW} component={OrderView} />
+
           <Stack.Screen name={ROUTES.MAKEREFUND} component={MakeRefund} />
           <Stack.Screen name={ROUTES.CHAT} component={Chat} />
           <Stack.Screen name={ROUTES.CHATPRODUCTS} component={ChatProducts} />

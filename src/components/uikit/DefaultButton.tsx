@@ -28,6 +28,7 @@ export interface DefaultButtonProps {
   active?: boolean;
   disabled?: boolean;
   isInCart?: boolean;
+  content?: StyleProp<ViewStyle>;
 }
 
 const DefaultButton = ({
@@ -40,6 +41,7 @@ const DefaultButton = ({
   loading,
   disabled,
   isInCart,
+  content,
 }: DefaultButtonProps) => {
   return (
     <TouchableWithoutFeedback onPress={onPress} disabled={disabled}>
@@ -52,7 +54,12 @@ const DefaultButton = ({
           {borderColor: isInCart ? 'blue' : 'white'},
           containerStyle,
         ]}>
-        <View style={[styles.content, secondary && styles.inactiveContainer]}>
+        <View
+          style={[
+            styles.content,
+            content,
+            secondary && styles.inactiveContainer,
+          ]}>
           {loading ? (
             //TODO Check color
             <ActivityIndicator

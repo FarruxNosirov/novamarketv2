@@ -61,6 +61,7 @@ export default function AllNewsCart({item, buttonTitle}: Props) {
           style={styles.button}
           onPress={() =>
             navagation.navigate(
+              //@ts-ignore
               ROUTES.NEWDETAILS as never,
               {id: item.id} as never,
             )

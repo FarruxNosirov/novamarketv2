@@ -4,7 +4,7 @@ import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {RootState} from '@store/configureStore';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
 import {deleteAccountData, getProfileData} from '@store/slices/ProfileSlice';
-import {selectUser} from '@store/slices/userSlice';
+import {selectUser, userLoggedOut} from '@store/slices/userSlice';
 import React, {useEffect} from 'react';
 import {
   ActivityIndicator,
@@ -47,7 +47,20 @@ export default function ProfileScreen() {
   // const [animate2, setAnimate2] = useState(false);
 
   let onLogOut = () => {
-    navigation.navigate(ROUTES.AUTH as never);
+    Alert.alert('Вы точно хотите выйти из аккаунта ?', '', [
+      {
+        text: 'Cancel',
+        // onPress: () => console.log("Cancel Pressed"),
+        style: 'cancel',
+      },
+      {
+        text: 'OK',
+        onPress: () => {
+          dispatch(userLoggedOut());
+          navigation.navigate(ROUTES.LOGIN);
+        },
+      },
+    ]);
   };
 
   useEffect(() => {

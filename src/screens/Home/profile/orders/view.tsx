@@ -7,6 +7,7 @@ import {styles} from './style';
 import requests from '@api/requests';
 import GoBackHeader from '@components/uikit/Header/GoBackHeader';
 import {STRINGS} from '@locales/strings';
+import OrderLest from './components/OrderLest';
 
 const OrderScrenn = () => {
   const [orders, setOrders] = useState<any>([]);
@@ -31,31 +32,15 @@ const OrderScrenn = () => {
   useEffect(() => {
     getOrders();
   }, [filter]);
+  // console.log(JSON.stringify(orders, null, 2));
 
-  const amount = orders?.length;
   return (
     <View style={styles.container}>
       <GoBackHeader title={STRINGS.ru.myOrders} />
-      <StatusBar orders={orders} filter={filter} setFilter={setFilter} />
+      {/* <StatusBar orders={orders} filter={filter} setFilter={setFilter} /> */}
       <FlatList
         data={orders}
-        ListHeaderComponent={() => {
-          return (
-            <View style={styles.row}>
-              {amount > 0 ? (
-                <View>
-                  <Text style={styles.headerText}>Заказ №23</Text>
-                  <View style={styles.salesman}>
-                    <Text>Продавец:</Text>
-                    <Text>ООО "ПРАЙД"</Text>
-                  </View>
-                </View>
-              ) : null}
-              <Text style={styles.salesman}></Text>
-            </View>
-          );
-        }}
-        renderItem={props => <OrderItem {...props} />}
+        renderItem={item => <OrderLest {...item} />}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item: any) => item.id}
       />

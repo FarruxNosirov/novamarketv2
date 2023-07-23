@@ -25,6 +25,7 @@ import {
 } from '../../../assets/icons/icons';
 import {COLORS} from '../../../constants/colors';
 import {ROUTES} from '../../../constants/routes';
+import ButtonGradient from '@components/ButtonGradient';
 
 export type ProductItemCardProps = {
   name?: string;
@@ -52,7 +53,7 @@ export default function ProductItemCard(props: any) {
   const dispatch = useDispatch();
   const fav = useAppSelector(favoriteSelector);
   let isFav = !!fav[props.id];
-  const discountPrice = (props.price * (100 - props.discount)) / 100;
+  const notDiscountPrice = (props.price * 100) / (100 - props.discount);
   const user = useAppSelector(selectUser);
 
   const onAddFavorite = async () => {
@@ -170,48 +171,52 @@ export default function ProductItemCard(props: any) {
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}>
-              {discountPrice > 0 ? (
+              {props.price > 0 ? (
                 <Text style={styles.priceText}>
-                  {discountPrice}
+                  {props.price}
                   {STRINGS.ru.money}
                 </Text>
               ) : null}
 
               {props?.discount > 0 ? (
                 <Text style={styles.discountPrice}>
-                  {props?.price} {STRINGS.ru.money}
+                  {notDiscountPrice.toFixed(0)} {STRINGS.ru.money}
                 </Text>
               ) : null}
             </View>
           </View>
         </View>
         <View style={{paddingHorizontal: 10}}>
-          <TouchableOpacity
-            style={[
-              styles.button,
-              {backgroundColor: isInCart ? '#0052FF' : '#FFFFFF'},
-            ]}
-            onPress={onCartPress}>
-            {animate ? (
-              <ActivityIndicator
-                size="small"
-                color={isInCart ? '#fff' : '#0052FF'}
-                animating={animate}
-              />
-            ) : (
-              <View style={styles.buttonContainer}>
-                <Text
-                  style={[
-                    isInCart ? styles.cartText : styles.inactiveCartText,
-                  ]}>
-                  {isInCart
-                    ? `${STRINGS.ru.addToCart}е`
-                    : `${STRINGS.ru.addToCart}у`}
-                </Text>
-                <BasketIcon fill={isInCart ? COLORS.white : '#0052FF'} />
-              </View>
-            )}
-          </TouchableOpacity>
+          <View style={styles.button}>
+            <ButtonGradient
+              onPress={onCartPress}
+              isInCart={isInCart}
+              containerStyle={{
+                borderRadius: 40,
+                borderWidth: 1,
+                borderColor: COLORS.blue,
+              }}>
+              {animate ? (
+                <ActivityIndicator
+                  size="small"
+                  color={isInCart ? '#fff' : COLORS.blue}
+                  animating={animate}
+                />
+              ) : (
+                <View style={styles.buttonContainer}>
+                  <Text
+                    style={[
+                      isInCart ? styles.cartText : styles.inactiveCartText,
+                    ]}>
+                    {isInCart
+                      ? `${STRINGS.ru.addToCart}е`
+                      : `${STRINGS.ru.addToCart}у`}
+                  </Text>
+                  <BasketIcon fill={isInCart ? COLORS.white : COLORS.blue} />
+                </View>
+              )}
+            </ButtonGradient>
+          </View>
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -246,7 +251,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   inactiveCartText: {
-    color: '#0052FF',
+    color: COLORS.blue,
     marginRight: 8,
     fontWeight: '700',
     fontSize: 15,
@@ -295,13 +300,9 @@ const styles = StyleSheet.create({
   button: {
     width: '100%',
     height: 42,
-    borderRadius: 45,
     backgroundColor: COLORS.white,
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'row',
-    borderWidth: 1,
-    borderColor: '#0052FF',
   },
   buttonText: {
     fontSize: 15,

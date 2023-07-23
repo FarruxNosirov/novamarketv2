@@ -1,10 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-//@ts-ignore
-//@ts-ignore
-//@ts-ignore
-
 import {COLORS} from '@constants/colors';
 import {STRINGS} from '@locales/strings';
 
@@ -13,16 +9,15 @@ const OrderDetails = ({total}: {total: {total: number; count: number}}) => {
     <View style={styles.container}>
       <Text style={styles.headerTxt}>{STRINGS.ru.orderDetails}</Text>
       <View style={styles.box}>
-        <View style={styles.row}>
-          <Text style={{color: '#757575'}}>
-            {STRINGS.ru.items} ({total?.count})
-          </Text>
-          <Text style={styles.price}>{total.total.toFixed(2)} сум</Text>
-        </View>
-
         <View style={styles.rowFooter}>
           <Text style={styles.footerTxt}>{STRINGS.ru.totalPrice}</Text>
-          <Text style={styles.total}> {total?.total.toFixed(2)} сум </Text>
+          <Text style={styles.total}>
+            {total.total.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+            {STRINGS.ru.money}
+          </Text>
         </View>
       </View>
     </View>
@@ -33,7 +28,7 @@ export default OrderDetails;
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 20,
+    marginVertical: 5,
     marginHorizontal: 15,
   },
 
@@ -44,7 +39,6 @@ const styles = StyleSheet.create({
   },
 
   box: {
-    padding: 10,
     elevation: 5,
     backgroundColor: COLORS.white,
     shadowOpacity: 0.1,
@@ -55,6 +49,8 @@ const styles = StyleSheet.create({
     },
     borderRadius: 8,
     marginVertical: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 15,
   },
 
   row: {
@@ -84,7 +80,6 @@ const styles = StyleSheet.create({
   },
 
   rowFooter: {
-    marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

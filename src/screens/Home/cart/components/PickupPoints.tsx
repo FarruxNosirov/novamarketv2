@@ -26,6 +26,11 @@ const dataOrderType = [
 ];
 
 const PickupPoints = (props: typeProps) => {
+  console.log(
+    'props?.typePayment',
+    JSON.stringify(props?.typePayment, null, 2),
+  );
+
   return (
     <View>
       <Text

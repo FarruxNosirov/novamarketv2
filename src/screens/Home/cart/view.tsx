@@ -36,9 +36,7 @@ const CartView = () => {
       ) : (
         <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
           <DefaultHeader name={STRINGS.ru.cart} />
-          <ScrollView
-            style={styles.container}
-            keyboardShouldPersistTaps="handled">
+          <ScrollView style={styles.container}>
             <OrderDetails total={cartTotal} />
             <View style={{paddingHorizontal: 15}}>
               {cart.map((item, index) => {

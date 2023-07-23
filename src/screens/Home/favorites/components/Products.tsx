@@ -8,14 +8,11 @@ import {BasketIcon} from '@icons/icons';
 import {STRINGS} from '@locales/strings';
 import {useNavigation} from '@react-navigation/native';
 import {useAppSelector} from '@store/hooks';
-import {toggleLoading} from '@store/slices/appSettings';
 import {cartSelector, loadCart} from '@store/slices/cartSlice';
-import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
 import React, {useState} from 'react';
 import {
   ActivityIndicator,
   Image,
-  LayoutAnimation,
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
@@ -34,7 +31,7 @@ const Products = ({item}: {item: ProductItemResponse}) => {
 
   const navigation: any = useNavigation();
   const [animate, setAnimate] = useState(false);
-  const discountPrice = (price * (100 - discount)) / 100;
+  const discountPrice = (price * (100 + discount)) / 100;
 
   const onCartPress = async () => {
     try {
@@ -85,26 +82,21 @@ const Products = ({item}: {item: ProductItemResponse}) => {
         navigation.navigate(ROUTES.PRODUCTDETAILS, {item, id});
       }}>
       <View style={styles.container}>
-        <Image source={{uri: appendUrl(photo)}} style={styles.image} />
+        <View style={styles.imageBox}>
+          <Image source={{uri: appendUrl(photo)}} style={styles.image} />
+        </View>
         <View style={styles.itemsContainer}>
           <View style={styles.nameContainer}>
             <View style={{width: '85%'}}>
               <Text style={styles.itemName}>{name ? name : ''}</Text>
             </View>
-            {discount ? (
-              <View style={styles.discount}>
-                <Text style={styles.dscountText}>
-                  {discount ? discount : '0'}%
-                </Text>
-              </View>
-            ) : null}
           </View>
 
           <View style={styles.nameContainer2}>
             <View style={styles.priceContainer}>
               {discount ? (
                 <Text style={styles.oldPrice}>
-                  {discount ? price : discountPrice} {STRINGS.ru.money}
+                  {discountPrice} {STRINGS.ru.money}
                 </Text>
               ) : null}
               <Text style={styles.price}>
@@ -150,18 +142,11 @@ export default Products;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    paddingVertical: 10,
     flexDirection: 'row',
     borderTopWidth: 1,
     borderColor: 'rgba(113, 113, 113, 0.3)',
     alignItems: 'center',
-  },
-
-  image: {
-    width: 65,
-    height: 72,
-    borderRadius: 10,
-    marginHorizontal: 10,
   },
 
   itemsContainer: {
@@ -194,20 +179,6 @@ const styles = StyleSheet.create({
     color: COLORS.blue,
   },
 
-  discount: {
-    borderRadius: 8,
-    padding: 4,
-    backgroundColor: COLORS.white,
-    shadowColor: COLORS.black,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-
   price: {
     fontSize: 16,
     color: COLORS.blue,
@@ -225,16 +196,25 @@ const styles = StyleSheet.create({
 
   cartText: {
     color: COLORS.white,
-    marginRight: 10,
   },
 
   inactiveCartText: {
     color: COLORS.cartColor3,
-    marginRight: 10,
   },
 
   button: {
     width: 120,
     height: 40,
+  },
+  imageBox: {
+    width: 80,
+    height: 100,
+    borderRadius: 10,
+    marginRight: 10,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 10,
   },
 });

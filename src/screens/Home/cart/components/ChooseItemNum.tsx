@@ -8,26 +8,23 @@ import {
 } from '@icons/icons';
 
 import {COLORS} from '@constants/colors';
-import {useNavigation} from '@react-navigation/native';
+import {STRINGS} from '@locales/strings';
 import {useAppSelector} from '@store/hooks';
 import {loadCart} from '@store/slices/cartSlice';
 import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
 import React, {useEffect, useState} from 'react';
 import {
   Image,
-  Keyboard,
   LayoutAnimation,
   Modal,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import {ActivityIndicator} from 'react-native-paper';
 import {useDispatch} from 'react-redux';
-import {STRINGS} from '@locales/strings';
 
 export let ProductsData = {
   name: 'Элегантный Костюм с брюками ZARA стиль',
@@ -41,14 +38,17 @@ export default function ChooseItemNum({data}: {data: any}) {
     loadingPlus: false,
     loading: false,
   });
-  const dispatch = useDispatch();
+  const [defaultPrice, setdefaultPrice] = useState(data);
+  // console.log('defaultPrice', defaultPrice);
 
+  const dispatch = useDispatch();
   let id = data.product.id;
 
   const fav = useAppSelector(favoriteSelector);
+
   let isFav = !!fav[id];
-  const discountPrice = (data?.price * (100 - data?.product?.discount)) / 100;
-  const navigation: any = useNavigation();
+  const notDiscountPrice =
+    (defaultPrice?.price * 100) / (100 - defaultPrice?.product?.discount);
 
   const onAddItem = async (addOne?: boolean) => {
     try {
@@ -120,178 +120,168 @@ export default function ChooseItemNum({data}: {data: any}) {
   }, [data.amount]);
 
   return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        Keyboard.dismiss();
-      }}>
-      <View style={styles.container}>
-        <View>
-          <Image
-            style={styles.leftImage}
-            source={{uri: appendUrl(data.product.photo)}}
-          />
-        </View>
-        <View style={styles.textBox}>
-          <Text style={styles.headerTxt}>{data?.product?.name}</Text>
-          <View style={styles.rowTxt}>
-            {data?.product?.discount ? (
-              <Text style={styles.lineThrough}>
-                {data.price} {STRINGS.ru.money}
-              </Text>
-            ) : null}
-            <Text style={styles.blueTxt}>
-              {discountPrice.toFixed(2)} {STRINGS.ru.money}
+    <View style={styles.container}>
+      <View style={styles.imageBox}>
+        <Image
+          style={styles.leftImage}
+          source={{uri: appendUrl(data.product.photo)}}
+        />
+      </View>
+      <View style={styles.textBox}>
+        <Text style={styles.headerTxt}>{data?.product?.name}</Text>
+        <View style={styles.rowTxt}>
+          {defaultPrice?.price ? (
+            <Text style={styles.lineThrough}>
+              {notDiscountPrice.toFixed(0)} {STRINGS.ru.money}
             </Text>
-          </View>
-          <View style={styles.counter}>
-            <TouchableOpacity onPress={onDecreaseItem} style={styles.minus}>
-              <View style={styles.minus}>
-                {loading.loadingMinus ? (
-                  <ActivityIndicator size={10} color={COLORS.white} />
-                ) : (
-                  <MinusIcon fill={COLORS.white} />
-                )}
-              </View>
-            </TouchableOpacity>
-            <View style={styles.topBottom}>
-              <TextInput
-                showSoftInputOnFocus={false}
-                style={styles.input}
-                value={value}
-                onFocus={() => setShouldShow(true)}
-              />
-              <Text style={styles.input_title}>шт</Text>
+          ) : null}
+          <Text style={styles.blueTxt}>
+            {defaultPrice.price.toFixed(2)} {STRINGS.ru.money}
+          </Text>
+        </View>
+        <View style={styles.counter}>
+          <TouchableOpacity onPress={onDecreaseItem} style={styles.minus}>
+            <View style={styles.minus}>
+              {loading.loadingMinus ? (
+                <ActivityIndicator size={10} color={COLORS.white} />
+              ) : (
+                <MinusIcon fill={COLORS.white} />
+              )}
             </View>
-            <TouchableOpacity
-              onPress={() => onAddItem(true)}
-              style={styles.plus}>
-              <View style={styles.plus}>
-                {loading.loadingPlus ? (
-                  <ActivityIndicator size={10} color={COLORS.white} />
-                ) : (
-                  <PlusCounterIcon fill={COLORS.white} />
-                )}
-              </View>
-            </TouchableOpacity>
+          </TouchableOpacity>
+          <View style={styles.topBottom}>
+            <TextInput
+              showSoftInputOnFocus={false}
+              style={styles.input}
+              value={value}
+              onFocus={() => setShouldShow(true)}
+            />
+            <Text style={styles.input_title}>шт</Text>
           </View>
-        </View>
-        <View style={styles.iconBox}>
-          <TouchableOpacity
-            onPress={onAddFavorite}
-            hitSlop={{left: 10, right: 10, top: 10, bottom: 10}}>
-            {isFav ? (
-              <HeartIconActive fill={'red'} />
-            ) : (
-              <HeartIconBorder fill={COLORS.red} stroke={COLORS.red} />
-            )}
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={onRemoveItem}
-            hitSlop={{left: 10, right: 10, top: 10, bottom: 10}}>
-            <CrashIcon fill={COLORS.gray} />
+          <TouchableOpacity onPress={() => onAddItem(true)} style={styles.plus}>
+            <View style={styles.plus}>
+              {loading.loadingPlus ? (
+                <ActivityIndicator size={10} color={COLORS.white} />
+              ) : (
+                <PlusCounterIcon fill={COLORS.white} />
+              )}
+            </View>
           </TouchableOpacity>
         </View>
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={shouldShow}
-          onRequestClose={() => {
-            setShouldShow(false);
-          }}
-          style={{zIndex: 1000}}>
+      </View>
+      <View style={styles.iconBox}>
+        <TouchableOpacity
+          onPress={onAddFavorite}
+          hitSlop={{left: 10, right: 10, top: 10, bottom: 10}}>
+          {isFav ? (
+            <HeartIconActive fill={'red'} />
+          ) : (
+            <HeartIconBorder fill={COLORS.red} stroke={COLORS.red} />
+          )}
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={onRemoveItem}
+          hitSlop={{left: 10, right: 10, top: 10, bottom: 10}}>
+          <CrashIcon fill={COLORS.gray} />
+        </TouchableOpacity>
+      </View>
+      {/* Modal */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={shouldShow}
+        onRequestClose={() => {
+          setShouldShow(false);
+        }}
+        style={{zIndex: 1000}}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
           <View
             style={{
-              flex: 1,
-              backgroundColor: 'rgba(0,0,0,0.5)',
+              backgroundColor: 'white',
+              width: '80%',
+              height: 200,
+              borderRadius: 10,
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <View
+            <View style={{flexDirection: 'row'}}>
+              <TouchableOpacity onPress={onDecreaseItem} style={styles.minus}>
+                <View style={styles.minus}>
+                  {loading.loadingMinus ? (
+                    <ActivityIndicator size={10} color={COLORS.white} />
+                  ) : (
+                    <MinusIcon fill={COLORS.white} />
+                  )}
+                </View>
+              </TouchableOpacity>
+              <View style={[styles.topBottom, {paddingHorizontal: 5}]}>
+                <TextInput
+                  style={{
+                    color: '#717171B2',
+                    width: 40,
+                    height: 30,
+                    padding: 0,
+                    margin: 0,
+                    paddingHorizontal: 5,
+                  }}
+                  value={value}
+                  onChangeText={onChangeText}
+                />
+                <Text style={styles.input_title}> шт</Text>
+              </View>
+              <TouchableOpacity
+                onPress={() => onAddItem(true)}
+                style={styles.plus}>
+                <View style={styles.plus}>
+                  {loading.loadingPlus ? (
+                    <ActivityIndicator size={10} color={COLORS.white} />
+                  ) : (
+                    <PlusCounterIcon fill={COLORS.white} />
+                  )}
+                </View>
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity
+              onPress={() => {
+                setShouldShow(false), onAddItem();
+              }}
               style={{
-                backgroundColor: 'white',
+                backgroundColor: COLORS.blue,
+                marginTop: 20,
                 width: '80%',
-                height: 200,
+                height: 40,
                 borderRadius: 10,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <View style={{flexDirection: 'row'}}>
-                <TouchableOpacity onPress={onDecreaseItem} style={styles.minus}>
-                  <View style={styles.minus}>
-                    {loading.loadingMinus ? (
-                      <ActivityIndicator size={10} color={COLORS.white} />
-                    ) : (
-                      <MinusIcon fill={COLORS.white} />
-                    )}
-                  </View>
-                </TouchableOpacity>
-                <View style={[styles.topBottom, {paddingHorizontal: 5}]}>
-                  <TextInput
-                    style={{
-                      color: '#717171B2',
-                      width: 40,
-                      height: 30,
-                      padding: 0,
-                      margin: 0,
-                      paddingHorizontal: 5,
-                    }}
-                    value={value}
-                    onChangeText={onChangeText}
-                  />
-                  <Text style={styles.input_title}> шт</Text>
-                </View>
-                <TouchableOpacity
-                  onPress={() => onAddItem(true)}
-                  style={styles.plus}>
-                  <View style={styles.plus}>
-                    {loading.loadingPlus ? (
-                      <ActivityIndicator size={10} color={COLORS.white} />
-                    ) : (
-                      <PlusCounterIcon fill={COLORS.white} />
-                    )}
-                  </View>
-                </TouchableOpacity>
-              </View>
-              <TouchableOpacity
-                onPress={() => {
-                  setShouldShow(false), onAddItem();
-                }}
-                style={{
-                  backgroundColor: COLORS.activeButtonBgColor,
-                  marginTop: 20,
-                  width: '80%',
-                  height: 40,
-                  borderRadius: 10,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text style={{color: 'white', fontSize: 16}}>
-                  Подтверждение
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  setShouldShow(false);
-                }}
-                style={{
-                  marginTop: 20,
-                  width: '80%',
-                  height: 40,
-                  borderRadius: 10,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderWidth: 1,
-                  borderColor: COLORS.activeButtonBgColor,
-                }}>
-                <Text style={{color: COLORS.activeButtonBgColor, fontSize: 16}}>
-                  Отмена
-                </Text>
-              </TouchableOpacity>
-            </View>
+              <Text style={{color: 'white', fontSize: 16}}>Подтверждение</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setShouldShow(false);
+              }}
+              style={{
+                marginTop: 20,
+                width: '80%',
+                height: 40,
+                borderRadius: 10,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderWidth: 1,
+                borderColor: COLORS.blue,
+              }}>
+              <Text style={{color: COLORS.blue, fontSize: 16}}>Отмена</Text>
+            </TouchableOpacity>
           </View>
-        </Modal>
-      </View>
-    </TouchableWithoutFeedback>
+        </View>
+      </Modal>
+    </View>
   );
 }
 
@@ -299,7 +289,7 @@ const styles = StyleSheet.create({
   container: {
     marginVertical: 10,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+
     backgroundColor: COLORS.white,
     shadowOpacity: 0.05,
     shadowRadius: 5,
@@ -320,21 +310,28 @@ const styles = StyleSheet.create({
     paddingHorizontal: 3,
     width: 30,
   },
-  leftImage: {
+  imageBox: {
     width: 101,
     height: 102,
+    borderRadius: 8,
+  },
+  leftImage: {
+    width: '100%',
+    height: '100%',
     borderRadius: 8,
   },
 
   textBox: {
     flexShrink: 1,
-    paddingHorizontal: 10,
     flexDirection: 'column',
     justifyContent: 'space-between',
+
+    paddingHorizontal: 10,
+    width: '60%',
   },
 
   headerTxt: {
-    fontSize: 21,
+    fontSize: 16,
     letterSpacing: 0.5,
     fontWeight: '600',
     color: COLORS.defaultBlack,
@@ -363,15 +360,17 @@ const styles = StyleSheet.create({
   },
 
   counter: {
-    // alignItems: "center",
     flexDirection: 'row',
     minWidth: 150,
     height: 30,
   },
 
   iconBox: {
+    position: 'relative',
     paddingVertical: 5,
     justifyContent: 'space-between',
+    alignItems: 'center',
+    marginLeft: 15,
   },
 
   item: {

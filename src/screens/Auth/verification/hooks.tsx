@@ -7,7 +7,7 @@ import {useEffect, useState} from 'react';
 import {RouteProp} from '@react-navigation/native';
 import {ROUTES} from '@constants/routes';
 
-let timer = -1;
+let timer: any = -1;
 
 type RouteParams = {
   params: {
@@ -44,7 +44,18 @@ const useVerificationHook = () => {
   });
 
   let resendCode = async () => {
-    setTimeLeft(10);
+    setTimeLeft(20);
+    if (validatePhoneNumber(state.phone)) {
+      try {
+        setLoading(true);
+        //@ts-ignore
+        let res = await requests.auth.forgetPassword(route.params?.phone);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    }
   };
 
   let onVerificate = async () => {
@@ -53,12 +64,18 @@ const useVerificationHook = () => {
       //send data to remote
       try {
         setLoading(true);
-        let res = await requests.auth.verify(state, route.params?.token);
+        let res = await requests.auth.acceptPassword(state);
+        console.log('New Pasword', JSON.stringify(res.data, null, 2));
+
         dispatch(userLoggedIn(res.data.data));
-        navigation.navigate(ROUTES.HOME as never);
+        if (res) {
+          //@ts-ignore
+          navigation.navigate(ROUTES.LOGIN as never, {
+            password: res?.data?.data?.password,
+          });
+        }
       } catch (error) {
-        // console.warn(error.toJSON());
-        // console.warn(error.response.data);
+        console.warn(error);
       } finally {
         setLoading(false);
       }

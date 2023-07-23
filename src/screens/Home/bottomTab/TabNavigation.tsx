@@ -1,40 +1,29 @@
-import {View, Text} from 'react-native';
-import React, {useCallback} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import React, {useCallback} from 'react';
 
 import {ROUTES} from '../../../constants/routes';
 import HomeScreen from '../home/HomeScreen';
 
-import CatalogScreen from '../catalog/CatalogScreen';
-import CartScreen from '../cart/view';
-import {
-  BasketIcon,
-  CartIconActive,
-  CartIconNotActive,
-  CatalogIcon,
-  CatalogIconActive,
-  CatalogIconNotActive,
-  HeartIcon,
-  HeartIconActive,
-  HeartIconNotActive,
-  HomeIcon,
-  HomeIconActive,
-  HomeIconNotActive,
-  PersonIcon,
-  ProfileIconActive,
-  ProfileIconNotActive,
-} from '../../../assets/icons/icons';
-import ProfileScreen from '@home/profile/ProfileScreen';
-import {useSelector} from 'react-redux';
-import {favoriteArraySelector} from '@store/slices/favoriteSlice';
-import {cartTotalSelector} from '@store/slices/cartSlice';
-import FavoriteView from '@home/favorites/view';
+import AuthStack from '@auth/index';
 import {COLORS} from '@constants/colors';
-import {SvgProps} from 'react-native-svg';
+import FavoriteView from '@home/favorites/view';
+import ProfileScreen from '@home/profile/ProfileScreen';
 import {STRINGS} from '@locales/strings';
 import {useAppSelector} from '@store/hooks';
+import {cartTotalSelector} from '@store/slices/cartSlice';
+import {favoriteArraySelector} from '@store/slices/favoriteSlice';
 import {selectUser} from '@store/slices/userSlice';
-import AuthStack from '@auth/index';
+import {SvgProps} from 'react-native-svg';
+import {useSelector} from 'react-redux';
+import {
+  BasketIcon,
+  CatalogIcon,
+  HeartIcon,
+  HomeIcon,
+  PersonIcon,
+} from '../../../assets/icons/icons';
+import CartScreen from '../cart/view';
+import CatalogScreen from '../catalog/CatalogScreen';
 
 const Tab = createBottomTabNavigator();
 

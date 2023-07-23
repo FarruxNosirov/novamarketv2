@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Novamax</string>
+	<string>NovaMax</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -17,11 +17,34 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>gotowork-id</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>gotowork</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>BundleId</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.gtw.mobile</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -35,23 +58,38 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>צילום תמונה - נא לאשר שימוש במצלמה של הטלפון שלך</string>
+	<key>NSLocationUsageDescription</key>
+	<string>כניסה למשמרת - נא לאשר שימוש בשירות המיקום של הטלפון שלך</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>כניסה למשמרת - נא לאשר שימוש בשירות המיקום של הטלפון שלך</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string></string>
+	<string>העלאת תמונה - נא לאשר גישה לתמונות בטלפון שלך</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Heebo-Black.ttf</string>
+		<string>Heebo-Bold.ttf</string>
+		<string>Heebo-ExtraBold.ttf</string>
+		<string>Heebo-Light.ttf</string>
+		<string>Heebo-Medium.ttf</string>
+		<string>Heebo-Regular.ttf</string>
+		<string>Heebo-Thin.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<string>BootSplash.storyboard</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
-	 <key>NSCameraUsageDescription</key>
-    <string>$(PRODUCT_NAME) needs access to your Camera.</string>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
