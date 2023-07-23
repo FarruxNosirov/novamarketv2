@@ -42,8 +42,6 @@ export default function HomeScreen() {
     CaruselBannerAll();
   }, []);
 
-  console.log(JSON.stringify(bannerSlider, null, 2));
-
   return (
     <View
       style={{flex: 1, position: 'relative', backgroundColor: COLORS.white}}>

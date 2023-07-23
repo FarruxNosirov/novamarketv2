@@ -38,7 +38,6 @@ const PersonalData = () => {
     last_address: params?.last_address ?? '',
     inn: params?.inn ?? '',
   });
-  console.log(JSON.stringify(params, null, 2));
 
   let onStateChange = (key: string) => (value: string) => {
     setState({...state, [key]: value});

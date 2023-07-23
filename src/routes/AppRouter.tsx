@@ -62,8 +62,7 @@ export default function AppRouter() {
           <Stack.Screen name={ROUTES.ALLPRODUCTS} component={AllProducts} />
           <Stack.Screen name={ROUTES.ALLSHOPS} component={AllShop} />
           <Stack.Screen name={ROUTES.ALLNEWS} component={AllNews} />
-          {/* <Stack.Screen name={ROUTES.SORTVIEW} component={SortView} /> */}
-          {/* <Stack.Screen name={ROUTES.FILTERVIEW} component={FilterScren} /> */}
+
           <Stack.Screen name={ROUTES.SUBCATEGORY} component={Subcategory} />
           <Stack.Screen
             name={ROUTES.CATALOG_PRODUCTS}

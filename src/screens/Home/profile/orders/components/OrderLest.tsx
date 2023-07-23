@@ -7,7 +7,6 @@ type propsType = {
 };
 const OrderLest = (props: propsType) => {
   let {item} = props;
-  // console.log(JSON.stringify(item, null, 2));
 
   return (
     <FlatList

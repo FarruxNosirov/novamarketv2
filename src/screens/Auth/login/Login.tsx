@@ -34,8 +34,8 @@ export default function Login(props: any) {
   }, [route.params?.password]);
   let dispatch = useAppDispatch();
   const [state, setState] = useState<LoginState>({
-    password: '704997', //366322
-    phone: '+79257813877', //+79257813877
+    password: '', //704997
+    phone: '', //+79257813877
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState(false);

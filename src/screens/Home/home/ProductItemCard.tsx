@@ -173,14 +173,25 @@ export default function ProductItemCard(props: any) {
               }}>
               {props.price > 0 ? (
                 <Text style={styles.priceText}>
-                  {props.price}
+                  {props.price
+                    .toLocaleString(undefined, {
+                      minimumFractionDigits: 0,
+                      maximumFractionDigits: 0,
+                    })
+                    .replace(/,/gi, ' ')}{' '}
                   {STRINGS.ru.money}
                 </Text>
               ) : null}
 
               {props?.discount > 0 ? (
                 <Text style={styles.discountPrice}>
-                  {notDiscountPrice.toFixed(0)} {STRINGS.ru.money}
+                  {notDiscountPrice
+                    .toLocaleString(undefined, {
+                      minimumFractionDigits: 0,
+                      maximumFractionDigits: 0,
+                    })
+                    .replace(/,/gi, ' ')}{' '}
+                  {STRINGS.ru.money}
                 </Text>
               ) : null}
             </View>

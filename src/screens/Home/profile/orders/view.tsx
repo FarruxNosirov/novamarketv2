@@ -32,7 +32,6 @@ const OrderScrenn = () => {
   useEffect(() => {
     getOrders();
   }, [filter]);
-  // console.log(JSON.stringify(orders, null, 2));
 
   return (
     <View style={styles.container}>

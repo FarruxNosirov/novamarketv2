@@ -133,7 +133,7 @@ const AllProductItemCard = (props: ProductItemCardProps) => {
     <TouchableWithoutFeedback
       onPress={() =>
         //@ts-ignore
-        navigation.navigate(ROUTES.PRODUCTDETAILS, {props})
+        navigation.navigate(ROUTES.PRODUCTDETAILS, {props: props})
       }>
       <View style={styles.cartItem}>
         <Image style={styles.image} source={{uri: assetUrl + props.photo}} />
@@ -185,12 +185,23 @@ const AllProductItemCard = (props: ProductItemCardProps) => {
                   justifyContent: 'space-between',
                 }}>
                 <Text style={styles.priceText}>
-                  {price}
+                  {price
+                    .toLocaleString(undefined, {
+                      minimumFractionDigits: 0,
+                      maximumFractionDigits: 0,
+                    })
+                    .replace(/,/gi, ' ')}{' '}
                   {STRINGS.ru.money}
                 </Text>
                 {discount ? (
                   <Text style={styles.priceTextSile}>
-                    {discountPrice.toFixed(0)} {STRINGS.ru.money}
+                    {discountPrice
+                      .toLocaleString(undefined, {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0,
+                      })
+                      .replace(/,/gi, ' ')}{' '}
+                    {STRINGS.ru.money}
                   </Text>
                 ) : null}
               </View>

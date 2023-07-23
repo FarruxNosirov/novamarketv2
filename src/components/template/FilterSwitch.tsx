@@ -19,6 +19,7 @@ const FilterSwitch: any = ({
     value1: false,
     value2: false,
   });
+
   const [checkout, setCheckout] = useState<any>(false);
   const onPress = () => {
     setActive({...active, value1: !active.value1});
@@ -38,6 +39,8 @@ const FilterSwitch: any = ({
     }
   }, [priceMax, priceMin]);
 
+  // console.log(JSON.stringify(input, null, 2));s
+
   switch (input?.type) {
     case 'checkbox':
       return (
@@ -52,22 +55,24 @@ const FilterSwitch: any = ({
                   data={input?.childs}
                   renderItem={({item}) => (
                     <>
-                      {item.name && (
+                      {item.value && (
                         <TouchableOpacity
                           style={styles.chiled_box}
-                          onPress={handleFilter(
-                            item.id,
-                            item.valyu,
-                            'checkbox',
-                          )}>
-                          <Text>{item.name}</Text>
+                          onPress={() =>
+                            handleFilter(item.id, item.valyu, 'checkbox')
+                          }>
+                          <Text>{item.value}</Text>
                         </TouchableOpacity>
                       )}
                     </>
                   )}
                   showsVerticalScrollIndicator={false}
-                  style={{flexDirection: 'column', flexWrap: 'wrap'}}
-                  numColumns={2}
+                  style={{
+                    flexDirection: 'column',
+                    flexWrap: 'wrap',
+                  }}
+                  keyExtractor={(item, index) => index.toLocaleString()}
+                  numColumns={3}
                 />
               )}
             </FilterModal>
@@ -108,7 +113,8 @@ const FilterSwitch: any = ({
                 )}
                 showsVerticalScrollIndicator={false}
                 style={{flexDirection: 'column', flexWrap: 'wrap'}}
-                numColumns={2}
+                numColumns={3}
+                keyExtractor={(item, index) => index.toLocaleString()}
               />
             </View>
           )}

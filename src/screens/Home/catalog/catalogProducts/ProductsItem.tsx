@@ -83,7 +83,6 @@ const ProductsItem = (props: ProductItemCardProps) => {
       console.log(error);
     }
   };
-  console.log('props', JSON.stringify(props, null, 2));
 
   const onCartPress = async () => {
     if (isInCart) {
@@ -165,12 +164,22 @@ const ProductsItem = (props: ProductItemCardProps) => {
                   justifyContent: 'space-between',
                 }}>
                 <Text style={styles.priceText}>
-                  {price}
+                  {price
+                    .toLocaleString(undefined, {
+                      minimumFractionDigits: 0,
+                      maximumFractionDigits: 0,
+                    })
+                    .replace(/,/gi, ' ')}{' '}
                   {STRINGS.ru.money}
                 </Text>
                 {discount ? (
                   <Text style={styles.priceTextSile}>
-                    {notDiscountPrice.toFixed(0)}
+                    {notDiscountPrice
+                      .toLocaleString(undefined, {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0,
+                      })
+                      .replace(/,/gi, ' ')}{' '}
                     {STRINGS.ru.money}
                   </Text>
                 ) : null}

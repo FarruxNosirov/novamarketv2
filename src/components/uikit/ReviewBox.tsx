@@ -4,7 +4,7 @@ import {StyleSheet, View, Text} from 'react-native';
 import {Rating} from 'react-native-ratings';
 
 const ReviewBox = ({percent, separate, rating}: any) => {
-  console.log(JSON.stringify(separate, null, 2));
+  // console.log(JSON.stringify(separate, null, 2));
 
   return (
     <View style={styles.container}>

@@ -166,8 +166,7 @@ let requests = {
       ),
     getCarts: () => axios.get<{data: CartItemResponse[]}>(`${url}/cart`),
 
-    addToCart: (creds: {product_id: number; amount: number}) =>
-      axios.post(`${url}/cart/add`, creds),
+    addToCart: (creds: any) => axios.post(`${url}/cart/add`, creds),
 
     clearCart: () => axios.post(`${url}/cart/clear`),
 
@@ -264,13 +263,13 @@ let requests = {
     catalogFilter: (id: number) =>
       axios.get(`${url}/category/filter?category_id=${id}`),
     productFilter: (
-      filter: any,
       priceMin: any,
       priceMax: any,
       categoryId: any,
+      filter?: any,
     ) =>
       axios.get(
-        `${url}/product/by-filter?filter[${filter}]=${filter}&price_min=${priceMin}&price_max=${priceMax}&category_id=${categoryId} `,
+        `${url}/product/by-filter?category_id=${categoryId}&page=${1}&per-page=${24}&price_min=${priceMin}&price_max=${priceMax}`,
       ),
   },
 };
