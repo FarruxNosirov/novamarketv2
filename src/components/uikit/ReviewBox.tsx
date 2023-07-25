@@ -27,44 +27,44 @@ const ReviewBox = ({percent, separate, rating}: any) => {
       </View>
       <View>
         <View style={styles.diagram}>
-          <Text>{separate?.rate_1}</Text>
+          <Text style={styles.messege_HtmlText}>{separate?.rate_1}</Text>
           <View style={styles.diagramRow}>
             <View style={styles.blue}></View>
             <View style={styles.gray}></View>
           </View>
-          <Text>0%</Text>
+          <Text style={styles.messege_HtmlText}>0%</Text>
         </View>
         <View style={styles.diagram}>
-          <Text>{separate?.rate_2}</Text>
+          <Text style={styles.messege_HtmlText}>{separate?.rate_2}</Text>
           <View style={styles.diagramRow}>
             <View style={styles.blue}></View>
             <View style={styles.gray}></View>
           </View>
-          <Text>0%</Text>
+          <Text style={styles.messege_HtmlText}>0%</Text>
         </View>
         <View style={styles.diagram}>
-          <Text>{separate?.rate_3}</Text>
+          <Text style={styles.messege_HtmlText}>{separate?.rate_3}</Text>
           <View style={styles.diagramRow}>
             <View style={styles.blue}></View>
             <View style={styles.gray}></View>
           </View>
-          <Text>0%</Text>
+          <Text style={styles.messege_HtmlText}>0%</Text>
         </View>
         <View style={styles.diagram}>
-          <Text>{separate?.rate_4}</Text>
+          <Text style={styles.messege_HtmlText}>{separate?.rate_4}</Text>
           <View style={styles.diagramRow}>
             <View style={styles.blue}></View>
             <View style={styles.gray}></View>
           </View>
-          <Text>0%</Text>
+          <Text style={styles.messege_HtmlText}>0%</Text>
         </View>
         <View style={styles.diagram}>
-          <Text>{separate?.rate_5}</Text>
+          <Text style={styles.messege_HtmlText}>{separate?.rate_5}</Text>
           <View style={styles.diagramRow}>
             <View style={styles.blue}></View>
             <View style={styles.gray}></View>
           </View>
-          <Text>0%</Text>
+          <Text style={styles.messege_HtmlText}>0%</Text>
         </View>
       </View>
     </View>
@@ -125,5 +125,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 80,
     borderBottomWidth: 2,
     borderColor: COLORS.whiteGray,
+  },
+  messege_HtmlText: {
+    color: COLORS.textColor,
+
+    fontSize: 14,
+    fontWeight: 'normal',
+    padding: 0,
+    margin: 0,
   },
 });

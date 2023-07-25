@@ -38,6 +38,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import NavigationService from './NavigationService';
 
 import OrderScrenn from '@home/profile/orders/view';
+import BrendAll from '@home/home/brandsList/BrendAll';
 // import Chat from '@home/profile/Notification/components/chat';
 
 let Stack = createNativeStackNavigator();
@@ -98,6 +99,7 @@ export default function AppRouter() {
             component={PersonalDataChange}
           />
           <Stack.Screen name={ROUTES.SEARCH} component={Search} />
+          <Stack.Screen name={ROUTES.BrendAll} component={BrendAll} />
 
           <Stack.Screen name={ROUTES.MAKEREFUND} component={MakeRefund} />
           <Stack.Screen name={ROUTES.CHAT} component={Chat} />

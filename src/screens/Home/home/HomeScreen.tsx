@@ -30,7 +30,7 @@ export default function HomeScreen() {
   };
   const CaruselBannerAll = async () => {
     try {
-      let res = await requests.slider.getBannerSliderAll();
+      let res = await requests.slider.getSlidersMobile();
       setBannerSlider(res.data.data);
     } catch (error) {
       console.log(error);
@@ -54,14 +54,21 @@ export default function HomeScreen() {
               data={bannerSlider}
               renderItem={({item}: any) => {
                 return (
-                  <View style={{width: '100%', height: 200}}>
+                  <View
+                    style={{
+                      width: '100%',
+                      height: 200,
+                      borderRadius: 20,
+                      paddingHorizontal: 20,
+                    }}>
                     <Image
                       style={{
                         width: '100%',
                         height: '100%',
-                        resizeMode: 'cover',
+                        resizeMode: 'contain',
+                        borderRadius: 20,
                       }}
-                      source={{uri: assetUrl + item.photo}}
+                      source={{uri: assetUrl + item?.photo}}
                     />
                   </View>
                 );
@@ -99,9 +106,19 @@ export default function HomeScreen() {
                 data={bannerSlider}
                 renderItem={({item}: any) => {
                   return (
-                    <View style={{width: '100%', height: 116}}>
+                    <View
+                      style={{
+                        width: '100%',
+                        height: 200,
+                        borderRadius: 20,
+                        paddingHorizontal: 20,
+                      }}>
                       <Image
-                        style={{width: '100%', height: '100%'}}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          borderRadius: 20,
+                        }}
                         source={{uri: assetUrl + item.photo}}
                       />
                     </View>

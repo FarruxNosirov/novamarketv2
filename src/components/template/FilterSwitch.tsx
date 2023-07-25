@@ -1,7 +1,8 @@
 import CheckBox from '@components/uikit/CheckBox';
 import FilterModal from '@components/uikit/Filter/FilterModal';
+import {COLORS} from '@constants/colors';
 import {NewTopArrowIcon2} from '@icons/icons';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 type PropsType = {
   input?: any;
@@ -39,7 +40,16 @@ const FilterSwitch: any = ({
     }
   }, [priceMax, priceMin]);
 
-  // console.log(JSON.stringify(input, null, 2));s
+  const newPactMessages = useMemo(() => {
+    const result = (input.childs ||= []).map((item: any) => {
+      const numbers = item.value.match(/\d/gi);
+
+      if (!numbers) return numbers;
+      return item;
+    });
+
+    return result.filter((item: {value: any}) => !!item?.value);
+  }, [input]);
 
   switch (input?.type) {
     case 'checkbox':
@@ -52,18 +62,18 @@ const FilterSwitch: any = ({
               onPress={onPress}>
               {active.value1 && (
                 <FlatList
-                  data={input?.childs}
+                  data={newPactMessages}
                   renderItem={({item}) => (
                     <>
-                      {item.value && (
-                        <TouchableOpacity
-                          style={styles.chiled_box}
-                          onPress={() =>
-                            handleFilter(item.id, item.valyu, 'checkbox')
-                          }>
-                          <Text>{item.value}</Text>
-                        </TouchableOpacity>
-                      )}
+                      <TouchableOpacity
+                        style={styles.chiled_box}
+                        onPress={() =>
+                          handleFilter(item.id, item.valyu, 'checkbox')
+                        }>
+                        <Text style={{fontSize: 13, color: COLORS.black}}>
+                          {item.value}
+                        </Text>
+                      </TouchableOpacity>
                     </>
                   )}
                   showsVerticalScrollIndicator={false}
@@ -72,7 +82,7 @@ const FilterSwitch: any = ({
                     flexWrap: 'wrap',
                   }}
                   keyExtractor={(item, index) => index.toLocaleString()}
-                  numColumns={3}
+                  numColumns={2}
                 />
               )}
             </FilterModal>
@@ -113,7 +123,7 @@ const FilterSwitch: any = ({
                 )}
                 showsVerticalScrollIndicator={false}
                 style={{flexDirection: 'column', flexWrap: 'wrap'}}
-                numColumns={3}
+                numColumns={2}
                 keyExtractor={(item, index) => index.toLocaleString()}
               />
             </View>

@@ -152,9 +152,9 @@ let requests = {
       ),
     relatedProducts: (id: number) =>
       axios.get(`${url}/product/related-products?product_id=${id}`),
-    getProductsWithBrand: (id: number) =>
+    getProductsWithBrand: (id: number, page_id?: number) =>
       axios.get<BaseResponse<ProductItemResponse>>(
-        `${url}/product/by-brand?id=${id}`,
+        `${url}/product/by-brand?id=${id}&page=${page_id}`,
       ),
     getProductPayment: () =>
       axios.get<BaseResponse<ProductItemResponse>>(
@@ -214,6 +214,8 @@ let requests = {
   sort: {
     getSort: (data: any) =>
       axios.get(`${url}/product?sort=${data.sort}&by-brand?id=${data.brand}`),
+    getSortAllType: (per_page: number, type: string) =>
+      axios.get(`${url}/product?sort=${type}&per-page=${per_page}`),
     getRecently: () => axios.get(`${url}/product?sort=recently`),
     getNewAdded: () => axios.get(`${url}/product?sort=new`),
     getExpensive: () => axios.get(`${url}/product?sort=price_up`),

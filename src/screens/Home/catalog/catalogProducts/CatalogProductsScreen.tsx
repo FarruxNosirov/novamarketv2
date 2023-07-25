@@ -7,8 +7,9 @@ import SortView from '@components/uikit/Sort/SortView';
 import SortAndFilter from '@components/uikit/SortAndFilter';
 import {COLORS} from '@constants/colors';
 import {useRoute} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
+  ActivityIndicator,
   FlatList,
   Modal,
   SafeAreaView,
@@ -17,7 +18,7 @@ import {
   View,
 } from 'react-native';
 import ProductsItem from './ProductsItem';
-
+const limt = 10;
 const CatalogProductsScreen = () => {
   const [products, setProducts] = useState<ProductItemResponse[]>();
   const [loading, setLoading] = useState(true);
@@ -25,7 +26,8 @@ const CatalogProductsScreen = () => {
   const [modalFilter, setModalFilter] = useState('');
   const [modalSort, setModalSort] = useState('');
   const [newValyu, setNewValyu] = useState<any>();
-
+  const [skip, setSkip] = useState(limt);
+  const [footerLoading, setFooterLoading] = useState(false);
   let {
     params: {id, name, type},
   }: any = useRoute();
@@ -41,73 +43,60 @@ const CatalogProductsScreen = () => {
       setLoading(false);
     }
   };
-  let getRecently = async () => {
+  let getRecently = async (type: string) => {
     try {
-      let res = await requests.sort.getRecently();
-      setProducts(res.data.data);
+      setFooterLoading(true);
+      let res = await requests.sort.getSortAllType(skip, type);
+      const newDate = res.data.data;
+      setProducts([...newDate]);
+      setSkip(skip + 10);
     } catch (error) {
       console.log(error);
+    } finally {
+      setFooterLoading(false);
     }
   };
-  let getNewAdded = async () => {
-    try {
-      let res = await requests.sort.getNewAdded();
-      setProducts(res.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  let getExpensive = async () => {
-    try {
-      let res = await requests.sort.getExpensive();
-      setProducts(res.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  let getCheap = async () => {
-    try {
-      let res = await requests.sort.getCheap();
-      setProducts(res.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  let getPopular = async () => {
-    try {
-      let res = await requests.sort.getPopular();
-      setProducts(res.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    if (modalSort === 'Новинка') {
-      getNewAdded();
-    }
-    if (modalSort === 'Самые дорогие') {
-      getExpensive();
-    }
-    if (modalSort === 'Популярные') {
-      getPopular();
-    }
-    if (modalSort === 'Самые дешевые') {
-      getCheap();
-    }
-    if (modalSort === 'Недавно добавленные') {
-      getRecently();
-    }
-  }, [modalSort]);
 
   useEffect(() => {
     effect();
   }, []);
+  useEffect(() => {
+    if (modalSort === 'Новинка') {
+      getRecently('new');
+    }
+    if (modalSort === 'Популярные') {
+      getRecently('popular');
+    }
+    if (modalSort === 'Самые дешевые') {
+      getRecently('price_down');
+    }
+  }, [modalSort, id]);
+
+  const itemSeparatorComponent = useCallback(() => {
+    return <View style={{height: 10}}></View>;
+  }, [products]);
+
+  const onEndReached = () => {
+    if (modalSort === 'Новинка') {
+      getRecently('new');
+    }
+    if (modalSort === 'Популярные') {
+      getRecently('popular');
+    }
+    if (modalSort === 'Самые дешевые') {
+      getRecently('price_down');
+    }
+  };
+  const clearHandler = () => {
+    setProducts([]);
+    setSkip(10);
+  };
 
   let productDisebled = products?.length;
   if (newValyu) {
     productDisebled = newValyu?.length;
   }
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
@@ -134,6 +123,17 @@ const CatalogProductsScreen = () => {
                 )}
                 numColumns={2}
                 contentContainerStyle={styles.contentContainerStyle}
+                ListFooterComponent={
+                  <>
+                    {footerLoading ? (
+                      <View style={{alignItems: 'center'}}>
+                        <ActivityIndicator size="large" color="#0000ff" />
+                      </View>
+                    ) : null}
+                  </>
+                }
+                ItemSeparatorComponent={itemSeparatorComponent}
+                onEndReached={onEndReached}
               />
             ) : (
               <Text
@@ -159,6 +159,7 @@ const CatalogProductsScreen = () => {
           <SortView
             setModalVisible={setModalVisible}
             setModalSort={setModalSort}
+            clearHandler={clearHandler}
           />
         ) : (
           <FilterScren

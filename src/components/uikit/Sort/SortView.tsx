@@ -11,13 +11,13 @@ import React, {useState} from 'react';
 import AllProductTitle from '../AllProductTitle';
 import {COLORS} from '../../../constants/colors';
 import DefaultButton from '../DefaultButton';
-import {useRoute} from '@react-navigation/native';
 
 type PropsSort = {
   item?: string;
   setModalVisible?: any;
   setModalSort?: any;
   modalSort?: string;
+  clearHandler?: () => void;
 };
 
 const title = 'Сортировать';
@@ -30,23 +30,17 @@ const data = [
     id: 1,
     name: 'Новинка',
   },
+
   {
     id: 2,
-    name: 'Самые дорогие',
-  },
-  {
-    id: 3,
     name: 'Самые дешевые',
-  },
-  {
-    id: 4,
-    name: 'Недавно добавленные',
   },
 ];
 const SortView = (props: PropsSort) => {
   const [active, setActive] = useState(props.modalSort || 'Популярные');
 
   const sortAddHandler = () => {
+    props.clearHandler();
     props.setModalVisible(false);
     props.setModalSort(active);
   };

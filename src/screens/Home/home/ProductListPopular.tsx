@@ -40,7 +40,7 @@ export default function ProductList(props: Props) {
     navigation.navigate(
       //@ts-ignore
       ROUTES.ALLPRODUCTS as never,
-      {props, products} as never,
+      {title: 'Популярные', props} as never,
     );
   };
 

@@ -15,7 +15,11 @@ const Description = (props: typeProps) => {
 
   return (
     <View>
-      <RenderHTML contentWidth={width} source={source} />
+      <RenderHTML
+        contentWidth={width}
+        source={source}
+        baseStyle={styles.messege_HtmlText}
+      />
       {/* <Text style={{color: COLORS.black}}>{props.description}</Text> */}
     </View>
   );
@@ -23,4 +27,13 @@ const Description = (props: typeProps) => {
 
 export default Description;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  messege_HtmlText: {
+    color: COLORS.textColor,
+
+    fontSize: 14,
+    fontWeight: 'normal',
+    padding: 0,
+    margin: 0,
+  },
+});

@@ -41,7 +41,7 @@ export default function ProductListNew(props: ProductListProps) {
     navigation.navigate(
       //@ts-ignore
       ROUTES.ALLPRODUCTS as never,
-      {products, props} as never,
+      {title: 'Новинка', props} as never,
     );
   };
   return (

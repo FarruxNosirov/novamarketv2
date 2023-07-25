@@ -35,7 +35,7 @@ export default function Login(props: any) {
   let dispatch = useAppDispatch();
   const [state, setState] = useState<LoginState>({
     password: '', //704997
-    phone: '', //+79257813877
+    phone: '+7', //+79257813877
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState(false);
