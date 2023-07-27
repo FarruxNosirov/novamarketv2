@@ -1,6 +1,6 @@
 import requests, {appendUrl} from '@api/requests';
 import {ProductItemResponse} from '@api/types';
-import DefaultButton from '@components/uikit/DefaultButton';
+import ButtonGradient from '@components/ButtonGradient';
 
 import {COLORS} from '@constants/colors';
 import {ROUTES} from '@constants/routes';
@@ -21,8 +21,7 @@ import {
 import {useDispatch} from 'react-redux';
 
 const Products = ({item}: {item: ProductItemResponse}) => {
-  let {photo, name, price, discount, price_usd, id, isFavorite, category} =
-    item;
+  let {photo, name, price, discount, id} = item;
 
   const dispatch = useDispatch();
   const cart = useAppSelector(cartSelector);
@@ -103,33 +102,37 @@ const Products = ({item}: {item: ProductItemResponse}) => {
                 {price} {STRINGS.ru.money}
               </Text>
             </View>
+
             <View style={styles.button}>
-              <DefaultButton
-                secondary={isInCart}
+              <ButtonGradient
                 onPress={onCartPress}
-                isInCart={isInCart}>
+                isInCart={isInCart}
+                // eslint-disable-next-line react-native/no-inline-styles
+                containerStyle={{
+                  borderRadius: 10,
+                  borderWidth: 1,
+                  borderColor: COLORS.blue,
+                }}>
                 {animate ? (
                   <ActivityIndicator
                     size="small"
-                    color={COLORS.red}
+                    color={isInCart ? '#fff' : COLORS.blue}
                     animating={animate}
                   />
                 ) : (
                   <View style={styles.buttonContainer}>
                     <Text
                       style={[
-                        isInCart ? styles.inactiveCartText : styles.cartText,
+                        isInCart ? styles.cartText : styles.inactiveCartText,
                       ]}>
                       {isInCart
                         ? `${STRINGS.ru.addToCart}е`
                         : `${STRINGS.ru.addToCart}у`}
                     </Text>
-                    <BasketIcon
-                      fill={isInCart ? COLORS.cartColor3 : COLORS.white}
-                    />
+                    <BasketIcon fill={isInCart ? COLORS.white : COLORS.blue} />
                   </View>
                 )}
-              </DefaultButton>
+              </ButtonGradient>
             </View>
           </View>
         </View>

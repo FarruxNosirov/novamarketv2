@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   FlatList,
   SafeAreaView,
@@ -11,13 +12,14 @@ import React, {useState} from 'react';
 import AllProductTitle from '../AllProductTitle';
 import {COLORS} from '../../../constants/colors';
 import DefaultButton from '../DefaultButton';
-import {useRoute} from '@react-navigation/native';
 
 type PropsSort = {
   item?: string;
   setModalVisible?: any;
   setModalSort?: any;
   modalSort?: string;
+  clearHandler?: () => void;
+  setActiveSortType?: any;
 };
 
 const title = 'Сортировать';
@@ -25,30 +27,28 @@ const data = [
   {
     id: 0,
     name: 'Популярные',
+    type: 'popular',
   },
   {
     id: 1,
     name: 'Новинка',
+    type: 'new',
   },
+
   {
     id: 2,
-    name: 'Самые дорогие',
-  },
-  {
-    id: 3,
     name: 'Самые дешевые',
-  },
-  {
-    id: 4,
-    name: 'Недавно добавленные',
+    type: 'price_down',
   },
 ];
 const SortView = (props: PropsSort) => {
-  const [active, setActive] = useState(props.modalSort || 'Популярные');
+  const [active, setActive] = useState('Популярные');
+  const [activeType, setActiveType] = useState('');
 
   const sortAddHandler = () => {
     props.setModalVisible(false);
     props.setModalSort(active);
+    props.setActiveSortType(activeType);
   };
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
@@ -60,7 +60,9 @@ const SortView = (props: PropsSort) => {
           renderItem={({item}) => (
             <TouchableOpacity
               style={styles.box}
-              onPress={() => setActive(item.name)}>
+              onPress={() => {
+                setActive(item.name), setActiveType(item.type);
+              }}>
               <Text style={styles.title}>{item.name}</Text>
               <View style={styles.except}>
                 <View
@@ -70,7 +72,8 @@ const SortView = (props: PropsSort) => {
                       backgroundColor:
                         active === item.name ? COLORS.blue : '#FFFFFF',
                     },
-                  ]}></View>
+                  ]}
+                />
               </View>
             </TouchableOpacity>
           )}

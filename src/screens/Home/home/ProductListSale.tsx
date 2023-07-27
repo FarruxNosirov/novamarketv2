@@ -37,7 +37,7 @@ export default function ProductListSale(props: ProductListProps) {
     navigation.navigate(
       //@ts-ignore
       ROUTES.ALLPRODUCTS as never,
-      {products, props} as never,
+      {title: 'Самые дешевые', props, type: 'price_down'} as never,
     );
   };
   return (

@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
 
   title: {
     fontSize: 14,
+    color: COLORS.textColor,
   },
 
   text: {

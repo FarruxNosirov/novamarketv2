@@ -1,3 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-shadow */
+/* eslint-disable react-native/no-inline-styles */
 import requests, {assetUrl} from '@api/requests';
 import {STRINGS} from '@locales/strings';
 import {useNavigation, useRoute} from '@react-navigation/native';
@@ -6,7 +9,7 @@ import {toggleLoading} from '@store/slices/appSettings';
 import {cartSelector, loadCart} from '@store/slices/cartSlice';
 import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
 import {selectUser} from '@store/slices/userSlice';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -44,6 +47,7 @@ import {styles} from './style';
 import ButtonGradient from '@components/ButtonGradient';
 import DefaultButton from '@components/uikit/DefaultButton';
 import ReviewBox from '@components/uikit/ReviewBox';
+import useLoading from '@store/Loader/useLoading';
 
 const PdoductDetails = () => {
   const [active, setActive] = useState({
@@ -52,7 +56,6 @@ const PdoductDetails = () => {
   });
 
   const [sizeActive, setSizeActive] = useState();
-
   const navigation = useNavigation();
   const [animate, setAnimate] = useState(false);
   const width = Dimensions.get('window').width;
@@ -60,9 +63,13 @@ const PdoductDetails = () => {
   const [index, setIndex] = useState(0);
   const route = useRoute<any>();
   let id = route?.params?.props?.id;
+
   const [colorActive, setColorActive] = useState(id);
   let newId = colorActive === id ? id : colorActive;
-  console.log('newId', newId);
+  useEffect(() => {
+    setColorActive(id);
+  }, [id]);
+
   const cart = useAppSelector(cartSelector);
   let isInCart = !!cart[newId];
   const dispatch = useDispatch();
@@ -74,14 +81,33 @@ const PdoductDetails = () => {
   const userToken = useAppSelector(selectUser);
   const [shouldShow, setShouldShow] = useState(true);
   const [reviewsList, setReviewsList] = useState<any>([]);
-  const getDetailId = async () => {
+  const flatlistRef = React.useRef();
+  const loading = useLoading();
+
+  const onPressFunction = () => {
+    flatlistRef.current.scrollTo({
+      y: 0,
+      animated: true,
+    });
+  };
+
+  const getDetailId = useCallback(async () => {
+    loading?.onRun();
     try {
       let res = await requests.products.getProductDetailID(newId);
       setDetailIdValue(res.data.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      loading?.onClose();
     }
-  };
+  }, [newId, id]);
+
+  useEffect(() => {
+    getDetailId();
+    onPressFunction();
+  }, [getDetailId]);
+
   const onPress = () => {
     setActive({...active, value1: !active.value1});
   };
@@ -103,10 +129,6 @@ const PdoductDetails = () => {
       dispatch(toggleLoading(false));
     }
   };
-
-  useEffect(() => {
-    getDetailId();
-  }, [newId]);
 
   const adHandler = (a: string) => {
     if (a === 'add') {
@@ -197,6 +219,7 @@ const PdoductDetails = () => {
   }, []);
 
   let separate = detailIdValue?.review_separate;
+  // console.log(JSON.stringify(detailIdValue.filters, null, 2));s
 
   return (
     <View style={{backgroundColor: COLORS.tabBgColor, zIndex: 0}}>
@@ -238,7 +261,7 @@ const PdoductDetails = () => {
         </View>
       </View>
 
-      <ScrollView style={{zIndex: 0}}>
+      <ScrollView style={{zIndex: 0}} ref={flatlistRef}>
         <View style={{width: '100%', position: 'relative', minHeight: 346}}>
           <Carousel
             ref={isCorusel}
@@ -274,7 +297,7 @@ const PdoductDetails = () => {
         </View>
 
         <View style={styles.container}>
-          <View style={styles.box1}></View>
+          <View style={styles.box1} />
           <View style={styles.box2}>
             <Text style={styles.title}>
               {detailIdValue?.name?.length > 30
@@ -282,7 +305,7 @@ const PdoductDetails = () => {
                 : detailIdValue?.name}
             </Text>
           </View>
-          <View style={styles.border}></View>
+          <View style={styles.border} />
           <View style={styles.box2}>
             <Text style={styles.box2_title_now}>
               {detailIdValue?.price
@@ -362,76 +385,67 @@ const PdoductDetails = () => {
               </DefaultButton>
             </View>
           </View>
+
           {detailIdValue?.filters?.length > 0 ? (
             <>
-              <View style={styles.border}></View>
-              <View style={styles.box4}>
-                <Text style={styles.box4_title}>Параметры</Text>
-                <View style={styles.box4_content}>
-                  <Text style={styles.content_title}>
-                    {detailIdValue?.filters[0].name}:
-                  </Text>
-                  <FlatList
-                    style={{marginTop: 18}}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    data={detailIdValue?.filters[0].items}
-                    renderItem={({item}) => (
-                      <TouchableOpacity
-                        onPress={() => setSizeActive(item.value_id)}
-                        style={[
-                          styles.buttonSize,
-                          {
-                            backgroundColor:
-                              sizeActive === item.value_id
-                                ? COLORS.blue
-                                : '#FFFFFF',
-                          },
-                        ]}>
-                        <Text
-                          style={[
-                            styles.active_title,
-                            {
-                              color:
-                                sizeActive === item.value_id
-                                  ? '#ffffff'
-                                  : COLORS.blue,
-                            },
-                          ]}>
-                          {item.value}
-                        </Text>
-                      </TouchableOpacity>
-                    )}
-                  />
-                </View>
-              </View>
+              {detailIdValue?.filters.map((item: any) => {
+                return (
+                  <>
+                    {item.name === 'Размер' ? (
+                      <>
+                        <View style={styles.border} />
+                        <View style={styles.box4}>
+                          <View style={styles.box4_content}>
+                            <Text style={styles.box4_title}>{item.name}:</Text>
+                            <FlatList
+                              style={{marginTop: 18}}
+                              horizontal
+                              showsHorizontalScrollIndicator={false}
+                              data={item.items}
+                              renderItem={({item}) => (
+                                <TouchableOpacity
+                                  onPress={() => setSizeActive(item.value_id)}
+                                  style={[
+                                    styles.buttonSize,
+                                    {
+                                      backgroundColor:
+                                        sizeActive === item.value_id
+                                          ? COLORS.blue
+                                          : '#FFFFFF',
+                                    },
+                                  ]}>
+                                  <Text
+                                    style={[
+                                      styles.active_title,
+                                      {
+                                        color:
+                                          sizeActive === item.value_id
+                                            ? '#ffffff'
+                                            : COLORS.blue,
+                                      },
+                                    ]}>
+                                    {item.value}
+                                  </Text>
+                                </TouchableOpacity>
+                              )}
+                            />
+                          </View>
+                        </View>
+                      </>
+                    ) : null}
+                  </>
+                );
+              })}
             </>
           ) : null}
 
           {detailIdValue?.products?.length > 0 ? (
             <>
-              <View style={styles.border}></View>
+              <View style={styles.border} />
               <View style={styles.box4}>
-                <Text style={styles.box4_title}>Параметры</Text>
                 <View style={styles.box4_content}>
-                  <Text style={styles.content_title}>Цвет:</Text>
-                  {/* <TouchableOpacity
-                    style={[
-                      styles.buttonSize,
-                      {
-                        backgroundColor: COLORS.blue,
-                      },
-                    ]}>
-                    <Text
-                      style={[
-                        styles.active_title,
-                        {
-                          color: '#ffffff' ,
-                        },
-                      ]}>
-                      {detailIdValue.color.name}
-                    </Text>
-                  </TouchableOpacity> */}
+                  <Text style={styles.box4_title}>Цвет:</Text>
+
                   <FlatList
                     style={{marginTop: 18}}
                     horizontal
@@ -466,7 +480,7 @@ const PdoductDetails = () => {
           ) : null}
           {detailIdValue?.description !== '' ? (
             <>
-              <View style={styles.border2}></View>
+              <View style={styles.border2} />
               <FilterModal
                 title="Описание"
                 active={active.value1}
@@ -481,7 +495,7 @@ const PdoductDetails = () => {
           ) : null}
           {detailIdValue?.productProperties?.length > 0 && (
             <>
-              <View style={styles.border2}></View>
+              <View style={styles.border2} />
               <FilterModal
                 title="Характеристики"
                 active={active.value2}
@@ -497,7 +511,7 @@ const PdoductDetails = () => {
             </>
           )}
 
-          <View style={styles.border2}></View>
+          <View style={styles.border2} />
 
           <TouchableOpacity
             onPress={() => {
@@ -559,7 +573,7 @@ const PdoductDetails = () => {
             </View>
           ) : null}
 
-          <View style={styles.border}></View>
+          <View style={styles.border} />
           <View style={styles.box6}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text style={styles.brend}>Бренд</Text>
@@ -571,7 +585,7 @@ const PdoductDetails = () => {
               />
             </View>
           </View>
-          <View style={styles.border}></View>
+          <View style={styles.border} />
           <View style={{flex: 1}}>
             <Text
               style={{
@@ -583,7 +597,7 @@ const PdoductDetails = () => {
               Похожие товары
             </Text>
             <FlatList
-              style={{marginTop: 20, marginBottom: 20}}
+              style={{marginTop: 20, marginBottom: 20, paddingTop: 10}}
               showsVerticalScrollIndicator={false}
               data={related}
               renderItem={({item}) => <AllProductItemCard {...item} />}

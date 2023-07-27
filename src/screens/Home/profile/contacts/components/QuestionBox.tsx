@@ -1,9 +1,12 @@
+/* eslint-disable no-alert */
 import requests from '@api/requests';
 import {SendQuestionValue} from '@api/types';
 import DefaultButton from '@components/uikit/DefaultButton';
 import {COLORS} from '@constants/colors';
+import useLoading from '@store/Loader/useLoading';
 import React, {useState} from 'react';
-import {Platform, StyleSheet, TextInput, View, Text} from 'react-native';
+import {Alert, Platform, StyleSheet, Text, TextInput, View} from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export interface QuestionBoxProps {
   title?: string;
@@ -12,18 +15,37 @@ export interface QuestionBoxProps {
 
 const QuestionBox = ({title, button}: QuestionBoxProps) => {
   const [question, setQuestion] = useState<SendQuestionValue>();
+  const [loading, setLoading] = useState(false);
+
+  const disabled = question?.message?.length > 6 ? true : false;
   const onSubmit = async () => {
     try {
+      setLoading(true);
       let res = await requests.frequentQuestions.sendQuestion({
         name: question?.name as string,
         email: question?.email as string,
         message: question?.message as string,
       });
-      console.log('success');
+      // eslint-disable-next-line no-extra-boolean-cast
+      if (!!res.data) {
+        Alert.alert('Спасибо', `ваше письмо успешно отправлено`, [
+          {
+            text: 'OK',
+          },
+        ]);
+      } else {
+        Alert.alert('Извините', `ваше письмо не было успешно отправлено`, [
+          {
+            text: 'OK',
+          },
+        ]);
+      }
       setQuestion({});
     } catch (error) {
       alert('errroooor');
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -64,8 +86,10 @@ const QuestionBox = ({title, button}: QuestionBoxProps) => {
           onPress={onSubmit}
           title={button}
           isInCart={false}
+          disabled={!disabled}
         />
       </View>
+      <Spinner visible={loading} />
     </View>
   );
 };

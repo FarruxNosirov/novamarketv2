@@ -21,13 +21,7 @@ import {
   CommentIcon,
   ContactIcon,
   NewAdminIcon,
-  NewArrowIcon,
-  NewBasketIcon,
-  NewLocationIcon,
   NewLogOutIcon,
-  NewMessageIcon,
-  NewNotificationIcon,
-  NewTranstionIcon,
   PaymentIcon,
   ShopIcon,
   UserMarkIcon,
@@ -35,16 +29,12 @@ import {
 import ProductsTitle from '../../../components/uikit/ProductsTitle';
 import {ROUTES} from '../../../constants/routes';
 import SettingsItem from './Setting/SettingItem';
-import ContactsView from './contacts/Contacts';
 
 export default function ProfileScreen() {
   const navigation: any = useNavigation();
   const isFocused = useIsFocused();
   const dispatch: any = useAppDispatch();
   const profileStore = useSelector((store: RootState) => store.profile);
-  type ProfileData = Partial<LoginResponse>;
-  // let [profileData, setProfileData] = useState<ProfileData>();
-  // const [animate2, setAnimate2] = useState(false);
 
   let onLogOut = () => {
     Alert.alert('Вы точно хотите выйти из аккаунта ?', '', [
@@ -76,28 +66,8 @@ export default function ProfileScreen() {
   return (
     <View
       style={{flex: 1, backgroundColor: COLORS.white, position: 'relative'}}>
+      <ProductsTitle title="Доброе утро" showButton={false} />
       <ScrollView style={style.container} showsVerticalScrollIndicator={false}>
-        <ProductsTitle title="Доброе утро" showButton={false} />
-        {/* <View style={style.ProfileInfo}>
-        {user?.token ? (
-          <Image
-            style={style.ProfileImage}
-            source={{uri: assetUrl + profileStore?.photo}}
-          />
-        ) : (
-          <View style={[style.ProfileImage]}></View>
-        )}
-        <View style={style.ProfileInfoTextBox}>
-          <Text style={style.ProfileInfoTextName}>{profileStore?.name}</Text>
-
-          <View style={{width: '80%'}}>
-            <TouchableOpacity onPress={ubdeteProfile}>
-              <Text style={style.ProfileInfoText}>Изменить личные данные</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View> */}
-
         <SettingsItem
           onPress={() => navigation.navigate(ROUTES.OrderScrenn as never)}
           text={'Мои заказы'}
@@ -113,11 +83,11 @@ export default function ProfileScreen() {
         icon={() => <NewLocationIcon />}
    
       /> */}
-        <SettingsItem
+        {/* <SettingsItem
           onPress={() => navigation.navigate(ROUTES.MESSAGE as never)}
           text={'Мои сообщения'}
           icon={() => <CommentIcon fill={COLORS.defaultBlack} />}
-        />
+        /> */}
         <SettingsItem
           onPress={() => navigation.navigate(ROUTES.TECHNICALSUPPORT as never)}
           text={'Техническая поддержка'}
@@ -129,11 +99,11 @@ export default function ProfileScreen() {
         icon={() => <NewDiscountIcon />}
    
       /> */}
-        <SettingsItem
+        {/* <SettingsItem
           onPress={() => navigation.navigate(ROUTES.TRANSACTIONS as never)}
           text={'Мои платежи'}
           icon={() => <PaymentIcon fill={COLORS.defaultBlack} />}
-        />
+        /> */}
         {/* <SettingsItem
           onPress={() =>
             navigation.navigate(ROUTES.PROFILE_NOTIFICATION as never)
@@ -152,35 +122,11 @@ export default function ProfileScreen() {
           icon={() => <ContactIcon stroke={COLORS.defaultBlack} />}
         />
         <SettingsItem
-          text={'Войти'}
+          text={'Выйти'}
           onPress={onLogOut}
           icon={() => <NewLogOutIcon stroke={COLORS.defaultBlack} />}
         />
       </ScrollView>
-      <View style={style.footer}>
-        {user.token && (
-          <TouchableOpacity
-            style={style.butto2}
-            onPress={() => dispatch(deleteAccountData())}>
-            {profileStore.isLoadingOfBtn ? (
-              <ActivityIndicator
-                size="small"
-                color={COLORS.white}
-                animating={profileStore.isLoadingOfBtn}
-              />
-            ) : (
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Text style={style.logOutButtonText}>Удалить аккаунт</Text>
-              </View>
-            )}
-          </TouchableOpacity>
-        )}
-      </View>
     </View>
   );
 }
@@ -281,18 +227,10 @@ const style = StyleSheet.create({
   footer: {
     width: '100%',
     paddingHorizontal: 15,
-    position: 'absolute',
-
     backgroundColor: COLORS.white,
     height: 120,
-    shadowColor: COLORS.black,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 17,
-    elevation: 1,
     bottom: 20,
+    borderRadius: 10,
+    top: 40,
   },
 });

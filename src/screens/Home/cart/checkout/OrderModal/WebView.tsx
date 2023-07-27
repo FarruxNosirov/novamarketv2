@@ -5,12 +5,13 @@ import {useRoute} from '@react-navigation/native';
 
 const WebViewComponets = () => {
   const {params} = useRoute<any>();
+  // console.log('link', JSON.stringify(params, null, 2));
 
   return (
     <SafeAreaView style={{flex: 1}}>
       <WebView
         source={{
-          uri: 'https://novamarkt.server.paykeeper.ru/bill/20230528195258913/',
+          uri: params?.link,
         }}
       />
     </SafeAreaView>

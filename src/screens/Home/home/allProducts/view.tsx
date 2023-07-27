@@ -1,89 +1,116 @@
+/* eslint-disable react-native/no-inline-styles */
+import requests from '@api/requests';
+import FilterScren from '@components/template/FilterScreen';
+import SortView from '@components/uikit/Sort/SortView';
+import {useRoute} from '@react-navigation/native';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
-  Alert,
+  ActivityIndicator,
   FlatList,
   Modal,
   SafeAreaView,
   StyleSheet,
   View,
+  Text,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import AllProductItemCard from './AllProductItemCard';
 import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
-import AllProductTitle from '../../../../components/uikit/AllProductTitle';
 import SortAndFilter from '../../../../components/uikit/SortAndFilter';
 import {COLORS} from '../../../../constants/colors';
-import {useRoute} from '@react-navigation/native';
-import requests from '@api/requests';
-import {ProductItemResponse} from '@api/types';
-import SortView from '@components/uikit/Sort/SortView';
-import FilterScren from '@components/template/FilterScreen';
+import AllProductItemCard from './AllProductItemCard';
+import LoadingModal from '@components/uikit/LoadingModal/LoadingModal';
+
 const AllProducts = () => {
-  const {params, name, key, id, type}: any = useRoute();
-  const [products, setProducts] = useState<ProductItemResponse[]>();
+  const {params}: any = useRoute();
 
-  let getRecently = async () => {
-    try {
-      let res = await requests.sort.getRecently();
-      setProducts(res.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  let getNewAdded = async () => {
-    try {
-      let res = await requests.sort.getNewAdded();
-      setProducts(res.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  let getExpensive = async () => {
-    try {
-      let res = await requests.sort.getExpensive();
-      setProducts(res.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  let getCheap = async () => {
-    try {
-      let res = await requests.sort.getCheap();
-      setProducts(res.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  let getPopular = async () => {
-    try {
-      let res = await requests.sort.getPopular();
-      setProducts(res.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+  const [products, setProducts] = useState<any[]>([]);
+  const [skip, setSkip] = useState(1);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalFilter, setModalFilter] = useState('');
-  const [modalSort, setModalSort] = useState('');
+  const [modalSort, setModalSort] = useState(params.title);
+  const [isMore, setIsMore] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [pageSize, setPageSize] = useState(1);
+  const [activeSortType, setActiveSortType] = useState('');
+  const oldSortType = activeSortType ? activeSortType : params?.type;
+
+  const didMount = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const res = await requests.sort.getSortAllType(oldSortType, 1);
+      setProducts(res.data.data);
+      setPageSize(res.data._meta.pageCount);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [oldSortType]);
 
   useEffect(() => {
-    if (modalSort === 'Новинка') {
-      getNewAdded();
+    didMount();
+  }, [didMount]);
+
+  const loadMore = useCallback(async () => {
+    setIsMore(false);
+    const pageCount = skip + 1;
+
+    if (pageSize < pageCount) {
+      return;
     }
-    if (modalSort === 'Самые дорогие') {
-      getExpensive();
+    try {
+      const res = await requests.sort.getSortAllType(oldSortType, pageCount);
+      const data = res.data.data;
+      setProducts(p => [...p, ...data]);
+      setSkip(pageCount);
+      setIsMore(true);
+    } catch (err) {
+      console.log(err);
     }
-    if (modalSort === 'Популярные') {
-      getPopular();
-    }
-    if (modalSort === 'Самые дешевые') {
-      getCheap();
-    }
-    if (modalSort === 'Недавно добавленные') {
-      getRecently();
-    }
-  }, [modalSort]);
+  }, [oldSortType, pageSize, skip]);
+
   const defaultTitle = modalSort ? modalSort : params.props?.title;
+
+  const renderList = () => (
+    <FlatList
+      showsVerticalScrollIndicator={false}
+      data={products}
+      renderItem={({item}) => (
+        <AllProductItemCard modalSort={modalSort} {...item} />
+      )}
+      numColumns={2}
+      contentContainerStyle={styles.contentContainerStyle}
+      onEndReached={() => {
+        if (isMore) {
+          loadMore();
+        }
+      }}
+      onEndReachedThreshold={0.5}
+      windowSize={3}
+      updateCellsBatchingPeriod={100}
+      maxToRenderPerBatch={1}
+      initialNumToRender={1}
+      keyExtractor={(item, index) => index.toLocaleString()}
+      ListEmptyComponent={
+        <Text
+          style={{
+            textAlign: 'center',
+            color: COLORS.red,
+            marginTop: 100,
+          }}>
+          Нет результатов
+        </Text>
+      }
+      ListFooterComponent={
+        <>
+          {isMore && pageSize > 0 ? (
+            <View style={{alignItems: 'center'}}>
+              <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+          ) : null}
+        </>
+      }
+    />
+  );
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -96,24 +123,11 @@ const AllProducts = () => {
               setModalVisible={setModalVisible}
               setModalFilter={setModalFilter}
               setModalSort={modalSort}
+              isSort={true}
             />
           ) : null}
         </View>
-
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={products ? products : params.products}
-          renderItem={({item}) => (
-            <AllProductItemCard
-              showNewProduct={params.props.showNewProduct}
-              showDiscountAdd={params.props.showDiscountAdd}
-              modalSort={modalSort}
-              {...item}
-            />
-          )}
-          numColumns={2}
-          contentContainerStyle={styles.contentContainerStyle}
-        />
+        {isLoading ? <LoadingModal /> : renderList()}
       </View>
       <Modal
         animationType="slide"
@@ -127,6 +141,7 @@ const AllProducts = () => {
             setModalVisible={setModalVisible}
             setModalSort={setModalSort}
             modalSort={modalSort}
+            setActiveSortType={setActiveSortType}
           />
         ) : (
           <FilterScren setModalVisible={setModalVisible} />
@@ -225,6 +240,37 @@ const styles = StyleSheet.create({
   textStyle: {
     color: 'white',
     fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  item: {
+    padding: 10,
+    height: 80,
+  },
+  separator: {
+    height: 0.5,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+  },
+  text: {
+    fontSize: 15,
+    color: 'black',
+  },
+  footer: {
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  loadMoreBtn: {
+    padding: 10,
+    backgroundColor: '#800000',
+    borderRadius: 4,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btnText: {
+    color: 'white',
+    fontSize: 15,
     textAlign: 'center',
   },
 });

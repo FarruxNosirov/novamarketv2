@@ -1,12 +1,12 @@
-import {View, Text, FlatList, StyleSheet} from 'react-native';
 import React, {useEffect, useState} from 'react';
+import {FlatList, StyleSheet, View} from 'react-native';
 
-import ProductItemCard from './ProductItemCard';
+import requests from '@api/requests';
+import {useNavigation} from '@react-navigation/native';
+import useLoading from '@store/Loader/useLoading';
 import ProductsTitle from '../../../components/uikit/ProductsTitle';
 import {ROUTES} from '../../../constants/routes';
-import {useNavigation} from '@react-navigation/native';
-import requests from '@api/requests';
-import useLoading from '@store/Loader/useLoading';
+import ProductItemCard from './ProductItemCard';
 
 type ProductListProps = {
   title: string;
@@ -30,18 +30,20 @@ export default function ProductListNew(props: ProductListProps) {
   };
   useEffect(() => {
     effect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (products?.length <= 0) {
-    return <View></View>;
+    return <View />;
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const navigation = useNavigation();
   const onPress = () => {
     navigation.navigate(
       //@ts-ignore
       ROUTES.ALLPRODUCTS as never,
-      {products, props} as never,
+      {title: 'Новинка', props, type: 'new'} as never,
     );
   };
   return (

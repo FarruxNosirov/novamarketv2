@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-native/no-inline-styles */
 import requests from '@api/requests';
 import DefaultInput from '@components/uikit/TextInput';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   FlatList,
   SafeAreaView,
@@ -12,6 +14,7 @@ import {COLORS} from '../../constants/colors';
 import AllProductTitle from '../uikit/AllProductTitle';
 import DefaultButton from '../uikit/DefaultButton';
 import FilterSwitch from './FilterSwitch';
+import useLoading from '@store/Loader/useLoading';
 type PropsSort = {
   setModalVisible?: any;
   filter?: any;
@@ -21,30 +24,40 @@ type PropsSort = {
 
 const FilterScren = (props: PropsSort) => {
   const [catalogType, setCatalogType] = useState<any>([]);
-  const getFilterId = async () => {
+  const getFilterId = useCallback(async () => {
     try {
       let res = await requests.filter.catalogFilter(props.filter);
       setCatalogType(res.data.data);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [props.filter]);
+
   useEffect(() => {
     getFilterId();
-  }, []);
+  }, [getFilterId]);
+  const lodaing = useLoading();
 
   const [filter, setFilter] = useState<any>();
   const [priceMin, setPriceMin] = useState(0);
   const [priceMax, setPriceMax] = useState(priceMin);
 
-  const handleFilter = (id?: any, value?: any, type?: any) => {
-    setFilter({
-      ...filter,
-      [`filter[${id}]`]: id,
-    });
+  const handleFilter = (id?: any) => {
+    if (filter === undefined) {
+      setFilter({
+        [`filter[${id}]`]: id,
+      });
+    } else if (!filter[`filter[${id}]`]) {
+      setFilter({
+        ...filter,
+        [`filter[${id}]`]: id,
+      });
+    } else {
+      let newDate = delete filter[`filter[${id}]`];
+      setFilter({...filter, newDate});
+    }
   };
   console.log('filter', JSON.stringify(filter, null, 2));
-
   const OnChangeHandlerMine = (e: any) => {
     let newFilter = {
       ...filter,
@@ -65,6 +78,7 @@ const FilterScren = (props: PropsSort) => {
   let categoryId = props.filter;
 
   const subMendHandler = async () => {
+    lodaing?.onRun();
     try {
       let res = await requests.filter.productFilter(
         priceMin,
@@ -76,6 +90,8 @@ const FilterScren = (props: PropsSort) => {
       props.setNewValyu(res.data.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      lodaing?.onClose();
     }
   };
   const submetAndClosed = async () => {
@@ -87,6 +103,7 @@ const FilterScren = (props: PropsSort) => {
       return !a;
     });
   };
+
   let btnDisebled = true;
   if (priceMin && priceMax) {
     btnDisebled = false;
@@ -115,13 +132,19 @@ const FilterScren = (props: PropsSort) => {
         <FlatList
           data={catalogType}
           renderItem={({item}) => (
-            <FilterSwitch
-              input={item}
-              priceMin={priceMin}
-              priceMax={priceMax}
-              handleFilter={handleFilter}
-            />
+            <>
+              {item.is_filter ? (
+                <FilterSwitch
+                  input={item}
+                  priceMin={priceMin}
+                  priceMax={priceMax}
+                  handleFilter={handleFilter}
+                  filter={filter}
+                />
+              ) : null}
+            </>
           )}
+          keyExtractor={(item, index) => index.toLocaleString()}
           style={{marginBottom: 30}}
         />
         <View

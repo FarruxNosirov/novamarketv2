@@ -47,7 +47,7 @@ const CheckoutView = () => {
     email: '',
     lastName: '',
     name: '',
-    payment_id: 0,
+    payment_id: 6,
     phone: '',
   });
   const loading = useLoading();
@@ -81,7 +81,7 @@ const CheckoutView = () => {
       email: profileData?.email ?? '',
       lastName: profileData?.lastname ?? '',
       name: profileData?.name ?? '',
-      payment_id: 0,
+      payment_id: 6,
       phone: profileData?.phone ?? '',
     });
   }, [profileData]);
@@ -107,12 +107,16 @@ const CheckoutView = () => {
       loading?.onRun();
       let res = await requests.order.sendOrder(state);
       const paymendidNew = res?.data?.data?.id;
+      console.log('res=====', JSON.stringify(res.data.data, null, 2));
+
       if (state.payment_id === 6) {
         onClearCart();
         onClose();
         let paymentRes = await requests.order.paymendId(paymendidNew);
+        // console.log('paymentRes', JSON.stringify(paymentRes.data, null, 2));
+        const payLink = paymentRes?.data?.data?.pay_url;
         //@ts-ignore
-        navigation.navigate(ROUTES.WebView);
+        navigation.navigate(ROUTES.WebView, {link: payLink});
       } else {
         toggleSnackbar();
         onClearCart();
@@ -156,7 +160,7 @@ const CheckoutView = () => {
         email: profileData?.email ?? '',
         lastName: profileData?.lastname ?? '',
         name: profileData?.name ?? '',
-        payment_id: 0,
+        payment_id: 6,
         phone: profileData?.phone ?? '',
       });
     }
@@ -227,10 +231,10 @@ const CheckoutView = () => {
               />
             </View>
 
-            <PickupPoints
+            {/* <PickupPoints
               onStateChange={onStateChange}
               typePayment={payment as any}
-            />
+            /> */}
 
             <View>
               <DefaultInput
@@ -241,14 +245,14 @@ const CheckoutView = () => {
                 onChangeText={onStateChange('name')}
                 value={state.name}
               />
-              <DefaultInput
+              {/* <DefaultInput
                 label="Фамилия"
                 backgroundColor={'#FAFAFA'}
                 placeholderColor={COLORS.labelText}
                 marginBottom={0}
                 onChangeText={onStateChange('lastName')}
                 value={state.lastName}
-              />
+              /> */}
               <DefaultInput
                 label="Email"
                 backgroundColor={'#FAFAFA'}

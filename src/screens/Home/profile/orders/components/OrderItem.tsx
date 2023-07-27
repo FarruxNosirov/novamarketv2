@@ -28,13 +28,10 @@ const OrderItem = ({item, payment, delivery, user}: any) => {
         <View style={{maxHeight: 40}}>
           <Text style={styles.text}>{item?.product?.name}</Text>
         </View>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View
+          style={{flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
           <Text style={styles.name}>Цвет:</Text>
-          <Text
-            style={[
-              styles.name,
-              {backgroundColor: item?.product?.color?.color},
-            ]}>
+          <Text style={[styles.name, {color: item?.product?.color?.color}]}>
             {item?.product?.color?.name}
           </Text>
         </View>
@@ -71,11 +68,20 @@ const styles = StyleSheet.create({
   shadowBox: {
     marginVertical: 10,
     marginHorizontal: 20,
-    elevation: 5,
+
     borderRadius: 8,
     backgroundColor: COLORS.white,
     padding: 10,
     flexDirection: 'row',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+
+    elevation: 4,
   },
   imageBox: {
     width: 125,
@@ -88,7 +94,7 @@ const styles = StyleSheet.create({
 
   text: {
     fontSize: 13,
-    fontFamily: 'Montserrat-Bold',
+
     color: COLORS.defaultBlack,
     textTransform: 'uppercase',
   },
@@ -109,13 +115,13 @@ const styles = StyleSheet.create({
     color: COLORS.defaultBlack,
     fontSize: 13,
     alignItems: 'center',
-    marginBottom: 5,
+    marginBottom: 9,
   },
 
   price: {
     fontSize: 20,
     color: '#0052FF',
-    fontFamily: 'Montserrat-Bold',
+
     alignSelf: 'center',
     padding: 10,
     marginBottom: 5,

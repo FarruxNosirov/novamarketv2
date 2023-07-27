@@ -11,6 +11,7 @@ type PropsSnadAndFilter = {
   setModalSort?: any;
   title?: any;
   isFilter?: boolean;
+  isSort?: boolean;
 };
 
 export default function SortAndFilter(props: PropsSnadAndFilter) {
@@ -25,12 +26,15 @@ export default function SortAndFilter(props: PropsSnadAndFilter) {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.populer} onPress={sortHandler}>
-        <Text style={styles.title}>
-          {props.setModalSort ? props.setModalSort : 'Популярные'}
-        </Text>
-        <BottomArrow fill={COLORS.blue} />
-      </TouchableOpacity>
+      {props.isSort ? (
+        <TouchableOpacity style={styles.populer} onPress={sortHandler}>
+          <Text style={styles.title}>
+            {props.setModalSort ? props.setModalSort : 'Популярные'}
+          </Text>
+          <BottomArrow fill={COLORS.blue} />
+        </TouchableOpacity>
+      ) : null}
+
       {props.isFilter ? (
         <TouchableOpacity style={styles.filter} onPress={FilterHandler}>
           <Text style={styles.title}>Фильтры</Text>

@@ -1,5 +1,7 @@
+/* eslint-disable react-native/no-inline-styles */
 import CheckBox from '@components/uikit/CheckBox';
 import FilterModal from '@components/uikit/Filter/FilterModal';
+import {COLORS} from '@constants/colors';
 import {NewTopArrowIcon2} from '@icons/icons';
 import React, {useEffect, useState} from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
@@ -8,12 +10,14 @@ type PropsType = {
   handleFilter?: any;
   priceMax?: any;
   priceMin?: any;
+  filter?: any;
 };
 const FilterSwitch: any = ({
   input,
   handleFilter,
   priceMax,
   priceMin,
+  filter,
 }: PropsType) => {
   const [active, setActive] = useState({
     value1: false,
@@ -21,6 +25,8 @@ const FilterSwitch: any = ({
   });
 
   const [checkout, setCheckout] = useState<any>(false);
+  const [activeSize, setActiveSize] = useState<any[]>([]);
+  const [activeSizeType, setActiveSizeType] = useState(false);
   const onPress = () => {
     setActive({...active, value1: !active.value1});
   };
@@ -38,8 +44,14 @@ const FilterSwitch: any = ({
       setCheckout(false);
     }
   }, [priceMax, priceMin]);
-
-  // console.log(JSON.stringify(input, null, 2));s
+  const activeSizeHandler = (item: {
+    id: React.SetStateAction<number>;
+    valyu: any;
+  }) => {
+    handleFilter(item.id, item.valyu);
+    setActiveSize(a => [...a, {id: item.id}]);
+    setActiveSizeType(a => !a);
+  };
 
   switch (input?.type) {
     case 'checkbox':
@@ -51,29 +63,30 @@ const FilterSwitch: any = ({
               active={active.value1}
               onPress={onPress}>
               {active.value1 && (
-                <FlatList
-                  data={input?.childs}
-                  renderItem={({item}) => (
-                    <>
-                      {item.value && (
+                <>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flexWrap: 'wrap',
+                    }}>
+                    {input.childs.map((item: any) => {
+                      return (
                         <TouchableOpacity
-                          style={styles.chiled_box}
-                          onPress={() =>
-                            handleFilter(item.id, item.valyu, 'checkbox')
-                          }>
-                          <Text>{item.value}</Text>
+                          style={[
+                            styles.chiled_box,
+                            {
+                              backgroundColor: 'white',
+                            },
+                          ]}
+                          onPress={() => activeSizeHandler(item)}>
+                          <Text style={{fontSize: 13, color: COLORS.black}}>
+                            {item.value}
+                          </Text>
                         </TouchableOpacity>
-                      )}
-                    </>
-                  )}
-                  showsVerticalScrollIndicator={false}
-                  style={{
-                    flexDirection: 'column',
-                    flexWrap: 'wrap',
-                  }}
-                  keyExtractor={(item, index) => index.toLocaleString()}
-                  numColumns={3}
-                />
+                      );
+                    })}
+                  </View>
+                </>
               )}
             </FilterModal>
           )}
@@ -113,7 +126,7 @@ const FilterSwitch: any = ({
                 )}
                 showsVerticalScrollIndicator={false}
                 style={{flexDirection: 'column', flexWrap: 'wrap'}}
-                numColumns={3}
+                numColumns={2}
                 keyExtractor={(item, index) => index.toLocaleString()}
               />
             </View>
@@ -131,7 +144,7 @@ const FilterSwitch: any = ({
               {active.value2 && (
                 <TouchableOpacity
                   disabled={checkout}
-                  onPress={e => {
+                  onPress={() => {
                     if (priceMax && priceMin) {
                       checkBoxHandler(input.id);
                     }
@@ -162,10 +175,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 5,
+    paddingHorizontal: 8,
     paddingVertical: 6,
-    marginHorizontal: 5,
+    marginRight: 10,
     marginVertical: 5,
-    minWidth: 100,
   },
 });

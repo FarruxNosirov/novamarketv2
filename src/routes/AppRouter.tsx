@@ -1,5 +1,5 @@
 import AuthStack from '@auth/index';
-import CameraScreen from '@components/uikit/Camera/Camera';
+
 import Delivery from '@components/uikit/Delivery/ViewIndex';
 import MakeRefund from '@components/uikit/MakeRefund';
 import Search from '@components/uikit/search';
@@ -38,6 +38,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import NavigationService from './NavigationService';
 
 import OrderScrenn from '@home/profile/orders/view';
+import BrendAll from '@home/home/brandsList/BrendAll';
 // import Chat from '@home/profile/Notification/components/chat';
 
 let Stack = createNativeStackNavigator();
@@ -98,13 +99,14 @@ export default function AppRouter() {
             component={PersonalDataChange}
           />
           <Stack.Screen name={ROUTES.SEARCH} component={Search} />
+          <Stack.Screen name={ROUTES.BrendAll} component={BrendAll} />
 
           <Stack.Screen name={ROUTES.MAKEREFUND} component={MakeRefund} />
           <Stack.Screen name={ROUTES.CHAT} component={Chat} />
           <Stack.Screen name={ROUTES.CHATPRODUCTS} component={ChatProducts} />
           <Stack.Screen name={ROUTES.WebView} component={WebViewComponets} />
           <Stack.Screen name={ROUTES.AUTH} component={AuthStack} />
-          <Stack.Screen name={ROUTES.Camera} component={CameraScreen} />
+
           <Stack.Screen name={ROUTES.DELIVERY} component={Delivery} />
           <Stack.Screen name={ROUTES.Contacts} component={Contacts} />
           <Stack.Screen name={ROUTES.OrderScrenn} component={OrderScrenn} />

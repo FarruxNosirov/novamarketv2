@@ -1,23 +1,22 @@
+import requests, {appendUrl} from '@api/requests';
+import ProductsTitle from '@components/uikit/ProductsTitle';
+import {COLORS} from '@constants/colors';
+import {ROUTES} from '@constants/routes';
+import {LeftArrowIcon} from '@icons/icons';
+import {STRINGS} from '@locales/strings';
 import {useNavigation} from '@react-navigation/core';
 import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
   FlatList,
+  Image,
   StyleSheet,
+  Text,
   TouchableOpacity,
   View,
-  Image,
-  Text,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import BrandItem from './BrandItem';
-import requests, {appendUrl} from '@api/requests';
-import {STRINGS} from '@locales/strings';
-import {LeftArrowIcon} from '@icons/icons';
-import {ROUTES} from '@constants/routes';
-import {COLORS} from '@constants/colors';
-import DefaultButton from '@components/uikit/DefaultButton';
-import ProductsTitle from '@components/uikit/ProductsTitle';
 
 const BrandsList = () => {
   let navigation: any = useNavigation();
@@ -41,7 +40,7 @@ const BrandsList = () => {
     <View style={styles.container}>
       <View style={styles.allButtonsView}>
         <ProductsTitle title={STRINGS.ru.brands} showButton={false} />
-        <Modal
+        {/* <Modal
           isVisible={allModalVisible}
           testID={'modal'}
           swipeDirection={['right', 'left', 'down']}
@@ -89,7 +88,7 @@ const BrandsList = () => {
               />
             </View>
           </View>
-        </Modal>
+        </Modal> */}
       </View>
       <FlatList
         horizontal
