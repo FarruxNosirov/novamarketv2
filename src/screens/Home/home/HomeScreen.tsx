@@ -1,7 +1,8 @@
+/* eslint-disable react-native/no-inline-styles */
 import requests, {assetUrl} from '@api/requests';
 import {WINDOW_WIDTH} from '@constants/sizes';
 import React, {useEffect, useRef, useState} from 'react';
-import {Dimensions, Image, ScrollView, StyleSheet, View} from 'react-native';
+import {Image, ScrollView, StyleSheet, View} from 'react-native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import SearchNatlifHeader from '../../../components/uikit/Header/SearchNatlifHeader';
 import {COLORS} from '../../../constants/colors';
@@ -14,20 +15,11 @@ import BrandsList from './brandsList/BrandsList';
 import ShopsList from './shopsList/ShopsList';
 
 export default function HomeScreen() {
-  const width = Dimensions.get('window').width;
   const isCorusel = useRef(null);
   const [index2, setIndex2] = useState(0);
-  const [dataSliderAll, setDataSliderAll] = useState<any>([]);
+
   const [bannerSlider, setBannerSlider] = useState<any>([]);
 
-  const CaruselSliderAll = async () => {
-    try {
-      let res = await requests.slider.getSlidersAll();
-      setDataSliderAll(res.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   const CaruselBannerAll = async () => {
     try {
       let res = await requests.slider.getBannerSliderAll();
@@ -38,14 +30,13 @@ export default function HomeScreen() {
   };
 
   useEffect(() => {
-    CaruselSliderAll();
     CaruselBannerAll();
   }, []);
 
   return (
     <View
       style={{flex: 1, position: 'relative', backgroundColor: COLORS.white}}>
-      <SearchNatlifHeader />
+      <SearchNatlifHeader autoFocus={true} />
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         {bannerSlider.length <= 0 ? null : (
           <>
@@ -59,7 +50,10 @@ export default function HomeScreen() {
                       style={{
                         width: '100%',
                         height: '100%',
+
                         resizeMode: 'cover',
+
+                        borderRadius: 20,
                       }}
                       source={{uri: assetUrl + item.photo}}
                     />
@@ -92,7 +86,7 @@ export default function HomeScreen() {
           <ProductListPopular title={'Популярные товары'} filter={true} />
           <ProductCatalog />
           <ProductListSale title={'Товары со скидкой'} filter={true} />
-          {bannerSlider.length <= 0 ? null : (
+          {/* {bannerSlider.length <= 0 ? null : (
             <>
               <Carousel
                 ref={isCorusel}
@@ -122,7 +116,7 @@ export default function HomeScreen() {
                 }}
               />
             </>
-          )}
+          )} */}
 
           <ProductListNew
             title={'Новые товары'}

@@ -4,10 +4,10 @@ import CartView from './view';
 
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {CheckoutScreen} from './checkout';
-// import {CheckoutPointScreen} from './checkout-point';
-import {FilterScreen} from './filter';
+
 import {LocationScreen} from './location';
 import {ROUTES} from '@constants/routes';
+import FilterScreen from '@components/template/FilterScreen';
 
 const Stack = createNativeStackNavigator();
 

@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import {LoginState, ProfileDate} from './types';
 import {store} from '@store/configureStore';
 import {userLoggedOut} from '@store/slices/userSlice';
@@ -138,9 +139,9 @@ let requests = {
   products: {
     getProducts: () =>
       axios.get<BaseResponse<ProductItemResponse>>(`${url}/product`),
-    getProductsWithID: (id: number) =>
+    getProductsWithID: (id: number, page?: number) =>
       axios.get<BaseResponse<ProductItemResponse>>(
-        `${url}/product/by-category?id=${id}`,
+        `${url}/product/by-category?id=${id}&page=${page}`,
       ),
     getProductWithShopID: (id: number) =>
       axios.get<BaseResponse<ProductItemResponse>>(
@@ -152,9 +153,10 @@ let requests = {
       ),
     relatedProducts: (id: number) =>
       axios.get(`${url}/product/related-products?product_id=${id}`),
-    getProductsWithBrand: (id: number) =>
+
+    getProductsWithBrand: (id: number, page?: number) =>
       axios.get<BaseResponse<ProductItemResponse>>(
-        `${url}/product/by-brand?id=${id}`,
+        `${url}/product/by-brand?id=${id}&page=${page}`,
       ),
     getProductPayment: () =>
       axios.get<BaseResponse<ProductItemResponse>>(
@@ -230,14 +232,13 @@ let requests = {
       axios.get<BaseResponse<OrderItemResponse>>(`${url}/order`, {params}),
     DetailedSeee: (id: number) => axios.get(`${url}/order/detail?id=${id}`),
     octoSendOrder: (order_id: number) => axios.post(`${url}/octo`, {order_id}),
-    paymendId: (order_id: any) => axios.post(`${url}/payment/pay`, order_id),
+    paymendId: (order_id: any) => axios.post(`${url}/payment/pay`, {order_id}),
   },
   chat: {
     postSend: (state: any) =>
       axios.post(`${url}/chat/send`, {
         getter_id: 1,
         message: state.message,
-        product_id: '',
         type_user: 'admin',
       }),
     sendUserMessege: (sendingMsg: any, file: any) =>
@@ -266,6 +267,7 @@ let requests = {
       priceMin: any,
       priceMax: any,
       categoryId: any,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       filter?: any,
     ) =>
       axios.get(

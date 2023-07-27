@@ -8,12 +8,7 @@ import {red100} from 'react-native-paper/lib/typescript/styles/colors';
 const LoadingModal = () => {
   return (
     <View style={styles.animation}>
-      <Spinner
-        visible={true}
-        color={COLORS.white}
-        animation="fade"
-        overlayColor={'rgba(52, 52, 52, 0.8)'}
-      />
+      <Spinner visible={true} color={COLORS.white} animation="fade" />
     </View>
   );
 };

@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   View,
   Text,
@@ -29,9 +30,7 @@ const Delivery = () => {
         <View style={styles.boxContent}>
           <Text style={styles.boxContent_ttile}>Доставка</Text>
           <View style={styles.left_right_container}>
-            <Text style={styles.title}>
-              Быстро доставим любой Ваш заказ по всей России
-            </Text>
+            <Text style={styles.title}>Доставка по всей России</Text>
             <View style={styles.left_content}>
               <View
                 style={{
@@ -45,7 +44,7 @@ const Delivery = () => {
                   }}
                 />
                 <Text style={{marginLeft: 10, color: '#898989'}}>
-                  Бесплатная доставка
+                  Подарок к каждому заказу
                 </Text>
               </View>
               <View
@@ -61,7 +60,7 @@ const Delivery = () => {
                   }}
                 />
                 <Text style={{marginLeft: 10, color: '#898989'}}>
-                  Доставка круглый год в России
+                  Гарантия сохранности товара во время доставки
                 </Text>
               </View>
               <View
@@ -77,14 +76,14 @@ const Delivery = () => {
                   }}
                 />
                 <Text style={{marginLeft: 10, color: '#898989'}}>
-                  Возврат товара при примерке
+                  Гарантированная доставка до 14 дней
                 </Text>
               </View>
             </View>
             <View style={styles.right_content}>
               <Image
                 source={{
-                  uri: 'https://birmakon-birmakon.netlify.app/static/media/image%2039.fa7f4298ced9ef17ae9b.png',
+                  uri: 'https://nova-max.ru/static/media/image%2039.fa7f4298ced9ef17ae9b.png',
                 }}
                 style={{
                   width: '100%',

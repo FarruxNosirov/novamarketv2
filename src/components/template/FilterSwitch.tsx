@@ -1,5 +1,7 @@
+/* eslint-disable react-native/no-inline-styles */
 import CheckBox from '@components/uikit/CheckBox';
 import FilterModal from '@components/uikit/Filter/FilterModal';
+import {COLORS} from '@constants/colors';
 import {NewTopArrowIcon2} from '@icons/icons';
 import React, {useEffect, useState} from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
@@ -41,6 +43,17 @@ const FilterSwitch: any = ({
 
   // console.log(JSON.stringify(input, null, 2));s
 
+  // const newPactMessages = useMemo(() => {
+  //   const result = (input.childs ||= []).map((item: any) => {
+  //     const numbers = item.value.match(/\d/gi);
+
+  //     if (!numbers) return numbers;
+  //     return item;
+  //   });
+
+  //   return result.filter((item: {value: any}) => !!item?.value);
+  // }, [input]);
+
   switch (input?.type) {
     case 'checkbox':
       return (
@@ -51,29 +64,32 @@ const FilterSwitch: any = ({
               active={active.value1}
               onPress={onPress}>
               {active.value1 && (
-                <FlatList
-                  data={input?.childs}
-                  renderItem={({item}) => (
-                    <>
-                      {item.value && (
+                <>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flexWrap: 'wrap',
+                    }}>
+                    {input.childs.map((item: any) => {
+                      return (
                         <TouchableOpacity
-                          style={styles.chiled_box}
-                          onPress={() =>
-                            handleFilter(item.id, item.valyu, 'checkbox')
-                          }>
-                          <Text>{item.value}</Text>
+                          style={[
+                            styles.chiled_box,
+                            {
+                              backgroundColor: 'white',
+                            },
+                          ]}
+                          onPress={() => {
+                            handleFilter(item.id, item.valyu, 'checkbox');
+                          }}>
+                          <Text style={{fontSize: 13, color: COLORS.black}}>
+                            {item.value}
+                          </Text>
                         </TouchableOpacity>
-                      )}
-                    </>
-                  )}
-                  showsVerticalScrollIndicator={false}
-                  style={{
-                    flexDirection: 'column',
-                    flexWrap: 'wrap',
-                  }}
-                  keyExtractor={(item, index) => index.toLocaleString()}
-                  numColumns={3}
-                />
+                      );
+                    })}
+                  </View>
+                </>
               )}
             </FilterModal>
           )}
@@ -131,7 +147,7 @@ const FilterSwitch: any = ({
               {active.value2 && (
                 <TouchableOpacity
                   disabled={checkout}
-                  onPress={e => {
+                  onPress={() => {
                     if (priceMax && priceMin) {
                       checkBoxHandler(input.id);
                     }
@@ -162,10 +178,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 5,
+    paddingHorizontal: 8,
     paddingVertical: 6,
-    marginHorizontal: 5,
+    marginRight: 10,
     marginVertical: 5,
-    minWidth: 100,
   },
 });

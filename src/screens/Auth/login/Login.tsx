@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import requests from '@api/requests';
 import {LoginState} from '@api/types';
 import WelcomeScreen from '@components/template/WelcomeScreen';
@@ -34,8 +35,8 @@ export default function Login(props: any) {
   }, [route.params?.password]);
   let dispatch = useAppDispatch();
   const [state, setState] = useState<LoginState>({
-    password: '', //704997
-    phone: '', //+79257813877
+    password: '', //620558
+    phone: '+7', //+79257813877
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState(false);
@@ -47,9 +48,11 @@ export default function Login(props: any) {
         let res = await requests.auth.login(state);
         dispatch(userLoggedIn(res.data));
         setError(!res.data);
+        // eslint-disable-next-line no-extra-boolean-cast
         if (!!res.data) {
           NavigationService.navigate('TABS');
         }
+        // eslint-disable-next-line no-catch-shadow, no-shadow
       } catch (error) {
         console.log(error);
       } finally {
@@ -106,11 +109,7 @@ export default function Login(props: any) {
           hitSlop={{left: 20, right: 20, bottom: 20, top: 20}}>
           <Text style={styles.text}>Забыли пароль?</Text>
         </TouchableOpacity>
-        <DefaultButton
-          title="Авторизоваться"
-          onPress={onLogin}
-          loading={loading}
-        />
+        <DefaultButton title="Войти" onPress={onLogin} loading={loading} />
         <DefaultButton title="Регистрация" onPress={onPressRegister} />
       </View>
     </WelcomeScreen>

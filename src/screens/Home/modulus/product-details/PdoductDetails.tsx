@@ -1,3 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-shadow */
+/* eslint-disable react-native/no-inline-styles */
 import requests, {assetUrl} from '@api/requests';
 import {STRINGS} from '@locales/strings';
 import {useNavigation, useRoute} from '@react-navigation/native';
@@ -198,6 +201,8 @@ const PdoductDetails = () => {
 
   let separate = detailIdValue?.review_separate;
 
+  // console.log(JSON.stringify(detailIdValue, null, 2));
+
   return (
     <View style={{backgroundColor: COLORS.tabBgColor, zIndex: 0}}>
       <View
@@ -274,7 +279,7 @@ const PdoductDetails = () => {
         </View>
 
         <View style={styles.container}>
-          <View style={styles.box1}></View>
+          <View style={styles.box1} />
           <View style={styles.box2}>
             <Text style={styles.title}>
               {detailIdValue?.name?.length > 30
@@ -282,7 +287,7 @@ const PdoductDetails = () => {
                 : detailIdValue?.name}
             </Text>
           </View>
-          <View style={styles.border}></View>
+          <View style={styles.border} />
           <View style={styles.box2}>
             <Text style={styles.box2_title_now}>
               {detailIdValue?.price
@@ -364,57 +369,61 @@ const PdoductDetails = () => {
           </View>
           {detailIdValue?.filters?.length > 0 ? (
             <>
-              <View style={styles.border}></View>
-              <View style={styles.box4}>
-                <Text style={styles.box4_title}>Параметры</Text>
-                <View style={styles.box4_content}>
-                  <Text style={styles.content_title}>
-                    {detailIdValue?.filters[0].name}:
-                  </Text>
-                  <FlatList
-                    style={{marginTop: 18}}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    data={detailIdValue?.filters[0].items}
-                    renderItem={({item}) => (
-                      <TouchableOpacity
-                        onPress={() => setSizeActive(item.value_id)}
-                        style={[
-                          styles.buttonSize,
-                          {
-                            backgroundColor:
-                              sizeActive === item.value_id
-                                ? COLORS.blue
-                                : '#FFFFFF',
-                          },
-                        ]}>
-                        <Text
-                          style={[
-                            styles.active_title,
-                            {
-                              color:
-                                sizeActive === item.value_id
-                                  ? '#ffffff'
-                                  : COLORS.blue,
-                            },
-                          ]}>
-                          {item.value}
-                        </Text>
-                      </TouchableOpacity>
-                    )}
-                  />
-                </View>
-              </View>
+              <View style={styles.border} />
+              {detailIdValue?.filters.map((item: any) => {
+                return (
+                  <>
+                    {item.name === 'Размер' ? (
+                      <View style={styles.box4}>
+                        <View style={styles.box4_content}>
+                          <Text style={styles.box4_title}>{item.name}:</Text>
+                          <FlatList
+                            style={{marginTop: 18}}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            data={item.items}
+                            renderItem={({item}) => (
+                              <TouchableOpacity
+                                onPress={() => setSizeActive(item.value_id)}
+                                style={[
+                                  styles.buttonSize,
+                                  {
+                                    backgroundColor:
+                                      sizeActive === item.value_id
+                                        ? COLORS.blue
+                                        : '#FFFFFF',
+                                  },
+                                ]}>
+                                <Text
+                                  style={[
+                                    styles.active_title,
+                                    {
+                                      color:
+                                        sizeActive === item.value_id
+                                          ? '#ffffff'
+                                          : COLORS.blue,
+                                    },
+                                  ]}>
+                                  {item.value}
+                                </Text>
+                              </TouchableOpacity>
+                            )}
+                          />
+                        </View>
+                      </View>
+                    ) : null}
+                  </>
+                );
+              })}
             </>
           ) : null}
 
           {detailIdValue?.products?.length > 0 ? (
             <>
-              <View style={styles.border}></View>
+              <View style={styles.border} />
               <View style={styles.box4}>
-                <Text style={styles.box4_title}>Параметры</Text>
                 <View style={styles.box4_content}>
-                  <Text style={styles.content_title}>Цвет:</Text>
+                  <Text style={styles.box4_title}>Цвет:</Text>
                   {/* <TouchableOpacity
                     style={[
                       styles.buttonSize,
@@ -466,7 +475,7 @@ const PdoductDetails = () => {
           ) : null}
           {detailIdValue?.description !== '' ? (
             <>
-              <View style={styles.border2}></View>
+              <View style={styles.border2} />
               <FilterModal
                 title="Описание"
                 active={active.value1}
@@ -481,7 +490,7 @@ const PdoductDetails = () => {
           ) : null}
           {detailIdValue?.productProperties?.length > 0 && (
             <>
-              <View style={styles.border2}></View>
+              <View style={styles.border2} />
               <FilterModal
                 title="Характеристики"
                 active={active.value2}
@@ -497,7 +506,7 @@ const PdoductDetails = () => {
             </>
           )}
 
-          <View style={styles.border2}></View>
+          <View style={styles.border2} />
 
           <TouchableOpacity
             onPress={() => {
@@ -559,7 +568,7 @@ const PdoductDetails = () => {
             </View>
           ) : null}
 
-          <View style={styles.border}></View>
+          <View style={styles.border} />
           <View style={styles.box6}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text style={styles.brend}>Бренд</Text>
@@ -571,7 +580,7 @@ const PdoductDetails = () => {
               />
             </View>
           </View>
-          <View style={styles.border}></View>
+          <View style={styles.border} />
           <View style={{flex: 1}}>
             <Text
               style={{

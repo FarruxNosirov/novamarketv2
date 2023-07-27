@@ -2,8 +2,17 @@ import requests from '@api/requests';
 import {SendQuestionValue} from '@api/types';
 import DefaultButton from '@components/uikit/DefaultButton';
 import {COLORS} from '@constants/colors';
+import useLoading from '@store/Loader/useLoading';
 import React, {useState} from 'react';
-import {Platform, StyleSheet, TextInput, View, Text} from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  TextInput,
+  View,
+  Text,
+  Alert,
+  KeyboardAvoidingView,
+} from 'react-native';
 
 export interface QuestionBoxProps {
   title?: string;
@@ -12,60 +21,80 @@ export interface QuestionBoxProps {
 
 const QuestionBox = ({title, button}: QuestionBoxProps) => {
   const [question, setQuestion] = useState<SendQuestionValue>();
+  const loading = useLoading();
   const onSubmit = async () => {
     try {
+      loading?.onRun();
       let res = await requests.frequentQuestions.sendQuestion({
         name: question?.name as string,
         email: question?.email as string,
         message: question?.message as string,
       });
-      console.log('success');
+      if (!!res.data) {
+        Alert.alert('Спасибо', `ваше письмо успешно отправлено`, [
+          {
+            text: 'OK',
+          },
+        ]);
+      } else {
+        Alert.alert('Извините', `ваше письмо не было успешно отправлено`, [
+          {
+            text: 'OK',
+          },
+        ]);
+      }
       setQuestion({});
     } catch (error) {
       alert('errroooor');
       console.log(error);
+    } finally {
+      loading?.onClose();
     }
   };
   return (
     <View style={{backgroundColor: COLORS.white}}>
-      <View style={styles.footer}>
-        <Text style={styles.footerTxt}>{title ? title : ''}</Text>
-        <TextInput
-          style={styles.input}
-          placeholder={'Ваше имя'}
-          placeholderTextColor={COLORS.gray}
-          value={question?.name}
-          onChangeText={e => {
-            setQuestion({...question, name: e});
-          }}
-        />
-        <TextInput
-          placeholderTextColor={COLORS.gray}
-          style={styles.input}
-          keyboardType="email-address"
-          placeholder={'Ваш  e-mail'}
-          value={question?.email}
-          onChangeText={e => {
-            setQuestion({...question, email: e});
-          }}
-        />
-        <TextInput
-          style={styles.bigger}
-          placeholder={'Ваш отзыв'}
-          placeholderTextColor={COLORS.gray}
-          value={question?.message}
-          onChangeText={e => {
-            setQuestion({...question, message: e});
-          }}
-        />
-        <DefaultButton
-          textStyle={styles.text}
-          containerStyle={styles.button}
-          onPress={onSubmit}
-          title={button}
-          isInCart={false}
-        />
-      </View>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 70 : 20}>
+        <View style={styles.footer}>
+          <Text style={styles.footerTxt}>{title ? title : ''}</Text>
+          <TextInput
+            style={styles.input}
+            placeholder={'Ваше имя'}
+            placeholderTextColor={COLORS.gray}
+            value={question?.name}
+            onChangeText={e => {
+              setQuestion({...question, name: e});
+            }}
+          />
+          <TextInput
+            placeholderTextColor={COLORS.gray}
+            style={styles.input}
+            keyboardType="email-address"
+            placeholder={'Ваш  e-mail'}
+            value={question?.email}
+            onChangeText={e => {
+              setQuestion({...question, email: e});
+            }}
+          />
+          <TextInput
+            style={styles.bigger}
+            placeholder={'Ваш отзыв'}
+            placeholderTextColor={COLORS.gray}
+            value={question?.message}
+            onChangeText={e => {
+              setQuestion({...question, message: e});
+            }}
+          />
+          <DefaultButton
+            textStyle={styles.text}
+            containerStyle={styles.button}
+            onPress={onSubmit}
+            title={button}
+            isInCart={false}
+          />
+        </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };

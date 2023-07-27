@@ -49,23 +49,8 @@ const PersonDataChange = (props: any) => {
         Отправить повторно через
       </Text>
 
-      <DefaultButton
-        title="Переотправить"
-        ButtonStyle={{
-          backgroundColor: COLORS.noActiveButtonBgColor2,
-          width: '100%',
-          marginTop: 10,
-        }}
-        TextStyle={{color: COLORS.labelText}}
-      />
-      <DefaultButton
-        title="Подтвердить"
-        ButtonStyle={{
-          backgroundColor: COLORS.activeButtonBgColor,
-          width: '100%',
-        }}
-        TextStyle={{color: COLORS.white}}
-      />
+      <DefaultButton title="Переотправить" />
+      <DefaultButton title="Подтвердить" />
       <TouchableOpacity>
         <Text style={{color: '#84A9C0', marginBottom: 25}}>
           Уже зарегистрированы?

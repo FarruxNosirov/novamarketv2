@@ -28,30 +28,3 @@ const App = () => {
 };
 
 export default App;
-// import React, {useCallback, useEffect} from 'react';
-// import {StyleSheet, View} from 'react-native';
-// import {Camera, useCameraDevices} from 'react-native-vision-camera';
-
-// export default function App() {
-//   const devices = useCameraDevices();
-//   const device = devices.back;
-
-//   const getPermission = async () => {
-//     await Camera.requestCameraPermission();
-//   };
-
-//   useEffect(() => {
-//     getPermission();
-//   }, []);
-
-//   if (device == null) return <View />;
-//   return (
-//     <Camera
-//       style={StyleSheet.absoluteFill}
-//       device={device}
-//       isActive={true}
-//       enableZoomGesture={true}
-//       photo={true}
-//     />
-//   );
-// }

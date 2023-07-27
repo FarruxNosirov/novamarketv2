@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, View, Text} from 'react-native';
+import {FlatList, Text, View} from 'react-native';
 
-import OrderItem from './components/OrderItem';
-import StatusBar from './components/StatusBar';
-import {styles} from './style';
 import requests from '@api/requests';
 import GoBackHeader from '@components/uikit/Header/GoBackHeader';
+import {COLORS} from '@constants/colors';
 import {STRINGS} from '@locales/strings';
+import Spinner from 'react-native-loading-spinner-overlay';
 import OrderLest from './components/OrderLest';
+import {styles} from './style';
 
 const OrderScrenn = () => {
   const [orders, setOrders] = useState<any>([]);
@@ -23,26 +23,37 @@ const OrderScrenn = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      timer = setTimeout(() => {
-        setLoading(false);
-      }, 1500);
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     getOrders();
-  }, [filter]);
+  }, []);
 
   return (
     <View style={styles.container}>
       <GoBackHeader title={STRINGS.ru.myOrders} />
       {/* <StatusBar orders={orders} filter={filter} setFilter={setFilter} /> */}
+
       <FlatList
         data={orders}
         renderItem={item => <OrderLest {...item} />}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item: any) => item.id}
+        ListEmptyComponent={
+          <Text
+            // eslint-disable-next-line react-native/no-inline-styles
+            style={{
+              textAlign: 'center',
+              color: COLORS.red,
+              marginTop: 100,
+            }}>
+            Нет результатов
+          </Text>
+        }
       />
+      <Spinner visible={loading} />
     </View>
   );
 };

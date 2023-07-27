@@ -1,5 +1,6 @@
 import requests, {appendUrl} from '@api/requests';
 import {ProductItemResponse} from '@api/types';
+import ButtonGradient from '@components/ButtonGradient';
 import DefaultButton from '@components/uikit/DefaultButton';
 
 import {COLORS} from '@constants/colors';
@@ -103,33 +104,36 @@ const Products = ({item}: {item: ProductItemResponse}) => {
                 {price} {STRINGS.ru.money}
               </Text>
             </View>
+
             <View style={styles.button}>
-              <DefaultButton
-                secondary={isInCart}
+              <ButtonGradient
                 onPress={onCartPress}
-                isInCart={isInCart}>
+                isInCart={isInCart}
+                containerStyle={{
+                  borderRadius: 10,
+                  borderWidth: 1,
+                  borderColor: COLORS.blue,
+                }}>
                 {animate ? (
                   <ActivityIndicator
                     size="small"
-                    color={COLORS.red}
+                    color={isInCart ? '#fff' : COLORS.blue}
                     animating={animate}
                   />
                 ) : (
                   <View style={styles.buttonContainer}>
                     <Text
                       style={[
-                        isInCart ? styles.inactiveCartText : styles.cartText,
+                        isInCart ? styles.cartText : styles.inactiveCartText,
                       ]}>
                       {isInCart
                         ? `${STRINGS.ru.addToCart}е`
                         : `${STRINGS.ru.addToCart}у`}
                     </Text>
-                    <BasketIcon
-                      fill={isInCart ? COLORS.cartColor3 : COLORS.white}
-                    />
+                    <BasketIcon fill={isInCart ? COLORS.white : COLORS.blue} />
                   </View>
                 )}
-              </DefaultButton>
+              </ButtonGradient>
             </View>
           </View>
         </View>

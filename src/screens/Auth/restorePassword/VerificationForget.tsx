@@ -1,10 +1,10 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import SingUpTemplate from '../../../components/template/SingUpTemplate';
 import SectionTitle from '../../../components/uikit/SectionTitle';
 import DefaultInput from '../../../components/uikit/TextInput';
 import DefaultButton from '../../../components/uikit/DefaultButton';
-import { COLORS } from '../../../constants/colors';
+import {COLORS} from '../../../constants/colors';
 import useVerificationForgetHook from './hooks';
 
 export default function VerificationForget(props: any) {
@@ -21,12 +21,14 @@ export default function VerificationForget(props: any) {
   return (
     <SingUpTemplate>
       <SectionTitle title="Введите код" marginBottom={36} />
-      <Text style={{ marginBottom: 25, color: COLORS.labelText }}>
+      <Text style={{marginBottom: 25, color: COLORS.labelText}}>
         Мы отправили код на{' '}
-        <Text style={{ fontWeight: '700', color: COLORS.labelText }}>{state.phone}</Text>
+        <Text style={{fontWeight: '700', color: COLORS.labelText}}>
+          {state.phone}
+        </Text>
       </Text>
       <TouchableOpacity onPress={onChangePhoneNumber}>
-        <Text style={{ color: '#84A9C0', marginBottom: 25 }}>Изменить номер</Text>
+        <Text style={{color: '#84A9C0', marginBottom: 25}}>Изменить номер</Text>
       </TouchableOpacity>
       <DefaultInput
         placeholder="Код подтверждения"
@@ -38,7 +40,7 @@ export default function VerificationForget(props: any) {
         value={state.code}
       />
       {timeLeft > 0 ? (
-        <Text style={{ color: '#84A9C0', marginBottom: 25 }}>
+        <Text style={{color: '#84A9C0', marginBottom: 25}}>
           Отправить повторно через {timeLeft}
         </Text>
       ) : null}
@@ -46,25 +48,14 @@ export default function VerificationForget(props: any) {
         title="Переотправить"
         disabled={timeLeft !== 0}
         onPress={resendCode}
-        ButtonStyle={{
-          backgroundColor: timeLeft !== 0 ? COLORS.noActiveButtonBgColor2 : COLORS.activeButtonBgColor,
-          width: '100%',
-          marginTop: 10,
-        }}
-        TextStyle={{ color: timeLeft !== 0 ? COLORS.labelText : COLORS.white }}
       />
       <DefaultButton
         title="Подтвердить"
         loading={loading}
         onPress={onVerificate}
-        ButtonStyle={{
-          backgroundColor: COLORS.activeButtonBgColor,
-          width: '100%',
-        }}
-        TextStyle={{ color: COLORS.white }}
       />
       <TouchableOpacity onPress={onChangePhoneNumber}>
-        <Text style={{ color: '#84A9C0', marginBottom: 25 }}>
+        <Text style={{color: '#84A9C0', marginBottom: 25}}>
           Уже зарегистрированы?
         </Text>
       </TouchableOpacity>

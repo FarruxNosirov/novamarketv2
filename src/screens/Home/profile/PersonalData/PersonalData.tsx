@@ -19,6 +19,11 @@ import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
 import DefaultInput from '../../../../components/uikit/TextInput';
 import {COLORS} from '../../../../constants/colors';
 import ButtonGradient from '@components/ButtonGradient';
+import {useAppDispatch, useAppSelector} from '@store/hooks';
+import {selectUser} from '@store/slices/userSlice';
+import {deleteAccountData} from '@store/slices/ProfileSlice';
+import {useSelector} from 'react-redux';
+import {RootState} from '@store/configureStore';
 type ProfileData = Partial<ProfileDate>;
 
 const PersonalData = () => {
@@ -26,7 +31,8 @@ const PersonalData = () => {
   const [url, setUrl] = useState<any>(assetUrl + params?.photo);
   const [animate, setAnimate] = useState(false);
   const navigation = useNavigation();
-
+  const user = useAppSelector(selectUser);
+  const dispatch: any = useAppDispatch();
   const [state, setState] = useState<ProfileData>({
     gender: params?.gender ?? '',
     name: params?.name ?? '',
@@ -38,6 +44,7 @@ const PersonalData = () => {
     last_address: params?.last_address ?? '',
     inn: params?.inn ?? '',
   });
+  const profileStore = useSelector((store: RootState) => store.profile);
 
   let onStateChange = (key: string) => (value: string) => {
     setState({...state, [key]: value});
@@ -204,10 +211,31 @@ const PersonalData = () => {
                   <Text style={{color: COLORS.white}}> Изменить</Text>
                 )}
               </ButtonGradient>
-              {/* <TouchableOpacity style={style.button} >
-            
-              </TouchableOpacity> */}
             </View>
+          </View>
+          <View style={style.footer}>
+            {user.token && (
+              <TouchableOpacity
+                style={style.butto2}
+                onPress={() => dispatch(deleteAccountData())}>
+                {profileStore.isLoadingOfBtn ? (
+                  <ActivityIndicator
+                    size="small"
+                    color={COLORS.white}
+                    animating={profileStore.isLoadingOfBtn}
+                  />
+                ) : (
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                    <Text style={style.logOutButtonText}>Удалить аккаунт</Text>
+                  </View>
+                )}
+              </TouchableOpacity>
+            )}
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -299,7 +327,7 @@ const style = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     marginLeft: 10,
-    color: '#000',
+    color: COLORS.white,
   },
 
   button: {
@@ -355,5 +383,22 @@ const style = StyleSheet.create({
   genderTitle: {
     color: '#2C2C2C',
     fontSize: 15,
+  },
+  butto2: {
+    height: 55,
+    marginBottom: 50,
+    backgroundColor: COLORS.red,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 45,
+  },
+  footer: {
+    width: '100%',
+    paddingHorizontal: 15,
+    backgroundColor: COLORS.white,
+    height: 120,
+    bottom: 60,
+    borderRadius: 10,
+    top: 10,
   },
 });

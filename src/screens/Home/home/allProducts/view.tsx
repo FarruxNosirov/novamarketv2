@@ -96,6 +96,7 @@ const AllProducts = () => {
               setModalVisible={setModalVisible}
               setModalFilter={setModalFilter}
               setModalSort={modalSort}
+              isSort={true}
             />
           ) : null}
         </View>

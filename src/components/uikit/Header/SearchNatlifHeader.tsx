@@ -1,23 +1,11 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {
-  DeliveryIcon,
-  NotificationIcon,
-  RoundIcon,
-  SearchIcon,
-} from '../../../assets/icons/icons';
-import {COLORS} from '../../../constants/colors';
+/* eslint-disable react-native/no-inline-styles */
+import {ROUTES} from '@constants/routes';
 import {STRINGS} from '@locales/strings';
 import {useNavigation} from '@react-navigation/native';
-import {ROUTES} from '@constants/routes';
-import requests from '@api/requests';
-import {Camera as RNCamera, PhotoFile} from 'react-native-vision-camera';
+import React from 'react';
+import {StyleSheet, TextInput, TouchableOpacity, View} from 'react-native';
+import {DeliveryIcon, SearchIcon} from '../../../assets/icons/icons';
+import {COLORS} from '../../../constants/colors';
 
 interface SearchProps {
   autoFocus?: boolean;
@@ -25,23 +13,24 @@ interface SearchProps {
 }
 export default function SearchNatlifHeader({autoFocus, onChange}: SearchProps) {
   const navigation = useNavigation();
-  const [state, setState] = useState([]);
+  // const [state, setState] = useState([]);
 
-  const notificationHandler = async () => {
-    try {
-      let res = await requests.profile.notificationAll();
-      setState(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    notificationHandler;
-  }, []);
+  // const notificationHandler = async () => {
+  //   try {
+  //     let res = await requests.profile.notificationAll();
+  //     setState(res.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // useEffect(() => {
+  //   notificationHandler;
+  // }, []);
 
   return (
     <View style={styles.container}>
-      <View style={styles.searchInputBox}>
+      <View
+        style={[styles.searchInputBox, {width: autoFocus ? '85%' : '100%'}]}>
         <TextInput
           style={styles.searchInput}
           placeholder={STRINGS.ru.searching}
@@ -56,22 +45,17 @@ export default function SearchNatlifHeader({autoFocus, onChange}: SearchProps) {
           <SearchIcon fill={COLORS.textColor} style={{marginRight: 10}} />
         </TouchableOpacity>
       </View>
-      <View style={styles.NotificationBox}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate(ROUTES.DELIVERY as never)}>
-          <DeliveryIcon
-            fill={COLORS.whiteGray}
-            style={{width: 120, height: 120}}
-          />
-        </TouchableOpacity>
-        {state.length ? (
-          <View style={styles.NotificationBoxBadge}>
-            <Text style={styles.NotificationBoxBadgeText}>
-              {state.length ? state.length : null}
-            </Text>
-          </View>
-        ) : null}
-      </View>
+      {autoFocus ? (
+        <View style={styles.NotificationBox}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate(ROUTES.DELIVERY as never)}>
+            <DeliveryIcon
+              fill={COLORS.whiteGray}
+              style={{width: 120, height: 120}}
+            />
+          </TouchableOpacity>
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -88,7 +72,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   searchInputBox: {
-    width: '85%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

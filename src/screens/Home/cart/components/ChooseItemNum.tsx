@@ -40,8 +40,7 @@ export default function ChooseItemNum({data}: {data: any}) {
     loadingPlus: false,
     loading: false,
   });
-  const [defaultPrice, setdefaultPrice] = useState(data);
-  // console.log('defaultPrice', defaultPrice);
+  // console.log(JSON.stringify(data, null, 2));
 
   const dispatch = useDispatch();
   let id = data.product.id;
@@ -50,7 +49,7 @@ export default function ChooseItemNum({data}: {data: any}) {
 
   let isFav = !!fav[id];
   const notDiscountPrice =
-    (defaultPrice?.price * 100) / (100 - defaultPrice?.product?.discount);
+    (data?.product?.price * 100) / (100 - data?.product?.discount);
 
   const onAddItem = async (addOne?: boolean) => {
     try {
@@ -137,16 +136,20 @@ export default function ChooseItemNum({data}: {data: any}) {
         </TouchableOpacity>
       </View>
       <View style={styles.textBox}>
-        <Text style={styles.headerTxt}>{data?.product?.name}</Text>
+        <Text style={styles.headerTxt}>
+          {data?.product?.name.length > 30
+            ? data?.product?.name.slice(0, 30) + '..'
+            : data?.product?.name}
+        </Text>
         <View style={styles.rowTxt}>
-          {defaultPrice?.price ? (
+          {data?.product?.discount ? (
             <Text style={styles.lineThrough}>
               {notDiscountPrice.toLocaleString().replace(/,/gi, ' ')}{' '}
               {STRINGS.ru.money}
             </Text>
           ) : null}
           <Text style={styles.blueTxt}>
-            {defaultPrice.price.toLocaleString().replace(/,/gi, ' ')}{' '}
+            {data?.product?.price.toLocaleString().replace(/,/gi, ' ')}{' '}
             {STRINGS.ru.money}
           </Text>
         </View>
@@ -161,12 +164,13 @@ export default function ChooseItemNum({data}: {data: any}) {
             </View>
           </TouchableOpacity>
           <View style={styles.topBottom}>
-            <TextInput
+            <Text style={styles.input}> {value}</Text>
+            {/* <TextInput
               showSoftInputOnFocus={false}
               style={styles.input}
               value={value}
               onFocus={() => setShouldShow(true)}
-            />
+            /> */}
             <Text style={styles.input_title}>шт</Text>
           </View>
           <TouchableOpacity onPress={() => onAddItem(true)} style={styles.plus}>
@@ -197,7 +201,7 @@ export default function ChooseItemNum({data}: {data: any}) {
         </TouchableOpacity>
       </View>
       {/* Modal */}
-      <Modal
+      {/* <Modal
         animationType="fade"
         transparent={true}
         visible={shouldShow}
@@ -291,7 +295,7 @@ export default function ChooseItemNum({data}: {data: any}) {
             </TouchableOpacity>
           </View>
         </View>
-      </Modal>
+      </Modal> */}
     </View>
   );
 }
@@ -315,11 +319,9 @@ const styles = StyleSheet.create({
   },
   input: {
     color: '#717171B2',
-    height: 30,
+
     margin: 0,
     padding: 0,
-    paddingHorizontal: 3,
-    width: 30,
   },
   imageBox: {
     width: 101,
@@ -338,7 +340,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     paddingLeft: 10,
-    width: '60%',
+    width: '70%',
   },
 
   headerTxt: {
