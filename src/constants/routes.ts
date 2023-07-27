@@ -72,4 +72,5 @@ export const ROUTES = {
   Camera: 'Camera',
   DELIVERY: 'DELIVERY',
   OrderScrenn: 'OrderScrenn',
+  BrendAll: 'BrendAll',
 };

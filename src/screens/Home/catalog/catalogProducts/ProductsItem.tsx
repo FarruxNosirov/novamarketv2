@@ -41,7 +41,7 @@ type ProductItemCardProps = {
   name: string;
   photo: string;
   isFavorite?: boolean;
-  modalSort?: any;
+
   getProducts?: () => void;
 };
 
@@ -134,7 +134,11 @@ const ProductsItem = (props: ProductItemCardProps) => {
         ) : null}
 
         <TouchableOpacity onPress={onAddFavorite} style={styles.heartIconBox}>
-          {isFav ? <HeartIconActive /> : <HeartIconNotActive />}
+          {isFav ? (
+            <HeartIconActive fill={COLORS.red} />
+          ) : (
+            <HeartIconNotActive />
+          )}
         </TouchableOpacity>
 
         <View style={styles.cartItemInfo}>

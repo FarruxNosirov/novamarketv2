@@ -3,6 +3,7 @@ import requests from '@api/requests';
 import {ProductItemResponse} from '@api/types';
 import GoBackHeader from '@components/uikit/Header/GoBackHeader';
 import LoadingModal from '@components/uikit/LoadingModal/LoadingModal';
+
 import {COLORS} from '@constants/colors';
 import ProductsItem from '@home/catalog/catalogProducts/ProductsItem';
 import {useRoute} from '@react-navigation/native';
@@ -102,6 +103,7 @@ const BrendAll = () => {
       }
     />
   );
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>

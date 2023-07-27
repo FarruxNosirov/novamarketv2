@@ -1,7 +1,6 @@
 import requests, {appendUrl} from '@api/requests';
 import {ProductItemResponse} from '@api/types';
 import ButtonGradient from '@components/ButtonGradient';
-import DefaultButton from '@components/uikit/DefaultButton';
 
 import {COLORS} from '@constants/colors';
 import {ROUTES} from '@constants/routes';
@@ -22,8 +21,7 @@ import {
 import {useDispatch} from 'react-redux';
 
 const Products = ({item}: {item: ProductItemResponse}) => {
-  let {photo, name, price, discount, price_usd, id, isFavorite, category} =
-    item;
+  let {photo, name, price, discount, id} = item;
 
   const dispatch = useDispatch();
   const cart = useAppSelector(cartSelector);
@@ -109,6 +107,7 @@ const Products = ({item}: {item: ProductItemResponse}) => {
               <ButtonGradient
                 onPress={onCartPress}
                 isInCart={isInCart}
+                // eslint-disable-next-line react-native/no-inline-styles
                 containerStyle={{
                   borderRadius: 10,
                   borderWidth: 1,

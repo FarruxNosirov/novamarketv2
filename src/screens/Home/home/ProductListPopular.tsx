@@ -33,14 +33,14 @@ export default function ProductList(props: Props) {
   }, []);
 
   if (products.length <= 0) {
-    return <View></View>;
+    return <View />;
   }
 
   const onPress = () => {
     navigation.navigate(
       //@ts-ignore
       ROUTES.ALLPRODUCTS as never,
-      {props, products} as never,
+      {title: 'Популярные', props, type: 'popular'} as never,
     );
   };
 

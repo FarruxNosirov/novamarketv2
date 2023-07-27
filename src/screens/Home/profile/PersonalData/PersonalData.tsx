@@ -82,7 +82,7 @@ const PersonalData = () => {
 
   return (
     <View style={{marginBottom: 100, backgroundColor: COLORS.white}}>
-      <GoBackHeader />
+      <GoBackHeader title="Мои данные" />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         keyboardVerticalOffset={60}>

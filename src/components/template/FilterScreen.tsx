@@ -2,7 +2,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import requests from '@api/requests';
 import DefaultInput from '@components/uikit/TextInput';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   FlatList,
   SafeAreaView,
@@ -24,17 +24,18 @@ type PropsSort = {
 
 const FilterScren = (props: PropsSort) => {
   const [catalogType, setCatalogType] = useState<any>([]);
-  const getFilterId = async () => {
+  const getFilterId = useCallback(async () => {
     try {
       let res = await requests.filter.catalogFilter(props.filter);
       setCatalogType(res.data.data);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [props.filter]);
+
   useEffect(() => {
     getFilterId();
-  }, []);
+  }, [getFilterId]);
   const lodaing = useLoading();
 
   const [filter, setFilter] = useState<any>();
@@ -42,12 +43,21 @@ const FilterScren = (props: PropsSort) => {
   const [priceMax, setPriceMax] = useState(priceMin);
 
   const handleFilter = (id?: any) => {
-    setFilter({
-      ...filter,
-      [`filter[${id}]`]: id,
-    });
+    if (filter === undefined) {
+      setFilter({
+        [`filter[${id}]`]: id,
+      });
+    } else if (!filter[`filter[${id}]`]) {
+      setFilter({
+        ...filter,
+        [`filter[${id}]`]: id,
+      });
+    } else {
+      let newDate = delete filter[`filter[${id}]`];
+      setFilter({...filter, newDate});
+    }
   };
-
+  console.log('filter', JSON.stringify(filter, null, 2));
   const OnChangeHandlerMine = (e: any) => {
     let newFilter = {
       ...filter,
@@ -119,7 +129,7 @@ const FilterScren = (props: PropsSort) => {
           onChangeText={OnChangeHandlerMax}
           typeOf="number-pad"
         />
-        {/* <FlatList
+        <FlatList
           data={catalogType}
           renderItem={({item}) => (
             <>
@@ -128,13 +138,15 @@ const FilterScren = (props: PropsSort) => {
                   input={item}
                   priceMin={priceMin}
                   priceMax={priceMax}
+                  handleFilter={handleFilter}
+                  filter={filter}
                 />
               ) : null}
             </>
           )}
           keyExtractor={(item, index) => index.toLocaleString()}
           style={{marginBottom: 30}}
-        /> */}
+        />
         <View
           style={{
             width: '100%',

@@ -75,44 +75,6 @@ const CatalogProductsScreen = () => {
     }
   }, [id, pageSize, skip]);
 
-  // let didMount = async () => {
-  //   try {
-  //     setFooterLoading(true);
-  //     let res = await requests.products.getProductsWithID(id, 1);
-  //     const newDate = res.data.data;
-  //     setProducts([...newDate]);
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setFooterLoading(false);
-  //   }
-  // };
-  // let getRecently = async (type: string) => {
-  //   try {
-  //     setFooterLoading(true);
-  //     let res = await requests.sort.getSortAllType(skip, type);
-  //     const newDate = res.data.data;
-  //     setProducts([...newDate]);
-  //     setSkip(skip + 10);
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setFooterLoading(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (modalSort === 'Новинка') {
-  //     getRecently('new');
-  //   }
-  //   if (modalSort === 'Популярные') {
-  //     getRecently('popular');
-  //   }
-  //   if (modalSort === 'Самые дешевые') {
-  //     getRecently('price_down');
-  //   }
-  // }, [modalSort, id]);
-
   const filterValue = !!newValyu;
 
   const renderList = () => {

@@ -158,6 +158,7 @@ let requests = {
       axios.get<BaseResponse<ProductItemResponse>>(
         `${url}/product/by-brand?id=${id}&page=${page}`,
       ),
+
     getProductPayment: () =>
       axios.get<BaseResponse<ProductItemResponse>>(
         `${url}/category?type=payment`,
@@ -216,6 +217,8 @@ let requests = {
   sort: {
     getSort: (data: any) =>
       axios.get(`${url}/product?sort=${data.sort}&by-brand?id=${data.brand}`),
+    getSortAllType: (type: string, page: number) =>
+      axios.get(`${url}/product?sort=${type}&page=${page}`),
     getRecently: () => axios.get(`${url}/product?sort=recently`),
     getNewAdded: () => axios.get(`${url}/product?sort=new`),
     getExpensive: () => axios.get(`${url}/product?sort=price_up`),

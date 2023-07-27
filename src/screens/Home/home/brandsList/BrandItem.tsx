@@ -25,7 +25,7 @@ const BrandItem = ({
   return (
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate(ROUTES.CATALOG_PRODUCTS, {
+        navigation.navigate(ROUTES.BrendAll, {
           id,
           name,
           type: 'brand',

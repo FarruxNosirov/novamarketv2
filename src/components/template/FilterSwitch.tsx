@@ -10,12 +10,14 @@ type PropsType = {
   handleFilter?: any;
   priceMax?: any;
   priceMin?: any;
+  filter?: any;
 };
 const FilterSwitch: any = ({
   input,
   handleFilter,
   priceMax,
   priceMin,
+  filter,
 }: PropsType) => {
   const [active, setActive] = useState({
     value1: false,
@@ -23,6 +25,8 @@ const FilterSwitch: any = ({
   });
 
   const [checkout, setCheckout] = useState<any>(false);
+  const [activeSize, setActiveSize] = useState<any[]>([]);
+  const [activeSizeType, setActiveSizeType] = useState(false);
   const onPress = () => {
     setActive({...active, value1: !active.value1});
   };
@@ -40,19 +44,14 @@ const FilterSwitch: any = ({
       setCheckout(false);
     }
   }, [priceMax, priceMin]);
-
-  // console.log(JSON.stringify(input, null, 2));s
-
-  // const newPactMessages = useMemo(() => {
-  //   const result = (input.childs ||= []).map((item: any) => {
-  //     const numbers = item.value.match(/\d/gi);
-
-  //     if (!numbers) return numbers;
-  //     return item;
-  //   });
-
-  //   return result.filter((item: {value: any}) => !!item?.value);
-  // }, [input]);
+  const activeSizeHandler = (item: {
+    id: React.SetStateAction<number>;
+    valyu: any;
+  }) => {
+    handleFilter(item.id, item.valyu);
+    setActiveSize(a => [...a, {id: item.id}]);
+    setActiveSizeType(a => !a);
+  };
 
   switch (input?.type) {
     case 'checkbox':
@@ -79,9 +78,7 @@ const FilterSwitch: any = ({
                               backgroundColor: 'white',
                             },
                           ]}
-                          onPress={() => {
-                            handleFilter(item.id, item.valyu, 'checkbox');
-                          }}>
+                          onPress={() => activeSizeHandler(item)}>
                           <Text style={{fontSize: 13, color: COLORS.black}}>
                             {item.value}
                           </Text>
@@ -129,7 +126,7 @@ const FilterSwitch: any = ({
                 )}
                 showsVerticalScrollIndicator={false}
                 style={{flexDirection: 'column', flexWrap: 'wrap'}}
-                numColumns={3}
+                numColumns={2}
                 keyExtractor={(item, index) => index.toLocaleString()}
               />
             </View>

@@ -28,9 +28,6 @@ import {COLORS} from '../../../../constants/colors';
 import ButtonGradient from '@components/ButtonGradient';
 
 type ProductItemCardProps = {
-  showNewProduct?: boolean;
-  showDiscount?: boolean;
-  showDiscountAdd?: boolean;
   price: number;
   price_usd?: number;
   id: number;
@@ -48,21 +45,7 @@ type ProductItemCardProps = {
 };
 
 const AllProductItemCard = (props: ProductItemCardProps) => {
-  let {
-    photo,
-    brand,
-    shop,
-    category,
-    name,
-    price,
-    discount,
-    id,
-    isFavorite,
-    price_usd,
-    showDiscount,
-    showDiscountAdd,
-    showNewProduct,
-  } = props;
+  let {category, name, price, discount, id} = props;
 
   const [animate, setAnimate] = useState(false);
   const cart = useAppSelector(cartSelector);
@@ -142,16 +125,7 @@ const AllProductItemCard = (props: ProductItemCardProps) => {
             <Text style={styles.sileText}>{discount} %</Text>
           </View>
         ) : null}
-        {/* {showNewProduct ? (
-          <View style={[styles.sileBox, styles.sileBoxBgColor]}>
-            <Text style={[styles.sileText, styles.sileTextFS]}>Новый</Text>
-          </View>
-        ) : null}
-        {showDiscountAdd ? (
-          <View style={[styles.sileBox, styles.sileBoxBgColor]}>
-            <Text style={[styles.sileText, styles.sileTextFS]}>Под заказ</Text>
-          </View>
-        ) : null} */}
+
         <TouchableOpacity onPress={onAddFavorite} style={styles.heartIconBox}>
           {isFav ? (
             <HeartIconActive fill={COLORS.red} />
@@ -280,13 +254,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     flexDirection: 'column',
     marginRight: 20,
-    shadowColor: '#d0d0d0',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
     elevation: 5,
   },
   buttonContainer: {
