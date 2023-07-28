@@ -1,18 +1,24 @@
 import {COLORS} from '@constants/colors';
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  GestureResponderEvent,
+} from 'react-native';
 
 export interface InfoBoxesProps {
   title?: string;
   text?: string;
+  onPress?: (event: GestureResponderEvent) => void;
 }
 
-const InfoBoxes = ({title, text}: InfoBoxesProps) => {
+const InfoBoxes = ({title, text, onPress}: InfoBoxesProps) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity onPress={onPress} style={styles.container}>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.text}>{text}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -20,7 +26,7 @@ export default InfoBoxes;
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 20,
+    marginHorizontal: 15,
     marginVertical: 10,
     elevation: 5,
     padding: 15,

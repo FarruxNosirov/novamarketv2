@@ -1,19 +1,17 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  ListRenderItemInfo,
-  TouchableWithoutFeedback,
-} from 'react-native';
-import React from 'react';
-import {useNavigation} from '@react-navigation/native';
 import {ROUTES} from '@constants/routes';
-import {Category} from '@api/types';
+import {useNavigation} from '@react-navigation/native';
+import React from 'react';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
+
 import {appendUrl} from '@api/requests';
-import {Dimensions} from 'react-native';
 import {COLORS} from '@constants/colors';
+import {Dimensions} from 'react-native';
 
 const SubCatalogListItem = ({props, id}: any) => {
   const navigation = useNavigation();
@@ -43,7 +41,7 @@ export default SubCatalogListItem;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    padding: 13,
     backgroundColor: COLORS.white,
     elevation: 5,
     shadowOpacity: 0.3,

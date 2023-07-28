@@ -23,14 +23,7 @@ export default function SignUpPassword() {
         placeholderColor={COLORS.labelText}
         marginBottom={0}
       />
-      <DefaultButton
-        title="Далее"
-        ButtonStyle={{
-          backgroundColor: COLORS.activeButtonBgColor,
-          width: '100%',
-        }}
-        TextStyle={{color: COLORS.white}}
-      />
+      <DefaultButton title="Далее" />
     </SingUpTemplate>
   );
 }

@@ -39,7 +39,7 @@ const BrandsList = () => {
   return (
     <View style={styles.container}>
       <View style={styles.allButtonsView}>
-        <ProductsTitle title={STRINGS.ru.brands} showButton={false} />
+        {/* <ProductsTitle title={STRINGS.ru.brands} showButton={false} /> */}
         {/* <Modal
           isVisible={allModalVisible}
           testID={'modal'}
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: 0.5,
   },
-  container: {marginBottom: 20},
+  container: {marginBottom: 10},
   contentContainerStyle: {
     paddingLeft: 12,
   },

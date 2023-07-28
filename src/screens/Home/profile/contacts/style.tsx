@@ -8,19 +8,19 @@ export const styles = StyleSheet.create({
   },
 
   header: {
-    marginHorizontal: 20,
+    marginHorizontal: 15,
   },
 
   headerText: {
     marginVertical: 20,
-    marginHorizontal: 20,
+    marginHorizontal: 15,
     fontSize: 20,
     color: COLORS.defaultBlack,
   },
 
   map: {
     paddingVertical: 200,
-    marginHorizontal: 20,
+    marginHorizontal: 15,
   },
 
   boxes: {

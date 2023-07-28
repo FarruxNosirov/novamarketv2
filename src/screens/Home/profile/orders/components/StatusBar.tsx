@@ -107,7 +107,14 @@ const StatusBar = ({orders, setFilter, filter}: any) => {
           </View>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          let newFilter = {
+            ...filter,
+            status: 3,
+          };
+          setFilter(newFilter);
+        }}>
         <View style={styles.row}>
           <View style={styles.center}>
             <PenIcon fill={COLORS.gray} />

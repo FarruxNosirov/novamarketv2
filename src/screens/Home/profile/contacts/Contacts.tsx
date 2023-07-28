@@ -1,19 +1,22 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react/self-closing-comp */
 import React from 'react';
 import {
-  ScrollView,
-  View,
-  Text,
   KeyboardAvoidingView,
+  Linking,
   Platform,
+  ScrollView,
+  Text,
+  View,
 } from 'react-native';
 
-import InfoBoxes from './components/InfoBoxes';
-import {styles} from './style';
 import GoBackHeader from '@components/uikit/Header/GoBackHeader';
-import {STRINGS} from '@locales/strings';
-import QuestionBox from './components/QuestionBox';
-import MapView, {Marker} from 'react-native-maps';
 import {COLORS} from '@constants/colors';
+import {STRINGS} from '@locales/strings';
+import MapView, {Marker} from 'react-native-maps';
+import InfoBoxes from './components/InfoBoxes';
+import QuestionBox from './components/QuestionBox';
+import {styles} from './style';
 
 const Contacts = () => {
   const tokyoRegion = {
@@ -22,14 +25,14 @@ const Contacts = () => {
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   };
+  const phoneNumber = '+7 (495) 517 03 55';
   return (
-    <View style={{flex: 1, backgroundColor: COLORS.white}}>
+    <View style={{flex: 1, backgroundColor: COLORS.white, paddingTop: 10}}>
       <GoBackHeader title={'Контакты'} />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}>
-        <ScrollView>
-          <Text style={styles.headerText}>Контакты</Text>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <MapView
             style={styles.map}
             showsUserLocation={true}
@@ -46,14 +49,19 @@ const Contacts = () => {
 
           <View style={styles.boxes}>
             <InfoBoxes
-              title={STRINGS.ru.phoneNumber}
-              text={'+7 (495) 258 33 50'}
+              title={'Hомер Телефонa:'}
+              text={'+7 (495) 517 03 55'}
+              onPress={() => Linking.openURL(`tel:${phoneNumber}`)}
             />
-            <InfoBoxes title={STRINGS.ru.email} text={'info@nova-max.ru'} />
+            <InfoBoxes
+              title={'E-mail'}
+              text={'info@nova-max.ru'}
+              onPress={() => Linking.openURL(`mailto:${'info@nova-max.ru'}`)}
+            />
             <InfoBoxes
               title={STRINGS.ru.lawAddres}
               text={
-                '109240, РОССИЯ, МОСКВА г, ВЕРХНЯЯ РАДИЩЕВСКАЯ ул, ДОМ 2/1 СТР3'
+                '369300, РОССИЯ, Респ КАРАЧАЕВО-ЧЕРКЕССКАЯ, р-н УСТЬ-ДЖЕГУТИНСКИЙ, г УСТЬ-ДЖЕГУТА, ул САДОВАЯ, ДОМ 59'
               }
             />
           </View>
@@ -62,6 +70,7 @@ const Contacts = () => {
             title={'Отправьте нам сообщение'}
             button={'Отправить сообщение'}
           />
+          <View style={{height: 50, width: '100%'}}></View>
         </ScrollView>
       </KeyboardAvoidingView>
     </View>

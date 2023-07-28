@@ -24,7 +24,7 @@ const Delivery = () => {
             <LeftArrow />
           </TouchableOpacity>
           <Text style={{fontSize: 15, color: COLORS.black, marginLeft: 10}}>
-            Home
+            Главная
           </Text>
         </View>
         <View style={styles.boxContent}>

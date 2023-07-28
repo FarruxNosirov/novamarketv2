@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import requests from '@api/requests';
 import LoadingModal from '@components/uikit/LoadingModal/LoadingModal';
 import React, {useEffect, useState} from 'react';
@@ -35,7 +36,7 @@ export default function CatalogScreen() {
               style={{
                 width: '100%',
                 backgroundColor: COLORS.tabBgColor,
-                marginBottom: 20,
+                marginBottom: 10,
               }}>
               <SearchNatlifHeader />
             </View>
@@ -57,11 +58,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.tabBgColor,
-    paddingHorizontal: 15,
-    paddingVertical: 10,
+    paddingHorizontal: 8,
   },
   columnWrapperStyle: {
     // justifyContent: 'space-between',
-    marginBottom: 15,
   },
 });

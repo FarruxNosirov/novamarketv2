@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import Text from '@components/uikit/Text';
 import {COLORS} from '@constants/colors';
 import {STRINGS} from '@locales/strings';
@@ -29,9 +30,9 @@ const FavoriteView = () => {
   }
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
+    <View style={{flex: 1, backgroundColor: COLORS.white, paddingTop: 10}}>
       <DefaultHeader name={STRINGS.ru.favorites} />
-      <ScrollView style={styles.container}>
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <View style={{paddingHorizontal: 15}}>
           {favorites?.map((item, index) => (
             <Products item={item} key={index} />
@@ -41,7 +42,7 @@ const FavoriteView = () => {
         <Text style={styles.text}>{STRINGS.ru.popularProducts}</Text>
         <ProductsListFav />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 

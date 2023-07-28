@@ -1,5 +1,6 @@
+/* eslint-disable react-native/no-inline-styles */
 //@ts-ignore
-import requests, {assetUrl} from '@api/requests';
+import {assetUrl} from '@api/requests';
 import {COLORS} from '@constants/colors';
 import {STRINGS} from '@locales/strings';
 
@@ -31,7 +32,7 @@ const OrderItem = ({item, payment, delivery, user}: any) => {
         <View
           style={{flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
           <Text style={styles.name}>Цвет:</Text>
-          <Text style={[styles.name, {color: item?.product?.color?.color}]}>
+          <Text style={[styles.name, {color: COLORS.textColor}]}>
             {item?.product?.color?.name}
           </Text>
         </View>

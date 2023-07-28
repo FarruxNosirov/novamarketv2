@@ -1,6 +1,13 @@
-import {View, Text, ImageBackground, StyleSheet} from 'react-native';
-import React from 'react';
 import {COLORS} from '@constants/colors';
+import React from 'react';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
 type Props = {
   title: string;
@@ -10,8 +17,15 @@ type Props = {
 export default function WelcomeScreen(props: Props) {
   return (
     <View style={styles.container}>
-      <Text style={styles.logoText}>{props?.title}</Text>
-      <View style={styles.inputBox}>{props?.children}</View>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 20}>
+        <ScrollView style={{flex: 1}}>
+          <Text style={styles.logoText}>{props?.title}</Text>
+          <View style={styles.inputBox}>{props?.children}</View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 }
@@ -20,8 +34,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.white,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   backgroundImage: {
     flex: 1,
@@ -58,6 +70,7 @@ const styles = StyleSheet.create({
     fontSize: 45,
     color: '#0057FF',
     fontWeight: 'bold',
-    marginVertical: 30,
+    marginTop: 80,
+    marginBottom: 30,
   },
 });
