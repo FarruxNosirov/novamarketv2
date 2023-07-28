@@ -56,5 +56,5 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   container: {marginBottom: 20, marginHorizontal: 0},
-  contentContainerStyle: {paddingHorizontal: 12},
+  contentContainerStyle: {paddingHorizontal: 10},
 });

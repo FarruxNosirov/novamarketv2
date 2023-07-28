@@ -1,8 +1,10 @@
+/* eslint-disable react-native/no-inline-styles */
 import requests from '@api/requests';
 import useLoading from '@store/Loader/useLoading';
 import React from 'react';
 import {
   Alert,
+  Image,
   Linking,
   ScrollView,
   StyleSheet,
@@ -13,7 +15,9 @@ import {
 } from 'react-native';
 import {
   FaceBookIconProduct,
+  Instagram,
   TelegramIconProduct,
+  VKontacte,
   WhatsapIconProduct,
 } from '../../../../assets/icons/icons';
 import DefaultButton from '../../../../components/uikit/DefaultButton';
@@ -21,98 +25,24 @@ import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
 import {COLORS} from '../../../../constants/colors';
 import {useSelector} from 'react-redux';
 import {RootState} from '@store/configureStore';
+import QuestionBox from '../contacts/components/QuestionBox';
 
 const TechnicalSupport = () => {
-  const profileStore = useSelector((store: RootState) => store.profile);
-  console.log(JSON.stringify(profileStore, null, 2));
-
-  const [state, setState] = React.useState({
-    name: profileStore?.name as string,
-    email: profileStore?.email as string,
-    message: '',
-  });
-  const loading = useLoading();
-
-  const onStateChange = (key: string, value: string) => {
-    setState({
-      ...state,
-      [key]: value,
-    });
-  };
-
-  const MessegeSende = async () => {
-    try {
-      loading?.onRun();
-      let res = await requests.frequentQuestions.sendQuestion(state);
-      const data = res?.data?.data;
-
-      if (!!data) {
-        Alert.alert('Спасибо', `ваше письмо успешно отправлено`, [
-          {
-            text: 'OK',
-            onPress: () => {
-              setState({
-                ...state,
-                message: '',
-              });
-            },
-          },
-        ]);
-      } else {
-        Alert.alert('Извините', `ваше письмо не было успешно отправлено`, [
-          {
-            text: 'OK',
-            onPress: () => {
-              setState({
-                theme: '',
-                message: '',
-              });
-            },
-          },
-        ]);
-      }
-    } catch (error) {
-      console.log('====================================');
-      console.log(error);
-      console.log('====================================');
-    } finally {
-      loading?.onClose();
-    }
-  };
+  // const profileStore = useSelector((store: RootState) => store.profile);
 
   return (
-    <View style={{flex: 1, backgroundColor: COLORS.white}}>
+    <View style={{flex: 1, backgroundColor: COLORS.white, paddingTop: 10}}>
       <GoBackHeader title="Поддержка" />
 
       <ScrollView style={styles.container}>
-        <Text
-          style={{
-            fontSize: 16,
-            fontWeight: '500',
-            color: '#757575',
-            marginTop: 20,
-            marginBottom: 20,
-          }}>
-          Сообщение
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Введите сообщение"
-          placeholderTextColor="#757575"
-          multiline={true}
-          numberOfLines={4}
-          onChangeText={text => onStateChange('message', text)}
-          value={state.message}
-        />
-
-        <DefaultButton title="Отправить" onPress={MessegeSende} />
+        <QuestionBox title={'Отправьте нам сообщение'} button={'Отправить'} />
 
         <Text
           style={{
             fontSize: 16,
             fontWeight: '700',
             textAlign: 'center',
-            marginTop: 20,
+            marginTop: 30,
             marginBottom: 10,
             color: COLORS.defaultBlack,
           }}>
@@ -123,26 +53,42 @@ const TechnicalSupport = () => {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
-            marginTop: 22,
-            marginBottom: 130,
+            marginTop: 20,
+            marginBottom: 30,
           }}>
           <TouchableOpacity
             onPress={() => {
-              Linking.openURL('https://xn--80affa3aj0al.xn--80asehdb/');
+              Linking.openURL(
+                'https://www.instagram.com/novamax.ru/?igshid=NjIwNzIyMDk2Mg%3D%3D',
+              );
+            }}>
+            <View style={{width: 40, height: 40, marginRight: 10}}>
+              <Image
+                source={require('@assets/images/instagram.png')}
+                style={{width: '100%', height: '100%'}}
+              />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              Linking.openURL('https://t.me/NovaMaxMarket');
             }}>
             <TelegramIconProduct />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              Linking.openURL('https://www.facebook.com/');
+              Linking.openURL(
+                'https://www.facebook.com/profile.php?id=100093292283117&mibextid=LQQJ4d',
+              );
             }}>
             <FaceBookIconProduct />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              Linking.openURL('https://www.whatsapp.com/');
+              Linking.openURL('https://vk.com/novamaxmarket');
             }}>
-            <WhatsapIconProduct />
+            <VKontacte />
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -154,7 +100,7 @@ export default TechnicalSupport;
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 15,
+    paddingTop: 20,
   },
   box1: {
     width: '100%',

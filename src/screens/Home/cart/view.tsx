@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {STRINGS} from '@locales/strings';
 import {useNavigation} from '@react-navigation/core';
 import {cartArraySelector, cartTotalSelector} from '@store/slices/cartSlice';
@@ -34,7 +35,7 @@ const CartView = () => {
           </View>
         </View>
       ) : (
-        <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
+        <View style={{flex: 1, backgroundColor: COLORS.white, paddingTop: 10}}>
           <DefaultHeader name={STRINGS.ru.cart} />
           <ScrollView style={styles.container}>
             <OrderDetails total={cartTotal} />
@@ -55,7 +56,7 @@ const CartView = () => {
               />
             </View>
           </ScrollView>
-        </SafeAreaView>
+        </View>
       )}
     </>
   );

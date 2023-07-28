@@ -48,6 +48,7 @@ import ButtonGradient from '@components/ButtonGradient';
 import DefaultButton from '@components/uikit/DefaultButton';
 import ReviewBox from '@components/uikit/ReviewBox';
 import useLoading from '@store/Loader/useLoading';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const PdoductDetails = () => {
   const [active, setActive] = useState({
@@ -65,7 +66,8 @@ const PdoductDetails = () => {
   let id = route?.params?.props?.id;
 
   const [colorActive, setColorActive] = useState(id);
-  let newId = colorActive === id ? id : colorActive;
+  let newId = colorActive ? colorActive : id;
+
   useEffect(() => {
     setColorActive(id);
   }, [id]);
@@ -82,9 +84,11 @@ const PdoductDetails = () => {
   const [shouldShow, setShouldShow] = useState(true);
   const [reviewsList, setReviewsList] = useState<any>([]);
   const flatlistRef = React.useRef();
-  const loading = useLoading();
+
+  const [loading, setLoading] = useState(false);
 
   const onPressFunction = () => {
+    //@ts-ignore
     flatlistRef.current.scrollTo({
       y: 0,
       animated: true,
@@ -92,16 +96,16 @@ const PdoductDetails = () => {
   };
 
   const getDetailId = useCallback(async () => {
-    loading?.onRun();
+    setLoading(true);
     try {
       let res = await requests.products.getProductDetailID(newId);
       setDetailIdValue(res.data.data);
     } catch (error) {
       console.log(error);
     } finally {
-      loading?.onClose();
+      setLoading(false);
     }
-  }, [newId, id]);
+  }, [newId]);
 
   useEffect(() => {
     getDetailId();
@@ -148,7 +152,9 @@ const PdoductDetails = () => {
       product_id: newId,
       'filterID[0]': sizeActive,
     };
+
     if (isInCart) {
+      setLoading(true);
       try {
         setAnimate(true);
         let clear = await requests.products.removeItem({
@@ -160,9 +166,12 @@ const PdoductDetails = () => {
       } catch (error) {
         console.log(error);
         setAnimate(false);
+      } finally {
+        setLoading(false);
       }
     } else {
       try {
+        setLoading(true);
         setAnimate(true);
         let res = await requests.products.addToCart(newDate);
         if (!userToken.token) {
@@ -183,6 +192,7 @@ const PdoductDetails = () => {
       } catch (error) {
         Alert.alert('Кол-во товара на складе меньше чем вы указали');
       } finally {
+        setLoading(false);
         setAnimate(false);
       }
     }
@@ -219,7 +229,7 @@ const PdoductDetails = () => {
   }, []);
 
   let separate = detailIdValue?.review_separate;
-  // console.log(JSON.stringify(detailIdValue.filters, null, 2));s
+  console.log(JSON.stringify(sizeActive, null, 2));
 
   return (
     <View style={{backgroundColor: COLORS.tabBgColor, zIndex: 0}}>
@@ -589,15 +599,16 @@ const PdoductDetails = () => {
           <View style={{flex: 1}}>
             <Text
               style={{
-                fontSize: 17,
-                color: '#3F3535',
                 fontWeight: '700',
-                paddingLeft: 15,
+                fontSize: 17,
+                lineHeight: 40,
+                color: COLORS.black,
+                marginLeft: 15,
               }}>
               Похожие товары
             </Text>
             <FlatList
-              style={{marginTop: 20, marginBottom: 20, paddingTop: 10}}
+              style={{marginTop: 10, marginBottom: 20, paddingTop: 10}}
               showsVerticalScrollIndicator={false}
               data={related}
               renderItem={({item}) => <AllProductItemCard {...item} />}
@@ -608,6 +619,7 @@ const PdoductDetails = () => {
           </View>
         </View>
       </ScrollView>
+      <Spinner visible={loading} />
     </View>
   );
 };

@@ -266,15 +266,9 @@ let requests = {
   filter: {
     catalogFilter: (id: number) =>
       axios.get(`${url}/category/filter?category_id=${id}`),
-    productFilter: (
-      priceMin: any,
-      priceMax: any,
-      categoryId: any,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      filter?: any,
-    ) =>
+    productFilter: (categoryId: any, newQuery?: any) =>
       axios.get(
-        `${url}/product/by-filter?category_id=${categoryId}&page=${1}&per-page=${24}&price_min=${priceMin}&price_max=${priceMax}`,
+        `${url}/product/by-filter?category_id=${categoryId}&page=${1}${newQuery}`,
       ),
   },
 };

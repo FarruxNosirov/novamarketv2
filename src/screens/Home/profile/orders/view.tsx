@@ -35,7 +35,6 @@ const OrderScrenn = () => {
     <View style={styles.container}>
       <GoBackHeader title={STRINGS.ru.myOrders} />
       <StatusBar orders={orders} filter={filter} setFilter={setFilter} />
-
       <FlatList
         data={orders}
         renderItem={item => <OrderLest {...item} />}

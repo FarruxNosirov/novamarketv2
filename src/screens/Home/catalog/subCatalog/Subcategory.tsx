@@ -35,25 +35,21 @@ const Subcategory = () => {
 
   return (
     <View style={styles.container}>
+      <GoBackHeader title={title} />
       {loading ? (
         <LoadingModal />
       ) : (
-        <FlatList
-          ListHeaderComponent={
-            <>
-              <GoBackHeader title={title} />
-            </>
-          }
-          data={details}
-          renderItem={props => (
-            <SubCatalogListItem props={props} id={route.params?.id} />
-          )}
-          keyExtractor={(item: any) => item.id}
-          numColumns={2}
-          columnWrapperStyle={styles.columnWrapperStyle}
-          showsVerticalScrollIndicator={false}
-          stickyHeaderIndices={[0]}
-        />
+        <>
+          <FlatList
+            data={details}
+            renderItem={props => (
+              <SubCatalogListItem props={props} id={route.params?.id} />
+            )}
+            keyExtractor={(item: any) => item.id}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+          />
+        </>
       )}
     </View>
   );
@@ -66,11 +62,10 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     backgroundColor: COLORS.tabBgColor,
-    paddingHorizontal: 15,
     paddingTop: 15,
+    paddingHorizontal: 8,
   },
   columnWrapperStyle: {
-    // justifyContent: 'space-between',
     marginBottom: 15,
   },
 });

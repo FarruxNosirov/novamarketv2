@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import requests, {appendUrl} from '@api/requests';
 import {
   DeliveryMethodResponse,
@@ -167,7 +168,7 @@ const CheckoutView = () => {
   };
 
   return (
-    <View style={{backgroundColor: COLORS.white, flex: 1}}>
+    <View style={{backgroundColor: COLORS.white, flex: 1, paddingTop: 10}}>
       <GoBackHeader title="Оформление заказа" />
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <View style={styles.deliveryContainer}>

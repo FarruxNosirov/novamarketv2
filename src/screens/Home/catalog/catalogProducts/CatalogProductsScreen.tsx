@@ -42,8 +42,6 @@ const CatalogProductsScreen = () => {
     try {
       const res = await requests.products.getProductsWithID(id, 1);
       const date = res.data.data;
-      console.log(JSON.stringify(res.data, null, 2));
-
       setProducts(date);
       setPageSize(res.data._meta.pageCount);
     } catch (error) {
@@ -75,8 +73,9 @@ const CatalogProductsScreen = () => {
     }
   }, [id, pageSize, skip]);
 
-  const filterValue = !!newValyu;
+  console.log('newValyu', JSON.stringify(newValyu, null, 2));
 
+  const filterValue = !!newValyu;
   const renderList = () => {
     return (
       <FlatList
@@ -168,6 +167,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     width: '100%',
     height: '100%',
+    paddingTop: 10,
   },
   render_container: {
     position: 'relative',

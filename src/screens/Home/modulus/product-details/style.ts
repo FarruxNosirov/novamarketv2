@@ -106,9 +106,8 @@ export const styles = StyleSheet.create({
   },
   box_noactive: {
     width: '100%',
-    marginTop: 9,
     zIndex: 3,
-    paddingBottom: 24,
+    paddingVertical: 12,
   },
   value: {
     flexDirection: 'row',
@@ -134,10 +133,10 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   brend: {
+    fontWeight: '700',
     fontSize: 17,
-    fontWeight: '600',
     lineHeight: 40,
-    color: '#3F3535',
+    color: COLORS.black,
   },
   chiaro: {
     fontSize: 17,
@@ -162,14 +161,14 @@ export const styles = StyleSheet.create({
     borderColor: COLORS.textColorBlue,
   },
   buttonSize: {
-    width: 92,
+    minWidth: 92,
     height: 33,
     backgroundColor: COLORS.white,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
     borderColor: COLORS.textColorBlue,
-    padding: 0,
+    paddingHorizontal: 5,
     borderRadius: 15,
     borderWidth: 1,
     marginRight: 5,
@@ -250,7 +249,7 @@ export const styles = StyleSheet.create({
   },
 
   composTwo: {
-    marginVertical: 20,
+    marginVertical: 25,
     marginLeft: 15,
     marginRight: 30,
 
@@ -259,10 +258,10 @@ export const styles = StyleSheet.create({
   },
 
   composition: {
-    color: COLORS.defaultBlack,
-    fontSize: 15,
     fontWeight: '700',
-    letterSpacing: 0.5,
+    fontSize: 17,
+
+    color: COLORS.black,
   },
   containerComment: {
     backgroundColor: COLORS.white,

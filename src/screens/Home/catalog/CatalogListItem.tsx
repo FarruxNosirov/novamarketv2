@@ -34,7 +34,7 @@ export default CatalogListItem;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    padding: 15,
     backgroundColor: COLORS.white,
     elevation: 5,
     shadowOpacity: 0.3,

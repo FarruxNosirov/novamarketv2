@@ -17,7 +17,7 @@ const QuestionBox = ({title, button}: QuestionBoxProps) => {
   const [question, setQuestion] = useState<SendQuestionValue>();
   const [loading, setLoading] = useState(false);
 
-  const disabled = question?.message?.length > 6 ? true : false;
+  const disabled = question?.message?.length > 0 ? true : false;
   const onSubmit = async () => {
     try {
       setLoading(true);
@@ -73,7 +73,7 @@ const QuestionBox = ({title, button}: QuestionBoxProps) => {
         />
         <TextInput
           style={styles.bigger}
-          placeholder={'Ваш отзыв'}
+          placeholder={'Сообщение'}
           placeholderTextColor={COLORS.gray}
           value={question?.message}
           onChangeText={e => {
@@ -99,35 +99,38 @@ export default QuestionBox;
 const styles = StyleSheet.create({
   footer: {
     backgroundColor: COLORS.skyBlue,
-    marginHorizontal: 20,
-    marginVertical: 40,
+    marginHorizontal: 15,
     borderRadius: 10,
-    padding: 15,
-    paddingRight: 40,
     elevation: 8,
+    paddingHorizontal: 15,
+    paddingVertical: 20,
   },
 
   footerTxt: {
     color: COLORS.defaultBlack,
     fontSize: 20,
+    marginBottom: 10,
   },
 
   input: {
     marginVertical: 10,
     backgroundColor: COLORS.white,
     borderRadius: 8,
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
     paddingVertical: Platform.OS == 'android' ? 10 : 15,
     fontStyle: 'italic',
+    color: COLORS.black,
   },
 
   bigger: {
     backgroundColor: COLORS.white,
     borderRadius: 8,
-    paddingHorizontal: 15,
     paddingVertical: Platform.OS == 'android' ? 10 : 15,
     paddingBottom: 60,
     fontStyle: 'italic',
+    marginVertical: 10,
+    color: COLORS.black,
+    paddingHorizontal: 10,
   },
 
   button: {

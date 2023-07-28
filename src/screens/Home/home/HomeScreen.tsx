@@ -48,17 +48,17 @@ export default function HomeScreen() {
                   <View
                     style={{
                       width: '100%',
-                      height: 200,
+                      height: 375,
                       borderRadius: 20,
-                      paddingHorizontal: 20,
+                      paddingHorizontal: 10,
                     }}>
                     <Image
                       style={{
+                        maxWidth: '100%',
+                        maxHeight: '100%',
                         width: '100%',
                         height: '100%',
-
-                        resizeMode: 'cover',
-
+                        resizeMode: 'contain',
                         borderRadius: 20,
                       }}
                       source={{uri: assetUrl + item?.photo}}

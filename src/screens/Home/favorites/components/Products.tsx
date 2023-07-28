@@ -1,20 +1,23 @@
+/* eslint-disable react-native/no-inline-styles */
 import requests, {appendUrl} from '@api/requests';
 import {ProductItemResponse} from '@api/types';
 import ButtonGradient from '@components/ButtonGradient';
 
 import {COLORS} from '@constants/colors';
 import {ROUTES} from '@constants/routes';
-import {BasketIcon} from '@icons/icons';
+import {BasketIcon, HeartIconActive, HeartIconBorder} from '@icons/icons';
 import {STRINGS} from '@locales/strings';
 import {useNavigation} from '@react-navigation/native';
 import {useAppSelector} from '@store/hooks';
 import {cartSelector, loadCart} from '@store/slices/cartSlice';
+import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
 import React, {useState} from 'react';
 import {
   ActivityIndicator,
   Image,
   StyleSheet,
   Text,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
@@ -25,8 +28,9 @@ const Products = ({item}: {item: ProductItemResponse}) => {
 
   const dispatch = useDispatch();
   const cart = useAppSelector(cartSelector);
-
+  const fav = useAppSelector(favoriteSelector);
   let isInCart = !!cart[id];
+  let isFav = !!fav[id];
 
   const navigation: any = useNavigation();
   const [animate, setAnimate] = useState(false);
@@ -74,6 +78,17 @@ const Products = ({item}: {item: ProductItemResponse}) => {
       console.log(error);
     }
   };
+  const onAddFavorite = async () => {
+    try {
+      let res = await requests.favorites.addFavorite({
+        product_id: id,
+      });
+      let r = await requests.favorites.getFavorites();
+      dispatch(loadFavorite(r.data.data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <TouchableWithoutFeedback
@@ -89,6 +104,15 @@ const Products = ({item}: {item: ProductItemResponse}) => {
             <View style={{width: '85%'}}>
               <Text style={styles.itemName}>{name ? name : ''}</Text>
             </View>
+            <TouchableOpacity
+              onPress={onAddFavorite}
+              hitSlop={{left: 10, right: 10, top: 10, bottom: 10}}>
+              {isFav ? (
+                <HeartIconActive fill={'red'} />
+              ) : (
+                <HeartIconBorder fill={COLORS.red} stroke={COLORS.red} />
+              )}
+            </TouchableOpacity>
           </View>
 
           <View style={styles.nameContainer2}>
@@ -165,6 +189,7 @@ const styles = StyleSheet.create({
   nameContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    paddingRight: 5,
   },
   nameContainer2: {
     flexDirection: 'row',

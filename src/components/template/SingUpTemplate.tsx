@@ -1,7 +1,6 @@
-import { View, StyleSheet, Image, ScrollView, Dimensions } from 'react-native';
 import React from 'react';
-import KeyboardAvoidingView from '../uikit/KeyboardAvoidingView';
-import { COLORS } from '../../constants/colors';
+import {Image, StyleSheet, View} from 'react-native';
+import {COLORS} from '../../constants/colors';
 
 type Props = {
   children: React.ReactNode;
@@ -11,12 +10,10 @@ export default function SingUpTemplate(props: Props) {
   const imgRequire = require('../../assets/images/logo.png');
 
   return (
-    <KeyboardAvoidingView>
-      <ScrollView style={styles.container}>
-        <Image source={imgRequire} style={styles.logo} />
-        <View style={styles.box}>{props.children}</View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+    <View style={styles.container}>
+      <Image source={imgRequire} style={styles.logo} />
+      <View style={styles.box}>{props.children}</View>
+    </View>
   );
 }
 

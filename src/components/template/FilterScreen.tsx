@@ -15,6 +15,7 @@ import AllProductTitle from '../uikit/AllProductTitle';
 import DefaultButton from '../uikit/DefaultButton';
 import FilterSwitch from './FilterSwitch';
 import useLoading from '@store/Loader/useLoading';
+import Spinner from 'react-native-loading-spinner-overlay';
 type PropsSort = {
   setModalVisible?: any;
   filter?: any;
@@ -36,12 +37,13 @@ const FilterScren = (props: PropsSort) => {
   useEffect(() => {
     getFilterId();
   }, [getFilterId]);
-  const lodaing = useLoading();
+  const [loading, setLoading] = useState(false);
 
-  const [filter, setFilter] = useState<any>();
+  const [filter, setFilter] = useState<any>({});
   const [priceMin, setPriceMin] = useState(0);
   const [priceMax, setPriceMax] = useState(priceMin);
-
+  const [newQuery, setNewQuery] = useState('');
+  let query = '';
   const handleFilter = (id?: any) => {
     if (filter === undefined) {
       setFilter({
@@ -52,12 +54,19 @@ const FilterScren = (props: PropsSort) => {
         ...filter,
         [`filter[${id}]`]: id,
       });
-    } else {
-      let newDate = delete filter[`filter[${id}]`];
-      setFilter({...filter, newDate});
+    } else if (filter[`filter[${id}]`]) {
+      const data = {...filter};
+      delete data[`filter[${id}]`];
+      setFilter({...data});
     }
   };
-  console.log('filter', JSON.stringify(filter, null, 2));
+  useEffect(() => {
+    for (const key in filter) {
+      query = query + '&' + key + '=' + filter[key];
+    }
+    setNewQuery(query);
+  }, [handleFilter]);
+
   const OnChangeHandlerMine = (e: any) => {
     let newFilter = {
       ...filter,
@@ -78,30 +87,27 @@ const FilterScren = (props: PropsSort) => {
   let categoryId = props.filter;
 
   const subMendHandler = async () => {
-    lodaing?.onRun();
+    setLoading(true);
     try {
-      let res = await requests.filter.productFilter(
-        priceMin,
-        priceMax,
-        categoryId,
-        filter,
-      );
-
+      let res = await requests.filter.productFilter(categoryId, newQuery);
       props.setNewValyu(res.data.data);
+      // eslint-disable-next-line no-extra-boolean-cast
     } catch (error) {
       console.log(error);
     } finally {
-      lodaing?.onClose();
+      setLoading(false);
+      closeHandler();
     }
   };
   const submetAndClosed = async () => {
     await subMendHandler();
-    closeHandler();
   };
   const closeHandler = () => {
     props.setModalVisible((a: any) => {
       return !a;
     });
+
+    setNewQuery('');
   };
 
   let btnDisebled = true;
@@ -163,6 +169,7 @@ const FilterScren = (props: PropsSort) => {
           </View>
         </View>
       </ScrollView>
+      <Spinner visible={loading} />
     </SafeAreaView>
   );
 };

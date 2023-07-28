@@ -48,9 +48,9 @@ const styles = StyleSheet.create({
     zIndex: 4,
   },
   active_title: {
-    fontSize: 16,
+    fontWeight: '700',
+    fontSize: 17,
     lineHeight: 40,
-    fontWeight: '500',
     color: COLORS.black,
   },
   icon_box: {

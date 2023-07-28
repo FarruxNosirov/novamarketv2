@@ -25,8 +25,7 @@ const FilterSwitch: any = ({
   });
 
   const [checkout, setCheckout] = useState<any>(false);
-  const [activeSize, setActiveSize] = useState<any[]>([]);
-  const [activeSizeType, setActiveSizeType] = useState(false);
+
   const onPress = () => {
     setActive({...active, value1: !active.value1});
   };
@@ -49,8 +48,6 @@ const FilterSwitch: any = ({
     valyu: any;
   }) => {
     handleFilter(item.id, item.valyu);
-    setActiveSize(a => [...a, {id: item.id}]);
-    setActiveSizeType(a => !a);
   };
 
   switch (input?.type) {
@@ -69,17 +66,24 @@ const FilterSwitch: any = ({
                       flexDirection: 'row',
                       flexWrap: 'wrap',
                     }}>
-                    {input.childs.map((item: any) => {
+                    {input?.childs?.map((item: any) => {
+                      const isHas = `filter[${item?.id}]` in filter;
                       return (
                         <TouchableOpacity
                           style={[
                             styles.chiled_box,
                             {
-                              backgroundColor: 'white',
+                              backgroundColor: isHas ? '#ff9500' : 'white',
+                              borderColor: isHas ? '#ff9500' : 'black',
+                              borderWidth: 1,
                             },
                           ]}
                           onPress={() => activeSizeHandler(item)}>
-                          <Text style={{fontSize: 13, color: COLORS.black}}>
+                          <Text
+                            style={{
+                              fontSize: 13,
+                              color: isHas ? COLORS.white : COLORS.black,
+                            }}>
                             {item.value}
                           </Text>
                         </TouchableOpacity>
@@ -133,7 +137,7 @@ const FilterSwitch: any = ({
           )}
         </>
       );
-    case 'input':
+      // case 'input':
       return (
         <>
           {input.is_filter === true && (
@@ -171,7 +175,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   chiled_box: {
-    borderWidth: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',

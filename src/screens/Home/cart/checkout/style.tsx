@@ -10,10 +10,10 @@ export const styles = StyleSheet.create({
 
   backHeader: {
     marginVertical: 20,
-    marginHorizontal: 20,
+    marginHorizontal: 15,
   },
   deliveryContainer: {
-    marginHorizontal: 20,
+    marginHorizontal: 15,
   },
 
   headerTxt: {
@@ -89,7 +89,7 @@ export const styles = StyleSheet.create({
   },
 
   textBox: {
-    marginHorizontal: 10,
+    marginHorizontal: 15,
   },
 
   text: {
@@ -104,7 +104,7 @@ export const styles = StyleSheet.create({
   },
   pickupContainer: {
     marginVertical: 10,
-    marginHorizontal: 20,
+    marginHorizontal: 15,
   },
 
   pickupHeaderTxt: {
@@ -176,7 +176,7 @@ export const styles = StyleSheet.create({
   },
 
   recipientContainer: {
-    marginHorizontal: 20,
+    marginHorizontal: 15,
     paddingBottom: 20,
   },
 
@@ -185,6 +185,7 @@ export const styles = StyleSheet.create({
     color: COLORS.defaultBlack,
     fontWeight: '700',
     letterSpacing: 0.5,
+    marginTop: 5,
   },
 
   recipBox: {
@@ -300,7 +301,7 @@ export const styles = StyleSheet.create({
   },
 
   map: {
-    marginHorizontal: 20,
+    marginHorizontal: 15,
     borderWidth: 10,
   },
 });

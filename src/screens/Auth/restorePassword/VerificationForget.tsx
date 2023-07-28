@@ -1,13 +1,14 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
+import {Text, TouchableOpacity} from 'react-native';
 import SingUpTemplate from '../../../components/template/SingUpTemplate';
+import DefaultButton from '../../../components/uikit/DefaultButton';
 import SectionTitle from '../../../components/uikit/SectionTitle';
 import DefaultInput from '../../../components/uikit/TextInput';
-import DefaultButton from '../../../components/uikit/DefaultButton';
 import {COLORS} from '../../../constants/colors';
 import useVerificationForgetHook from './hooks';
 
-export default function VerificationForget(props: any) {
+export default function VerificationForget() {
   let {
     timeLeft,
     onChangePhoneNumber,
