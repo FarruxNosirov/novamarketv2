@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import requests, {assetUrl} from '@api/requests';
 import {STRINGS} from '@locales/strings';
 import {useNavigation} from '@react-navigation/native';

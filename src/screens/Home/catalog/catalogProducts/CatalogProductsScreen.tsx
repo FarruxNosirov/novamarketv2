@@ -26,12 +26,16 @@ const CatalogProductsScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalFilter, setModalFilter] = useState('');
   const [modalSort, setModalSort] = useState('');
-  const [newValyu, setNewValyu] = useState<any>();
+  const [newValyu, setNewValyu] = useState<ProductItemResponse[]>([]);
+  const [newQueryProps, setNewQueryProp] = useState();
 
   const [skip, setSkip] = useState(1);
+  const [skipNew, setSkipNew] = useState(1);
   const [isMore, setIsMore] = useState(true);
+  const [isMoreNew, setIsMoreNew] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [pageSize, setPageSize] = useState(1);
+  const [pageNewSize, setPageNewSize] = useState(1);
 
   let {
     params: {id, name},
@@ -61,9 +65,8 @@ const CatalogProductsScreen = () => {
     if (pageSize < pageCount) {
       return;
     }
-
     try {
-      const res = await requests.products.getProductsWithID(id, skip);
+      const res = await requests.products.getProductsWithID(id, pageCount);
       const data = res.data.data;
       setProducts(a => [...a, ...data]);
       setSkip(pageCount);
@@ -73,14 +76,56 @@ const CatalogProductsScreen = () => {
     }
   }, [id, pageSize, skip]);
 
-  console.log('newValyu', JSON.stringify(newValyu, null, 2));
+  const filterNewHandler = useCallback(async () => {
+    setIsLoading(true);
+    if (!newQueryProps) {
+      return;
+    }
+    try {
+      let res = await requests.filter.productFilter(id, 1, newQueryProps);
+      setNewValyu(res.data.data);
+      setPageNewSize(res.data._meta.pageCount);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [id, newQueryProps]);
 
-  const filterValue = !!newValyu;
+  useEffect(() => {
+    filterNewHandler();
+  }, [filterNewHandler]);
+
+  const loadMoreFilter = useCallback(async () => {
+    setIsMoreNew(false);
+    const pageCount = skipNew + 1;
+    if (pageNewSize < pageCount) {
+      return;
+    }
+    try {
+      const res = await requests.filter.productFilter(
+        id,
+        pageCount,
+        newQueryProps,
+      );
+      let data = res.data.data;
+      setNewValyu(a => [...a, ...data]);
+      setSkipNew(pageCount);
+      setIsMoreNew(true);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [id, newQueryProps, pageNewSize, skipNew]);
+
+  const filterValue = newValyu?.length > 0;
+  // console.log('products', JSON.stringify(products, null, 2));
+  // console.log('newValyu', JSON.stringify(filterValue, null, 2));
+
   const renderList = () => {
     return (
       <FlatList
         showsVerticalScrollIndicator={false}
-        data={newValyu ? newValyu : products}
+        data={filterValue ? newValyu : products}
         numColumns={2}
         contentContainerStyle={styles.contentContainerStyle}
         onEndReachedThreshold={0.5}
@@ -106,10 +151,18 @@ const CatalogProductsScreen = () => {
           if (isMore && !filterValue) {
             loadMore();
           }
+          if (isMoreNew && filterValue) {
+            loadMoreFilter();
+          }
         }}
         ListFooterComponent={
           <>
             {isMore && pageSize > 0 && !filterValue ? (
+              <View style={{alignItems: 'center'}}>
+                <ActivityIndicator size="large" color="#0000ff" />
+              </View>
+            ) : null}
+            {isMoreNew && pageNewSize > 0 && filterValue ? (
               <View style={{alignItems: 'center'}}>
                 <ActivityIndicator size="large" color="#0000ff" />
               </View>
@@ -152,7 +205,7 @@ const CatalogProductsScreen = () => {
           <FilterScren
             setModalVisible={setModalVisible}
             filter={id}
-            setNewValyu={setNewValyu}
+            setNewQueryProps={setNewQueryProp}
           />
         )}
       </Modal>

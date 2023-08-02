@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import requests, {assetUrl} from '@api/requests';
 import {LoginResponse, ProfileDate} from '@api/types';
 import {useNavigation, useRoute} from '@react-navigation/native';
@@ -149,7 +150,8 @@ const PersonalData = () => {
                           backgroundColor:
                             state.gender === 1 ? COLORS.blue : '#999999',
                         },
-                      ]}></View>
+                      ]}
+                    />
                   </View>
                   <Text style={style.genderTitle}>Муж.</Text>
                 </TouchableOpacity>
@@ -171,9 +173,10 @@ const PersonalData = () => {
                           backgroundColor:
                             state.gender === 2 ? COLORS.blue : '#999999',
                         },
-                      ]}></View>
+                      ]}
+                    />
                   </View>
-                  <Text>Жен.</Text>
+                  <Text style={style.genderTitle}>Жен.</Text>
                 </TouchableOpacity>
               </View>
             </View>

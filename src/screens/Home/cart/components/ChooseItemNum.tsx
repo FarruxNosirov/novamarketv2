@@ -18,10 +18,8 @@ import React, {useEffect, useState} from 'react';
 import {
   Image,
   LayoutAnimation,
-  Modal,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -34,7 +32,7 @@ export let ProductsData = {
 };
 
 export default function ChooseItemNum({data}: {data: any}) {
-  const [shouldShow, setShouldShow] = useState(false);
+  // const [shouldShow, setShouldShow] = useState(false);
   const [loading, setLoading] = useState({
     loadingMinus: false,
     loadingPlus: false,
@@ -137,8 +135,8 @@ export default function ChooseItemNum({data}: {data: any}) {
       </View>
       <View style={styles.textBox}>
         <Text style={styles.headerTxt}>
-          {data?.product?.name.length > 30
-            ? data?.product?.name.slice(0, 30) + '..'
+          {data?.product?.name.length > 25
+            ? data?.product?.name.slice(0, 25) + '..'
             : data?.product?.name}
         </Text>
         <View style={styles.rowTxt}>

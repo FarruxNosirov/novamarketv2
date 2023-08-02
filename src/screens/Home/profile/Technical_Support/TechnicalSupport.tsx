@@ -79,7 +79,7 @@ const TechnicalSupport = () => {
           <TouchableOpacity
             onPress={() => {
               Linking.openURL(
-                'https://www.facebook.com/profile.php?id=100093292283117&mibextid=LQQJ4d',
+                'https://www.facebook.com/people/Nova-Max/pfbid0hiXyDtszuHMvfWu5WsS3h2CTDnBEnXM8mZBgSfGQhRuZnuSFDK6L5qEj9buVssFgl/?mibextid=LQQJ4d',
               );
             }}>
             <FaceBookIconProduct />

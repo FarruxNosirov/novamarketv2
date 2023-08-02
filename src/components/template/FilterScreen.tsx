@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react-native/no-inline-styles */
 import requests from '@api/requests';
 import DefaultInput from '@components/uikit/TextInput';
 import React, {useCallback, useEffect, useState} from 'react';
@@ -10,20 +8,27 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 import {COLORS} from '../../constants/colors';
 import AllProductTitle from '../uikit/AllProductTitle';
 import DefaultButton from '../uikit/DefaultButton';
 import FilterSwitch from './FilterSwitch';
-import useLoading from '@store/Loader/useLoading';
-import Spinner from 'react-native-loading-spinner-overlay';
 type PropsSort = {
   setModalVisible?: any;
   filter?: any;
-  setNewValyu?: any;
+  setNewQueryProps?: any;
   category_id?: number;
+  subMendHandler?: any;
 };
 
 const FilterScren = (props: PropsSort) => {
+  const [loading, setLoading] = useState(false);
+
+  const [filter, setFilter] = useState<any>({});
+  const [priceMin, setPriceMin] = useState(0);
+  const [priceMax, setPriceMax] = useState(priceMin);
+  const [newQuery, setNewQuery] = useState('');
+  let query = '';
   const [catalogType, setCatalogType] = useState<any>([]);
   const getFilterId = useCallback(async () => {
     try {
@@ -37,13 +42,7 @@ const FilterScren = (props: PropsSort) => {
   useEffect(() => {
     getFilterId();
   }, [getFilterId]);
-  const [loading, setLoading] = useState(false);
 
-  const [filter, setFilter] = useState<any>({});
-  const [priceMin, setPriceMin] = useState(0);
-  const [priceMax, setPriceMax] = useState(priceMin);
-  const [newQuery, setNewQuery] = useState('');
-  let query = '';
   const handleFilter = (id?: any) => {
     if (filter === undefined) {
       setFilter({
@@ -84,23 +83,16 @@ const FilterScren = (props: PropsSort) => {
     setFilter(newFilter);
   };
 
-  let categoryId = props.filter;
-
-  const subMendHandler = async () => {
+  const submetAndClosed = async () => {
     setLoading(true);
     try {
-      let res = await requests.filter.productFilter(categoryId, newQuery);
-      props.setNewValyu(res.data.data);
-      // eslint-disable-next-line no-extra-boolean-cast
+      props.setNewQueryProps(newQuery);
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
       closeHandler();
     }
-  };
-  const submetAndClosed = async () => {
-    await subMendHandler();
   };
   const closeHandler = () => {
     props.setModalVisible((a: any) => {

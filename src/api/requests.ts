@@ -266,9 +266,9 @@ let requests = {
   filter: {
     catalogFilter: (id: number) =>
       axios.get(`${url}/category/filter?category_id=${id}`),
-    productFilter: (categoryId: any, newQuery?: any) =>
-      axios.get(
-        `${url}/product/by-filter?category_id=${categoryId}&page=${1}${newQuery}`,
+    productFilter: (categoryId: any, page?: number, newQuery?: any) =>
+      axios.get<BaseResponse<ProductItemResponse>>(
+        `${url}/product/by-filter?category_id=${categoryId}&page=${page}${newQuery}`,
       ),
   },
 };

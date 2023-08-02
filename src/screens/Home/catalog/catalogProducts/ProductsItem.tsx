@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import requests, {assetUrl} from '@api/requests';
 import {ROUTES} from '@constants/routes';
 import {STRINGS} from '@locales/strings';
@@ -25,42 +26,8 @@ import {
 } from '../../../../assets/icons/icons';
 import {COLORS} from '../../../../constants/colors';
 
-type ProductItemCardProps = {
-  showNewProduct?: boolean;
-  showDiscount?: boolean;
-  showDiscountAdd?: boolean;
-  price: number;
-  price_usd?: number;
-  id: number;
-  discount: number;
-  brand?: string;
-  shop?: string;
-  category: {
-    name?: string;
-  };
-  name: string;
-  photo: string;
-  isFavorite?: boolean;
-
-  getProducts?: () => void;
-};
-
-const ProductsItem = (props: ProductItemCardProps) => {
-  let {
-    photo,
-    brand,
-    shop,
-    category,
-    name,
-    price,
-    discount,
-    id,
-    isFavorite,
-    price_usd,
-    showDiscount,
-    showDiscountAdd,
-    showNewProduct,
-  } = props;
+const ProductsItem = (props: any) => {
+  let {price, discount, id} = props;
 
   const [animate, setAnimate] = useState(false);
   const cart = useAppSelector(cartSelector);
@@ -74,6 +41,7 @@ const ProductsItem = (props: ProductItemCardProps) => {
 
   const onAddFavorite = async () => {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       let res = await requests.favorites.addFavorite({
         product_id: id,
       });
@@ -88,6 +56,7 @@ const ProductsItem = (props: ProductItemCardProps) => {
     if (isInCart) {
       try {
         setAnimate(true);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         let clear = await requests.products.removeItem({
           product_id: id,
         });
@@ -239,8 +208,9 @@ const styles = StyleSheet.create({
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
     elevation: 5,
   },
   buttonContainer: {
