@@ -1,12 +1,11 @@
-import {View, Text, StyleSheet, FlatList} from 'react-native';
 import React, {useEffect, useState} from 'react';
+import {FlatList, StyleSheet, View} from 'react-native';
 
-import ShopAndNewsItem from './ShopAndNewsItem';
-import ProductsTitle from '../../../components/uikit/ProductsTitle';
-import {useNavigation} from '@react-navigation/native';
-import {ROUTES} from '../../../constants/routes';
 import requests from '@api/requests';
+import {useNavigation} from '@react-navigation/native';
 import useLoading from '@store/Loader/useLoading';
+import ProductsTitle from '../../../components/uikit/ProductsTitle';
+import {ROUTES} from '../../../constants/routes';
 import NewsItemDetail from './NewsItemDetail';
 
 type ProductListProps = {
@@ -32,10 +31,11 @@ export default function NewsList(props: ProductListProps) {
 
   useEffect(() => {
     getProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (products?.length <= 0) {
-    return <View></View>;
+    return <View />;
   }
 
   const onPress = () => {

@@ -1,4 +1,3 @@
-import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {BottomArrow, FilterIcon} from '../../assets/icons/icons';
@@ -12,16 +11,17 @@ type PropsSnadAndFilter = {
   title?: any;
   isFilter?: boolean;
   isSort?: boolean;
+  clearHandle?: any;
 };
 
 export default function SortAndFilter(props: PropsSnadAndFilter) {
   const sortHandler = () => {
-    props.setModalVisible(true);
-    props.setModalFilter('Сортировать');
+    props?.setModalVisible(true);
+    props?.setModalFilter('Сортировать');
   };
   const FilterHandler = () => {
-    props.setModalVisible(true);
-    props.setModalFilter('Фильтры');
+    props?.setModalVisible(true);
+    props?.setModalFilter('Фильтры');
   };
 
   return (

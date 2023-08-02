@@ -10,6 +10,7 @@ import GoBackHeader from '@components/uikit/Header/GoBackHeader';
 
 import DefaultInput from '@components/uikit/TextInput';
 import {COLORS} from '@constants/colors';
+import {ROUTES} from '@constants/routes';
 import {STRINGS} from '@locales/strings';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import useLoading from '@store/Loader/useLoading';
@@ -18,18 +19,16 @@ import React, {useEffect, useState} from 'react';
 import {
   Alert,
   Image,
-  LayoutAnimation,
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
   Switch,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import {Snackbar} from 'react-native-paper';
 import {useDispatch} from 'react-redux';
-import PickupPoints from '../components/PickupPoints';
 import {styles} from './style';
-import {ROUTES} from '@constants/routes';
 type ProfileData = Partial<LoginResponse>;
 const CheckoutView = () => {
   const route = useRoute();
@@ -39,14 +38,14 @@ const CheckoutView = () => {
   const [delivery, setDelivery] = useState<DeliveryMethodResponse[]>();
   const [payment, setPayment] = useState<PaymentMethodResponse[]>();
   const [isEnabled, setIsEnabled] = useState(false);
-  const [shouldShow, setShouldShow] = useState(true);
+
   const [visibleSnackbar, setVisibleSnackbar] = useState(false);
   const [profileData, setProfileData] = useState<any>();
   const [state, setState] = useState<any>({
     address: '',
     delivery_id: 5,
     email: '',
-    lastName: '',
+
     name: '',
     payment_id: 6,
     phone: '',
@@ -80,7 +79,7 @@ const CheckoutView = () => {
       address: profileData?.last_address ?? '',
       delivery_id: 5,
       email: profileData?.email ?? '',
-      lastName: profileData?.lastname ?? '',
+
       name: profileData?.name ?? '',
       payment_id: 6,
       phone: profileData?.phone ?? '',
@@ -149,7 +148,7 @@ const CheckoutView = () => {
         address: '',
         delivery_id: '',
         email: '',
-        lastName: '',
+
         name: '',
         payment_id: '',
         phone: '',
@@ -159,7 +158,7 @@ const CheckoutView = () => {
         address: profileData?.last_address ?? '',
         delivery_id: 5,
         email: profileData?.email ?? '',
-        lastName: profileData?.lastname ?? '',
+
         name: profileData?.name ?? '',
         payment_id: 6,
         phone: profileData?.phone ?? '',
@@ -170,83 +169,88 @@ const CheckoutView = () => {
   return (
     <View style={{backgroundColor: COLORS.white, flex: 1, paddingTop: 10}}>
       <GoBackHeader title="Оформление заказа" />
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        <View style={styles.deliveryContainer}>
-          <Text style={styles.headerTxt}>{STRINGS.ru.deliveryChoose}</Text>
-          <Text style={{color: '#023047', fontWeight: '500', marginBottom: 10}}>
-            Россия, {state.address}
-          </Text>
-          <DefaultInput
-            label=""
-            backgroundColor={'#FAFAFA'}
-            placeholderColor={COLORS.labelText}
-            marginBottom={0}
-            onChangeText={onStateChange('address')}
-            placeholder="Напишите адрес"
-            // value={state.address}
-          />
-        </View>
-
-        <View style={styles.pickupContainer}>
-          <View style={styles.pickupBox}>
-            <ScrollView
-              horizontal={true}
-              style={{
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-              }}>
-              {item?.map((e: any, index: number) => {
-                return (
-                  <View style={styles.boxNum} key={index}>
-                    <Image
-                      source={{uri: appendUrl(e.product.photo)}}
-                      style={styles.boxImage}
-                    />
-                    {e.amount ? (
-                      <View style={styles.imageNum}>
-                        <Text style={styles.num}>{e?.amount}</Text>
-                      </View>
-                    ) : null}
-                  </View>
-                );
-              })}
-            </ScrollView>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 20}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.deliveryContainer}>
+            <Text style={styles.headerTxt}>{STRINGS.ru.deliveryChoose}</Text>
+            <Text
+              style={{color: '#023047', fontWeight: '500', marginBottom: 10}}>
+              Россия, {state.address}
+            </Text>
+            <DefaultInput
+              label=""
+              backgroundColor={'#FAFAFA'}
+              placeholderColor={COLORS.labelText}
+              marginBottom={0}
+              onChangeText={onStateChange('address')}
+              placeholder="Напишите адрес"
+              // value={state.address}
+            />
           </View>
-        </View>
 
-        <View style={styles.recipientContainer}>
-          <Text style={styles.recipHeaderTxt}>{STRINGS.ru.recipient}</Text>
-          <View style={styles.recipBox}>
-            <View style={styles.switch}>
-              <Text style={styles.notMe}>{STRINGS.ru.itsNotMe}</Text>
-              <Switch
-                hitSlop={{top: 10, left: 10, right: 10, bottom: 10}}
-                trackColor={{
-                  false: COLORS.noActiveButtonBgColor2,
-                  true: COLORS.blue,
-                }}
-                thumbColor={COLORS.white}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={isEnabled}
-              />
+          <View style={styles.pickupContainer}>
+            <View style={styles.pickupBox}>
+              <ScrollView
+                horizontal={true}
+                style={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                }}>
+                {item?.map((e: any, index: number) => {
+                  return (
+                    <View style={styles.boxNum} key={index}>
+                      <Image
+                        source={{uri: appendUrl(e.product.photo)}}
+                        style={styles.boxImage}
+                      />
+                      {e.amount ? (
+                        <View style={styles.imageNum}>
+                          <Text style={styles.num}>{e?.amount}</Text>
+                        </View>
+                      ) : null}
+                    </View>
+                  );
+                })}
+              </ScrollView>
             </View>
+          </View>
 
-            {/* <PickupPoints
+          <View style={styles.recipientContainer}>
+            <Text style={styles.recipHeaderTxt}>{STRINGS.ru.recipient}</Text>
+            <View style={styles.recipBox}>
+              <View style={styles.switch}>
+                <Text style={styles.notMe}>{STRINGS.ru.itsNotMe}</Text>
+                <Switch
+                  hitSlop={{top: 10, left: 10, right: 10, bottom: 10}}
+                  trackColor={{
+                    false: COLORS.noActiveButtonBgColor2,
+                    true: COLORS.blue,
+                  }}
+                  thumbColor={COLORS.white}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={toggleSwitch}
+                  value={isEnabled}
+                />
+              </View>
+
+              {/* <PickupPoints
               onStateChange={onStateChange}
               typePayment={payment as any}
             /> */}
 
-            <View>
-              <DefaultInput
-                label="Имя"
-                backgroundColor={'#FAFAFA'}
-                placeholderColor={COLORS.labelText}
-                marginBottom={0}
-                onChangeText={onStateChange('name')}
-                value={state.name}
-              />
-              {/* <DefaultInput
+              <View>
+                <DefaultInput
+                  label="ФИО"
+                  backgroundColor={'#FAFAFA'}
+                  placeholderColor={COLORS.labelText}
+                  marginBottom={0}
+                  onChangeText={onStateChange('name')}
+                  value={state.name}
+                />
+                {/* <DefaultInput
                 label="Фамилия"
                 backgroundColor={'#FAFAFA'}
                 placeholderColor={COLORS.labelText}
@@ -254,34 +258,35 @@ const CheckoutView = () => {
                 onChangeText={onStateChange('lastName')}
                 value={state.lastName}
               /> */}
-              <DefaultInput
-                label="Email"
-                backgroundColor={'#FAFAFA'}
-                placeholderColor={COLORS.labelText}
-                marginBottom={0}
-                onChangeText={onStateChange('email')}
-                value={state.email}
-              />
-              <DefaultInput
-                label="Номер телефона"
-                backgroundColor={'#FAFAFA'}
-                placeholderColor={COLORS.labelText}
-                marginBottom={0}
-                onChangeText={onStateChange('phone')}
-                value={state.phone}
-              />
+                <DefaultInput
+                  label="Email"
+                  backgroundColor={'#FAFAFA'}
+                  placeholderColor={COLORS.labelText}
+                  marginBottom={0}
+                  onChangeText={onStateChange('email')}
+                  value={state.email}
+                />
+                <DefaultInput
+                  label="Номер телефона"
+                  backgroundColor={'#FAFAFA'}
+                  placeholderColor={COLORS.labelText}
+                  marginBottom={0}
+                  onChangeText={onStateChange('phone')}
+                  value={state.phone}
+                />
+              </View>
             </View>
-          </View>
 
-          <DefaultButton title={STRINGS.ru.addOrder} onPress={sendProduct} />
-        </View>
-        <Snackbar
-          visible={visibleSnackbar}
-          onDismiss={toggleSnackbar}
-          duration={4000}>
-          Заказ оформлен успешно!
-        </Snackbar>
-      </ScrollView>
+            <DefaultButton title={STRINGS.ru.addOrder} onPress={sendProduct} />
+          </View>
+          <Snackbar
+            visible={visibleSnackbar}
+            onDismiss={toggleSnackbar}
+            duration={4000}>
+            Заказ оформлен успешно!
+          </Snackbar>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 };

@@ -1,100 +1,87 @@
 import requests, {assetUrl} from '@api/requests';
-import FilterModal from '@components/uikit/Filter/FilterModal';
+import GoBackHeader from '@components/uikit/Header/GoBackHeader';
 import {COLORS} from '@constants/colors';
-import {LeftArrowIcon} from '@icons/icons';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import {useRoute} from '@react-navigation/native';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Dimensions,
   Image,
   ScrollView,
   StyleSheet,
-  TouchableOpacity,
-  View,
   Text,
+  View,
 } from 'react-native';
-import Svg, {LinearGradient, Rect, Stop} from 'react-native-svg';
-import Description from '../components/Description';
-import {useWindowDimensions} from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 import RenderHTML from 'react-native-render-html';
 
 const NewDetails = () => {
   const {params} = useRoute<any>();
   let id = params.id;
   const width = Dimensions.get('window').width;
-  const navigation = useNavigation();
-  const [active, setActive] = useState({
-    value1: false,
-    value2: false,
-  });
-  const onPress = () => {
-    setActive({...active, value1: !active.value1});
-  };
+
+  const [loading, setLoading] = useState(false);
 
   const [shopValyu, setShopValyu] = useState<any>([]);
-  const shopGetId = async () => {
+  const shopGetId = useCallback(async () => {
+    setLoading(true);
     try {
       let res = await requests.news.getNewsDetails(id);
       setShopValyu(res.data.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     shopGetId();
-  }, []);
+  }, [shopGetId]);
   const source = {
     html: `
  ${shopValyu.description}`,
   };
+  const mixedStyle = {
+    body: {
+      whiteSpace: 'normal',
+      color: COLORS.textColor,
+    },
+    p: {
+      color: COLORS.textColor,
+    },
+    h1: {
+      color: COLORS.textColor,
+    },
+    h2: {
+      color: COLORS.textColor,
+    },
+  };
 
   return (
-    <View style={{backgroundColor: COLORS.tabBgColor, zIndex: 0, flex: 1}}>
-      <View
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          backgroundColor: 'transparent',
-          zIndex: 2,
-          width: '100%',
-          height: 100,
-        }}>
-        <Svg
-          height="100"
-          width="100%"
-          viewBox={`0 0 ${width} 100`}
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            backgroundColor: 'transparent',
-          }}>
-          <LinearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="0%" stopColor="#000000" stopOpacity="0.84" />
-            <Stop offset="100%" stopColor="#000000" stopOpacity="0.00" />
-          </LinearGradient>
-          <Rect x="0" y="0" width="100%" height="100%" fill="url(#grad)" />
-        </Svg>
-        <View style={styles.goBack}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <LeftArrowIcon />
-          </TouchableOpacity>
-        </View>
+    <View style={styles.container}>
+      <View style={styles.goBack}>
+        <GoBackHeader title="Главное" />
       </View>
-      <ScrollView style={{backgroundColor: COLORS.white, flex: 1}}>
-        <View style={{width: '100%', height: 346}}>
+
+      <ScrollView
+        style={styles.scrolContainer}
+        showsVerticalScrollIndicator={false}>
+        <View style={styles.imageView}>
           <Image
-            style={{width: '100%', height: '100%'}}
+            style={styles.image}
             source={{uri: assetUrl + shopValyu.photo}}
           />
         </View>
-        <View style={styles.container}>
+        <View style={styles.contantBox}>
           <Text style={styles.title}>{shopValyu.name}</Text>
-          <RenderHTML contentWidth={width} source={source} />
+          <RenderHTML
+            contentWidth={width}
+            source={source}
+            tagsStyles={mixedStyle}
+          />
         </View>
       </ScrollView>
+      <Spinner visible={loading} />
     </View>
   );
 };
@@ -102,13 +89,12 @@ const NewDetails = () => {
 export default NewDetails;
 
 const styles = StyleSheet.create({
+  container: {backgroundColor: COLORS.tabBgColor, zIndex: 0, flex: 1},
   goBack: {
-    position: 'absolute',
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
     top: 0,
     paddingVertical: 10,
     backgroundColor: 'transparent',
@@ -123,18 +109,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  container: {
+  contantBox: {
     width: '100%',
     marginBottom: 50,
     backgroundColor: COLORS.white,
     marginTop: 20,
+    paddingHorizontal: 15,
   },
   title: {
     fontSize: 25,
     fontWeight: '600',
     color: '#3F3535',
-    lineHeight: 40,
-    marginLeft: 15,
   },
   box2: {
     width: '100%',
@@ -170,4 +155,22 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#7171712d',
   },
+  imageBox: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    backgroundColor: 'transparent',
+    zIndex: 2,
+    width: '100%',
+    height: 100,
+  },
+  svgStyle: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    backgroundColor: 'transparent',
+  },
+  scrolContainer: {backgroundColor: COLORS.white, flex: 1},
+  imageView: {width: '100%', height: 346},
+  image: {width: '100%', height: '100%', resizeMode: 'stretch'},
 });

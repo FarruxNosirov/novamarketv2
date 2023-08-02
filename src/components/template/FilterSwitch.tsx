@@ -66,7 +66,7 @@ const FilterSwitch: any = ({
                       flexDirection: 'row',
                       flexWrap: 'wrap',
                     }}>
-                    {input?.childs?.map((item: any) => {
+                    {input?.childs?.map((item?: any) => {
                       const isHas = `filter[${item?.id}]` in filter;
                       return (
                         <TouchableOpacity
@@ -137,7 +137,7 @@ const FilterSwitch: any = ({
           )}
         </>
       );
-      // case 'input':
+    case 'input':
       return (
         <>
           {input.is_filter === true && (

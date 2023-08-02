@@ -1,35 +1,20 @@
-import requests from '@api/requests';
-import {ProductItemResponse} from '@api/types';
 import {useRoute} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {FlatList, SafeAreaView, StyleSheet, View} from 'react-native';
-import AllProductTitle from '../../../../components/uikit/AllProductTitle';
+
 import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
 import {COLORS} from '../../../../constants/colors';
 import AllNewsCart from './AllNewsCard';
 
 const AllNews = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {params, name, key, id, type}: any = useRoute();
-  const [products, setProducts] = useState<ProductItemResponse[]>();
-
-  let getPopular = async () => {
-    try {
-      let res = await requests.sort.getPopular();
-      setProducts(res.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    getPopular();
-  }, []);
 
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
         <View style={{marginBottom: 10}}>
-          <GoBackHeader />
-          <AllProductTitle title={params.props.title} />
+          <GoBackHeader title={params.props.title} />
         </View>
 
         <FlatList

@@ -47,7 +47,7 @@ import {styles} from './style';
 import ButtonGradient from '@components/ButtonGradient';
 import DefaultButton from '@components/uikit/DefaultButton';
 import ReviewBox from '@components/uikit/ReviewBox';
-import useLoading from '@store/Loader/useLoading';
+
 import Spinner from 'react-native-loading-spinner-overlay';
 
 const PdoductDetails = () => {
@@ -66,11 +66,12 @@ const PdoductDetails = () => {
   let id = route?.params?.props?.id;
 
   const [colorActive, setColorActive] = useState(id);
-  let newId = colorActive ? colorActive : id;
+  let newId = colorActive;
 
   useEffect(() => {
     setColorActive(id);
-  }, [id]);
+    onPressFunction();
+  }, [route.params]);
 
   const cart = useAppSelector(cartSelector);
   let isInCart = !!cart[newId];
@@ -87,14 +88,6 @@ const PdoductDetails = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const onPressFunction = () => {
-    //@ts-ignore
-    flatlistRef.current.scrollTo({
-      y: 0,
-      animated: true,
-    });
-  };
-
   const getDetailId = useCallback(async () => {
     setLoading(true);
     try {
@@ -105,12 +98,20 @@ const PdoductDetails = () => {
     } finally {
       setLoading(false);
     }
-  }, [newId]);
+  }, [newId, navigation.isFocused()]);
 
   useEffect(() => {
     getDetailId();
     onPressFunction();
   }, [getDetailId]);
+
+  const onPressFunction = () => {
+    //@ts-ignore
+    flatlistRef.current.scrollTo({
+      y: 0,
+      animated: true,
+    });
+  };
 
   const onPress = () => {
     setActive({...active, value1: !active.value1});
@@ -122,6 +123,7 @@ const PdoductDetails = () => {
   const onAddFavorite = async () => {
     try {
       dispatch(toggleLoading(true));
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       let res = await requests.favorites.addFavorite({
         product_id: newId,
       });
@@ -150,13 +152,14 @@ const PdoductDetails = () => {
     const newDate = {
       amount: adValue,
       product_id: newId,
-      'filterID[0]': sizeActive,
+      'filter_value_id[0]': sizeActive,
     };
 
     if (isInCart) {
       setLoading(true);
       try {
         setAnimate(true);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         let clear = await requests.products.removeItem({
           product_id: newId,
         });
@@ -229,7 +232,7 @@ const PdoductDetails = () => {
   }, []);
 
   let separate = detailIdValue?.review_separate;
-  console.log(JSON.stringify(sizeActive, null, 2));
+  // console.log(JSON.stringify(sizeActive, null, 2));
 
   return (
     <View style={{backgroundColor: COLORS.tabBgColor, zIndex: 0}}>
@@ -310,9 +313,10 @@ const PdoductDetails = () => {
           <View style={styles.box1} />
           <View style={styles.box2}>
             <Text style={styles.title}>
-              {detailIdValue?.name?.length > 30
+              {detailIdValue?.name}
+              {/* {detailIdValue?.name?.length > 30
                 ? detailIdValue?.name.slice(0, 30) + '...'
-                : detailIdValue?.name}
+                : detailIdValue?.name} */}
             </Text>
           </View>
           <View style={styles.border} />
@@ -465,7 +469,7 @@ const PdoductDetails = () => {
                       <TouchableOpacity
                         onPress={() => setColorActive(item.id)}
                         style={[
-                          styles.buttonSize,
+                          styles.buttonColor,
                           {
                             backgroundColor:
                               newId === item.id ? COLORS.blue : '#FFFFFF',
@@ -588,7 +592,7 @@ const PdoductDetails = () => {
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text style={styles.brend}>Бренд</Text>
             </View>
-            <View style={{width: 80, height: 30}}>
+            <View style={{width: 80, maxHeight: 40}}>
               <Image
                 style={{width: '100%', height: '100%', resizeMode: 'cover'}}
                 source={{uri: assetUrl + detailIdValue?.brand?.photo}}

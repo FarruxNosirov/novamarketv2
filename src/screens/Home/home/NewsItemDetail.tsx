@@ -1,65 +1,77 @@
-import requests, {assetUrl} from '@api/requests';
-import {useNavigation} from '@react-navigation/native';
-import {useAppSelector} from '@store/hooks';
-import {toggleLoading} from '@store/slices/appSettings';
-import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
-import React from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {useDispatch} from 'react-redux';
-import {HeartIconActive, HeartIconNotActive} from '../../../assets/icons/icons';
-import {COLORS} from '../../../constants/colors';
+/* eslint-disable react-native/no-inline-styles */
+import {assetUrl} from '@api/requests';
+import ButtonGradient from '@components/ButtonGradient';
 import {ROUTES} from '@constants/routes';
+import {useNavigation} from '@react-navigation/native';
+import moment from 'moment';
+import React from 'react';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
+import {COLORS} from '../../../constants/colors';
 type Props = {
   buttonTitle?: string;
   item?: any;
 };
 
-export default function NewsItemDetail({item, buttonTitle}: Props) {
+export default function NewsItemDetail({item}: Props) {
   const navigation = useNavigation();
-
-  const dispatch = useDispatch();
-  const fav = useAppSelector(favoriteSelector);
-  let isFav = !!fav[item?.id];
-
-  const onAddFavorite = async () => {
-    try {
-      dispatch(toggleLoading(true));
-      let res = await requests.favorites.addFavorite({
-        product_id: item.id,
-      });
-      let r = await requests.favorites.getFavorites();
-      dispatch(loadFavorite(r.data.data));
-    } catch (error) {
-      console.log(error);
-    } finally {
-      dispatch(toggleLoading(false));
-    }
+  // console.log('item', JSON.stringify(item, null, 2));
+  const formatDate = (date: any, format = ' DD.MM.YYYY') => {
+    const dateMoment = moment(date);
+    return dateMoment.format(format);
   };
+  const defaultDate = formatDate(item.date);
+  console.log('defaultDate', defaultDate);
 
   return (
     <View style={styles.cartItem}>
-      <Image style={styles.image} source={{uri: assetUrl + item.photo}} />
-      <TouchableOpacity onPress={onAddFavorite} style={styles.heartIconBox}>
-        {isFav ? <HeartIconActive /> : <HeartIconNotActive />}
-      </TouchableOpacity>
-      <View style={styles.cartItemInfo}>
-        <View style={styles.cartItemInfoBox}>
-          <Text style={styles.typeText}>
-            {item.name.length > 45
-              ? item?.name.slice(0, 45) + '...'
-              : item?.name}
-          </Text>
-        </View>
-        <TouchableOpacity
-          style={styles.button}
+      <View style={styles.imageBox}>
+        <TouchableWithoutFeedback
           onPress={() =>
             navigation.navigate(
               ROUTES.NEWDETAILS as never,
               {id: item.id} as never,
             )
           }>
-          <Text style={styles.buttonText}>{buttonTitle}</Text>
-        </TouchableOpacity>
+          <Image style={styles.image} source={{uri: assetUrl + item.photo}} />
+        </TouchableWithoutFeedback>
+      </View>
+
+      <View style={styles.cartItemInfo}>
+        <View style={styles.cartItemInfoBox}>
+          <Text style={styles.typeText}>
+            {item.name.length > 80
+              ? item?.name.slice(0, 80) + '...'
+              : item?.name}
+          </Text>
+        </View>
+        <View
+          style={{
+            width: '100%',
+
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <ButtonGradient
+            isInCart={true}
+            defaultBtn={true}
+            containerStyle={styles.button}
+            onPress={() =>
+              navigation.navigate(
+                ROUTES.NEWDETAILS as never,
+                {id: item.id} as never,
+              )
+            }>
+            <Text style={styles.buttonText}>Подробно</Text>
+          </ButtonGradient>
+          <Text>{defaultDate}</Text>
+        </View>
       </View>
     </View>
   );
@@ -67,8 +79,8 @@ export default function NewsItemDetail({item, buttonTitle}: Props) {
 
 const styles = StyleSheet.create({
   cartItem: {
-    width: 192,
-    height: 330,
+    width: 200,
+    height: 310,
     backgroundColor: '#fff',
     borderRadius: 15,
     marginRight: 15,
@@ -79,17 +91,22 @@ const styles = StyleSheet.create({
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
     elevation: 5,
   },
-  image: {
-    width: 192,
+  imageBox: {
+    width: '100%',
     height: 156,
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
+    borderRadius: 15,
     marginBottom: 10,
-    flexWrap: 'wrap',
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 15,
+    marginBottom: 10,
+    resizeMode: 'stretch',
   },
   heartIconBox: {
     position: 'absolute',
@@ -100,30 +117,28 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   typeText: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '600',
     color: COLORS.black,
-    marginBottom: 10,
   },
   cartItemInfoBox: {
-    height: 100,
-    marginBottom: 10,
+    height: 80,
+    width: '100%',
   },
   button: {
-    width: '100%',
-    height: 42,
-    borderRadius: 45,
-    backgroundColor: COLORS.white,
+    width: 100,
+    height: 40,
+    borderRadius: 10,
+    backgroundColor: COLORS.blue,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
     borderWidth: 1,
-    borderColor: COLORS.textColorBlue,
+    borderColor: COLORS.blue,
   },
   buttonText: {
     fontSize: 15,
     fontWeight: '700',
-    color: COLORS.textColorBlue,
-    marginRight: 10,
+    color: COLORS.white,
   },
 });
